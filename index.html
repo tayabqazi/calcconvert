@@ -1,140 +1,354 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online calculators and converters for everyday use.">
-    <title>CalcConvert - Free Online Calculators</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free online calculators and converters for everyone. Calculate, compare and convert with CalcConvert.">
+<title>CalcConvert - Free Online Calculators & Converters</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            color: #17243a;
-        }
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #202b3c;
+  line-height: 1.6;
+}
 
-        header {
-            background: #10233f;
-            color: white;
-            padding: 22px 8%;
-            font-size: 24px;
-            font-weight: bold;
-        }
+header {
+  background: #fff;
+  padding: 20px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e7eaf0;
+}
 
-        header span {
-            color: #79b4ff;
-        }
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #1769e0;
+}
 
-        .hero {
-            background: #17375f;
-            color: white;
-            text-align: center;
-            padding: 75px 20px;
-        }
+.logo span { color: #202b3c; }
 
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
+.hero {
+  text-align: center;
+  padding: 65px 20px 45px;
+  background: linear-gradient(135deg, #eaf2ff, #f8fbff);
+}
 
-        .hero p {
-            font-size: 17px;
-            color: #d5e0ee;
-        }
+.hero h1 {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
 
-        .tools {
-            max-width: 1100px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+.hero p {
+  color: #637087;
+  font-size: 17px;
+  margin-bottom: 28px;
+}
 
-        .tools h2 {
-            font-size: 30px;
-        }
+.search-box {
+  max-width: 620px;
+  margin: auto;
+  display: flex;
+  background: white;
+  border: 1px solid #dce3ee;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+.search-box input {
+  width: 100%;
+  padding: 17px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #e3eaf2;
-        }
+.search-box button {
+  background: #1769e0;
+  color: white;
+  border: none;
+  padding: 0 24px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-        .card h3 {
-            color: #2169c5;
-        }
+.container {
+  max-width: 1050px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
 
-        .card p {
-            color: #68778c;
-            font-size: 14px;
-        }
+.section-title {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
 
-        footer {
-            background: #10233f;
-            color: white;
-            text-align: center;
-            padding: 25px;
-        }
-    </style>
+.category {
+  background: white;
+  border: 1px solid #e2e7ef;
+  border-radius: 10px;
+  margin-bottom: 13px;
+  overflow: hidden;
+}
+
+.category summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.category summary::-webkit-details-marker { display: none; }
+
+.category summary:hover {
+  background: #f8faff;
+}
+
+.category summary::after {
+  content: "+";
+  font-size: 23px;
+  color: #1769e0;
+}
+
+.category[open] summary::after { content: "−"; }
+
+.category-content {
+  padding: 5px 22px 20px;
+  border-top: 1px solid #edf0f5;
+}
+
+.tool-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding-top: 15px;
+}
+
+.tool {
+  background: #f5f8fd;
+  border: 1px solid #e6ebf3;
+  border-radius: 7px;
+  padding: 12px 15px;
+  color: #34445d;
+  font-size: 15px;
+}
+
+.tool:hover {
+  border-color: #1769e0;
+  color: #1769e0;
+}
+
+.tool small {
+  display: block;
+  color: #929bad;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+#noResults {
+  display: none;
+  text-align: center;
+  padding: 30px;
+  color: #68758a;
+  background: white;
+  border-radius: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 15px;
+  background: #202b3c;
+  color: #dce4f0;
+  margin-top: 55px;
+}
+
+footer p { font-size: 14px; }
+
+@media (max-width: 600px) {
+  header { padding: 16px 5%; }
+  .hero { padding: 45px 16px 35px; }
+  .hero h1 { font-size: 29px; }
+  .hero p { font-size: 15px; }
+  .tool-list { grid-template-columns: 1fr; }
+  .category summary { padding: 16px; }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    Calc<span>Convert</span>
+  <div class="logo">Calc<span>Convert</span></div>
 </header>
 
 <section class="hero">
-    <h1>Calculations Made Simple.</h1>
-    <p>Free Online Calculators & Converters for Everyone</p>
+  <h1>Calculations Made Simple.</h1>
+  <p>Free Online Calculators &amp; Converters for Everyone</p>
+
+  <div class="search-box">
+    <input type="search" id="searchInput"
+      placeholder="Search any calculator or converter..."
+      aria-label="Search calculators and converters">
+    <button onclick="searchTools()">Search</button>
+  </div>
 </section>
 
-<section class="tools">
-    <h2>Our Popular Tools</h2>
+<main class="container">
+  <h2 class="section-title">Explore Our Tools</h2>
 
-    <div class="grid">
+  <div id="categories">
 
-        <div class="card">
-            <h3>Percentage Calculator</h3>
-            <p>Calculate percentages quickly and easily.</p>
+    <details class="category" open>
+      <summary>General Calculators</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Percentage Calculator<small>Coming soon</small></div>
+          <div class="tool">Discount Calculator<small>Coming soon</small></div>
+          <div class="tool">Date Calculator<small>Coming soon</small></div>
+          <div class="tool">Age Calculator<small>Coming soon</small></div>
+          <div class="tool">VAT Calculator<small>Coming soon</small></div>
         </div>
+      </div>
+    </details>
 
-        <div class="card">
-            <h3>Discount Calculator</h3>
-            <p>Find discounts and final sale prices.</p>
+    <details class="category">
+      <summary>Finance &amp; Money</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Currency Converter<small>Coming soon</small></div>
+          <div class="tool">Profit Calculator<small>Coming soon</small></div>
         </div>
+      </div>
+    </details>
 
-        <div class="card">
-            <h3>Age Calculator</h3>
-            <p>Calculate your age in years and months.</p>
+    <details class="category">
+      <summary>Business Calculators</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Business tools will be added soon</div>
         </div>
+      </div>
+    </details>
 
-        <div class="card">
-            <h3>Date Calculator</h3>
-            <p>Calculate the difference between two dates.</p>
+    <details class="category">
+      <summary>Unit Converters</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Unit Converter (Length, Weight, Temperature)<small>Coming soon</small></div>
         </div>
+      </div>
+    </details>
 
-        <div class="card">
-            <h3>Unit Converter</h3>
-            <p>Convert different units of measurement.</p>
+    <details class="category">
+      <summary>Energy &amp; Electricity</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">EV vs Petrol Cost<small>Coming soon</small></div>
+          <div class="tool">EV Charging Cost<small>Coming soon</small></div>
+          <div class="tool">EV Charging Time<small>Coming soon</small></div>
+          <div class="tool">EV Range Calculator<small>Coming soon</small></div>
+          <div class="tool">EV Battery Usage<small>Coming soon</small></div>
+          <div class="tool">EV Cost per KM<small>Coming soon</small></div>
+          <div class="tool">EV Monthly Savings<small>Coming soon</small></div>
+          <div class="tool">Electricity Cost<small>Coming soon</small></div>
+          <div class="tool">AC Running Cost<small>Coming soon</small></div>
+          <div class="tool">Appliance Electricity Cost<small>Coming soon</small></div>
+          <div class="tool">Solar Payback<small>Coming soon</small></div>
+          <div class="tool">Solar System Size<small>Coming soon</small></div>
+          <div class="tool">Home Battery Backup<small>Coming soon</small></div>
+          <div class="tool">Electricity Budget<small>Coming soon</small></div>
         </div>
+      </div>
+    </details>
 
-    </div>
-</section>
+    <details class="category">
+      <summary>Fuel &amp; Travel</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Fuel Cost<small>Coming soon</small></div>
+          <div class="tool">Fuel Average<small>Coming soon</small></div>
+          <div class="tool">Trip Cost<small>Coming soon</small></div>
+          <div class="tool">Petrol vs Hybrid<small>Coming soon</small></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="category">
+      <summary>Health &amp; Fitness</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Health and fitness tools will be added soon</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="category">
+      <summary>Education</summary>
+      <div class="category-content">
+        <div class="tool-list">
+          <div class="tool">Education tools will be added soon</div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+
+  <div id="noResults">
+    No matching tools found. Try another search.
+  </div>
+</main>
 
 <footer>
-    © 2026 CalcConvert. All Rights Reserved.
+  <div class="logo" style="color:white;">CalcConvert</div>
+  <p>Free Online Calculators &amp; Converters for Everyone</p>
+  <p style="margin-top:12px;">&copy; 2026 CalcConvert. All rights reserved.</p>
 </footer>
+
+<script>
+function searchTools() {
+  const input = document.getElementById("searchInput");
+  const query = input.value.trim().toLowerCase();
+  const categories = document.querySelectorAll(".category");
+  let totalMatches = 0;
+
+  categories.forEach(category => {
+    const tools = category.querySelectorAll(".tool");
+    let categoryMatches = 0;
+
+    tools.forEach(tool => {
+      const matches = tool.textContent.toLowerCase().includes(query);
+      tool.style.display = matches ? "" : "none";
+
+      if (matches) {
+        categoryMatches++;
+        totalMatches++;
+      }
+    });
+
+    category.style.display = categoryMatches > 0 ? "" : "none";
+
+    if (query && categoryMatches > 0) {
+      category.open = true;
+    }
+  });
+
+  document.getElementById("noResults").style.display =
+    totalMatches === 0 ? "block" : "none";
+}
+
+document.getElementById("searchInput").addEventListener("input", searchTools);
+</script>
 
 </body>
 </html>
