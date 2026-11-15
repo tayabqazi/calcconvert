@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakistan Comprehensive Tax Calculator - Tax Year 2027</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        emerald: {
+                            600: '#059669',
+                            700: '#047857',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    </style>
+</head>
+<body class="h-full text-slate-800 antialiased flex flex-col min-h-screen bg-slate-100">
+
+    <!-- Header -->
+    <header class="bg-navy-900 text-white shadow-xl sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-emerald-600 rounded-xl shadow-lg shadow-emerald-900/30">
+                        <i data-lucide="calculator" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-xl font-bold tracking-tight">TaxCalc Pakistan</h1>
+                            <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-500/30 tracking-wide uppercase">TY 2027</span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-medium">Finance Bill 2026 • Federal & Provincial Tax Engine</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+                        FBR & Provincial Rates Active
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <div class="bg-navy-800 text-slate-300 border-b border-slate-700 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex space-x-1 sm:space-x-3 overflow-x-auto py-2 scrollbar-thin">
+                <button id="nav-income" onclick="switchTab('income')" class="tab-btn flex items-center px-3.5 py-2 font-semibold text-xs sm:text-sm rounded-lg transition-all duration-200 whitespace-nowrap bg-emerald-600 text-white shadow">
+                    <i data-lucide="wallet" class="w-4 h-4 mr-2"></i>
+                    Income Tax (TY 2027)
+                </button>
+                <button id="nav-wht" onclick="switchTab('wht')" class="tab-btn flex items-center px-3.5 py-2 font-semibold text-xs sm:text-sm rounded-lg transition-all duration-200 whitespace-nowrap text-slate-300 hover:bg-slate-700/60 hover:text-white">
+                    <i data-lucide="search" class="w-4 h-4 mr-2"></i>
+                    WHT Finder & Calculator
+                </button>
+                <button id="nav-gst" onclick="switchTab('gst')" class="tab-btn flex items-center px-3.5 py-2 font-semibold text-xs sm:text-sm rounded-lg transition-all duration-200 whitespace-nowrap text-slate-300 hover:bg-slate-700/60 hover:text-white">
+                    <i data-lucide="percent" class="w-4 h-4 mr-2"></i>
+                    GST & Provincial Sales Tax
+                </button>
+                <button id="nav-voucher" onclick="switchTab('voucher')" class="tab-btn flex items-center px-3.5 py-2 font-semibold text-xs sm:text-sm rounded-lg transition-all duration-200 whitespace-nowrap text-slate-300 hover:bg-slate-700/60 hover:text-white">
+                    <i data-lucide="file-text" class="w-4 h-4 mr-2"></i>
+                    Settlement Voucher Generator
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed bottom-6 right-6 z-50 bg-navy-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 border border-slate-700 transition-all transform">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+        <span id="toast-message" class="text-xs font-semibold">Action completed!</span>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ================= TAB 1: INCOME TAX CALCULATOR ================= -->
+        <section id="tab-sec-income" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Inputs -->
+            <div class="lg:col-span-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-5">
+                <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 flex items-center">
+                            <i data-lucide="user-check" class="w-4 h-4 mr-2 text-emerald-600"></i>
+                            Income & Category
+                        </h2>
+                        <p class="text-xs text-slate-500">Income Tax Slabs for Tax Year 2027 (Finance Bill 2026)</p>
+                    </div>
+                    <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-1 rounded">Sec 149 / Div I</span>
+                </div>
+
+                <!-- Category Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Taxpayer Category</label>
+                    <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+                        <button id="btn-salaried" onclick="setIncomeCategory('salaried')" class="py-2.5 px-3 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition">Salaried Individual</button>
+                        <button id="btn-business" onclick="setIncomeCategory('business')" class="py-2.5 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition">Non-Salaried / AOP / Business</button>
+                    </div>
+                </div>
+
+                <!-- Amount & Frequency -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Income Frequency</label>
+                        <select id="inc-freq" onchange="calculateIncomeTax()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="monthly">Monthly Income</option>
+                            <option value="yearly">Yearly Income</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Gross Income (PKR)</label>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-3 text-slate-400 font-bold text-xs">Rs.</span>
+                            <input type="number" id="inc-amount" value="250000" min="0" oninput="calculateIncomeTax()" placeholder="250,000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 pl-10 text-xs font-extrabold focus:ring-2 focus:ring-emerald-500 focus:outline-none text-slate-800">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Taxpayer List (ATL) -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-slate-800 block">Active Taxpayer List (ATL Status)</span>
+                        <span class="text-[11px] text-slate-500">Non-Filers are subject to higher rates / surcharges</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="inc-filer" checked onchange="calculateIncomeTax()" class="sr-only peer">
+                        <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="lg:col-span-6 space-y-4">
+                <div class="bg-navy-900 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden border border-slate-800">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Income Tax Summary (TY 2027)</span>
+                        <button onclick="copySummary('income')" class="text-[11px] text-slate-400 hover:text-white flex items-center gap-1 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 transition">
+                            <i data-lucide="copy" class="w-3 h-3"></i> Copy
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Monthly Take-Home</p>
+                            <p id="res-inc-monthly-net" class="text-2xl font-black text-emerald-400 mt-1">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Monthly Tax Deduction</p>
+                            <p id="res-inc-monthly-tax" class="text-2xl font-black text-rose-400 mt-1">Rs. 0</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-slate-800/80 grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <p class="text-slate-400">Annual Gross Income</p>
+                            <p id="res-inc-annual-gross" class="font-bold text-slate-100 mt-0.5">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400">Annual Tax Liability</p>
+                            <p id="res-inc-annual-tax" class="font-bold text-rose-300 mt-0.5">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400">Effective Tax Rate</p>
+                            <p id="res-inc-effective" class="font-bold text-emerald-300 mt-0.5">0.0%</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400">Applicable Tax Slab</p>
+                            <p id="res-inc-slab" class="font-bold text-amber-300 mt-0.5">Slab 1 (0%)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                        <i data-lucide="info" class="w-4 h-4 text-emerald-600"></i> TY 2027 Salaried Slabs (Finance Bill 2026):
+                    </div>
+                    <p id="res-inc-explanation" class="text-slate-500 leading-relaxed">Annual salary up to PKR 600,000 is tax-exempt (0%). Above Rs 7,000,000: Rs 1,424,000 + 35% on amount exceeding 7M.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: WHT FINDER & CALCULATOR ================= -->
+        <section id="tab-sec-wht" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Selector & Search Panel -->
+            <div class="lg:col-span-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+                <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 flex items-center">
+                            <i data-lucide="search" class="w-4 h-4 mr-2 text-emerald-600"></i>
+                            Withholding Tax Directory (TY 2027)
+                        </h2>
+                        <p class="text-xs text-slate-500">Find advance and final WHT rates under Income Tax Ordinance</p>
+                    </div>
+                </div>
+
+                <!-- Category & Specific Sub-Section Dropdowns -->
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Main WHT Section Category</label>
+                        <select id="wht-main-cat" onchange="populateWhtItems()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="goods">Supply of Goods / Toll Mfg (Sec 153)</option>
+                            <option value="services">Services Provision (Sec 153)</option>
+                            <option value="contracts">Execution of Contracts (Sec 153)</option>
+                            <option value="rent">Rent of Immovable Property (Sec 155)</option>
+                            <option value="dividend">Dividends & Mutual Funds (Sec 150)</option>
+                            <option value="property">Immovable Property Sale/Purchase (Sec 236C / 236K)</option>
+                            <option value="electricity">Electricity Bills (Sec 235)</option>
+                            <option value="cash">Cash Withdrawal (Sec 231AB)</option>
+                            <option value="export_services">Export of Services & Digital (Sec 154A)</option>
+                            <option value="foreign_cards">Foreign Debit/Credit Card (Sec 236Y)</option>
+                            <option value="vehicles">Motor Vehicles EV / Purchase (Sec 231B)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Specific Transaction Type</label>
+                        <select id="wht-sub-type" onchange="calculateWhtDirectory()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Amount Input -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Transaction Amount / Gross Value (PKR)</label>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-3 text-slate-400 font-bold text-xs">Rs.</span>
+                        <input type="number" id="wht-amount" value="1000000" min="0" oninput="calculateWhtDirectory()" placeholder="1,000,000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 pl-10 text-xs font-extrabold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Filer Status Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Vendor / Payee ATL Status</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label id="wht-lbl-filer" class="flex items-center justify-between p-3 border border-emerald-500 bg-emerald-50/50 rounded-xl cursor-pointer">
+                            <span class="text-xs font-bold text-slate-800 flex items-center">
+                                <input type="radio" name="wht-status" value="filer" checked onchange="calculateWhtDirectory()" class="mr-2 accent-emerald-600"> Filer (Active)
+                            </span>
+                            <span id="badge-wht-filer-rate" class="text-xs bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full">--</span>
+                        </label>
+                        <label id="wht-lbl-nonfiler" class="flex items-center justify-between p-3 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer">
+                            <span class="text-xs font-bold text-slate-800 flex items-center">
+                                <input type="radio" name="wht-status" value="nonfiler" onchange="calculateWhtDirectory()" class="mr-2 accent-emerald-600"> Non-Filer
+                            </span>
+                            <span id="badge-wht-nonfiler-rate" class="text-xs bg-rose-600 text-white font-bold px-2 py-0.5 rounded-full">--</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="lg:col-span-6 space-y-4">
+                <div class="bg-navy-900 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">WHT Calculation Output</span>
+                        <span id="res-wht-tax-nature" class="text-[10px] bg-slate-800 text-amber-300 font-extrabold px-2.5 py-1 rounded-md border border-slate-700 uppercase">Minimum Tax</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">WHT Deduction Amount</p>
+                            <p id="res-wht-tax-val" class="text-2xl font-black text-rose-400 mt-1">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Net Amount Payable</p>
+                            <p id="res-wht-net-val" class="text-2xl font-black text-emerald-400 mt-1">Rs. 0</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <p class="text-slate-400">Gross Invoice / Amount</p>
+                            <p id="res-wht-gross-val" class="font-bold text-slate-100 mt-0.5">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400">Applied Tax Rate</p>
+                            <p id="res-wht-applied-rate" class="font-bold text-amber-300 mt-0.5">0.0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                        <i data-lucide="book-open" class="w-4 h-4 text-emerald-600"></i> Ordinance Reference & Compliance:
+                    </div>
+                    <p id="res-wht-desc" class="text-slate-500 leading-relaxed">Select a category to view specific tax treatment notes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: GST & PROVINCIAL SALES TAX ================= -->
+        <section id="tab-sec-gst" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Inputs -->
+            <div class="lg:col-span-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+                <div class="border-b border-slate-100 pb-3">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center">
+                        <i data-lucide="percent" class="w-4 h-4 mr-2 text-emerald-600"></i>
+                        GST & Sales Tax Withholding
+                    </h2>
+                    <p class="text-xs text-slate-500">Federal (FBR) & Provincial Tax Authorities (SRB, PRA, KPRA, BRA)</p>
+                </div>
+
+                <!-- Jurisdiction Selection -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Taxing Jurisdiction / Authority</label>
+                    <select id="gst-province" onchange="updateGstRatesByProvince()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <option value="fbr" selected>Federal / ICT (FBR) - Standard 18% / 15% Services</option>
+                        <option value="srb">Sindh (SRB) - Standard 15% Services</option>
+                        <option value="pra">Punjab (PRA) - Standard 16% Services</option>
+                        <option value="kpra">Khyber Pakhtunkhwa (KPRA) - Standard 15% Services</option>
+                        <option value="bra">Balochistan (BRA) - Standard 15% Services</option>
+                    </select>
+                </div>
+
+                <!-- Calculation Mode -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">GST Mode</label>
+                    <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+                        <button id="btn-gst-ex" onclick="setGstMode('exclusive')" class="py-2.5 px-3 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition">Exclusive (Add Tax)</button>
+                        <button id="btn-gst-inc" onclick="setGstMode('inclusive')" class="py-2.5 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition">Inclusive (Extract Tax)</button>
+                    </div>
+                </div>
+
+                <!-- Amount & Sales Tax Rate -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Base Amount (PKR)</label>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-3 text-slate-400 font-bold text-xs">Rs.</span>
+                            <input type="number" id="gst-amount" value="500000" min="0" oninput="calculateGstSuite()" placeholder="500,000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 pl-10 text-xs font-extrabold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Sales Tax Rate (%)</label>
+                        <input type="number" id="gst-rate" value="18" step="0.5" min="0" max="100" oninput="calculateGstSuite()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-extrabold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Sales Tax Withholding % -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Sales Tax Withholding (ST WHT % of Tax)</label>
+                    <select id="gst-wht-percent" onchange="calculateGstSuite()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <option value="0">0% - No GST Withheld by Buyer</option>
+                        <option value="20" selected>20% - Standard Withholding (1/5th of GST)</option>
+                        <option value="100">100% - Full Sales Tax Withholding (Unregistered/Govt)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- GST Output -->
+            <div class="lg:col-span-6 space-y-4">
+                <div class="bg-navy-900 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Sales Tax Breakdown</span>
+                        <button onclick="copySummary('gst')" class="text-[11px] text-slate-400 hover:text-white flex items-center gap-1 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 transition">
+                            <i data-lucide="copy" class="w-3 h-3"></i> Copy
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Total Sales Tax Charged</p>
+                            <p id="res-gst-tax" class="text-2xl font-black text-rose-400 mt-1">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Gross Invoice Total</p>
+                            <p id="res-gst-total" class="text-2xl font-black text-emerald-400 mt-1">Rs. 0</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <p class="text-slate-400">Net Exclusive Amount</p>
+                            <p id="res-gst-net" class="font-bold text-slate-100 mt-0.5">Rs. 0</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400">Sales Tax Withheld (ST-WHT)</p>
+                            <p id="res-gst-wht-deduction" class="font-bold text-amber-300 mt-0.5">Rs. 0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <div class="font-bold text-slate-800 flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-4 h-4 text-emerald-600"></i> Provincial Matrix Quick Rates:
+                    </div>
+                    <ul class="text-slate-500 list-disc list-inside space-y-1">
+                        <li><strong>SRB (Sindh):</strong> 15% standard (reduced 3% IT/software, 8% security).</li>
+                        <li><strong>PRA (Punjab):</strong> 16% standard (reduced 5% IT services).</li>
+                        <li><strong>KPRA (KPK):</strong> 15% standard (reduced 2% telecom/construction).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: SETTLEMENT VOUCHER GENERATOR ================= -->
+        <section id="tab-sec-voucher" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Inputs -->
+            <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <div class="border-b border-slate-100 pb-3">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center">
+                        <i data-lucide="file-spread-sheet" class="w-4 h-4 mr-2 text-emerald-600"></i>
+                        Voucher Parameters
+                    </h2>
+                    <p class="text-xs text-slate-500">Combine Income Tax WHT & Sales Tax WHT for Net Settlement</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Base Invoice Amount (Excl. Tax)</label>
+                    <input type="number" id="vch-base" value="100000" oninput="calculateVoucher()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-extrabold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Sales Tax %</label>
+                        <input type="number" id="vch-st-rate" value="18" oninput="calculateVoucher()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-bold text-slate-800">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">ST-WHT (% of Tax)</label>
+                        <input type="number" id="vch-stwht-rate" value="20" oninput="calculateVoucher()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-bold text-slate-800">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Income Tax WHT %</label>
+                        <input type="number" id="vch-itwht-rate" value="9" step="0.5" oninput="calculateVoucher()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-bold text-slate-800">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Vendor ATL Status</label>
+                        <select id="vch-filer-status" onchange="calculateVoucher()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-bold text-slate-800">
+                            <option value="filer">Active Filer</option>
+                            <option value="nonfiler">Non-Filer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Party / Vendor Name</label>
+                    <input type="text" id="vch-party-name" value="ABC Services Ltd." oninput="calculateVoucher()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-semibold text-slate-800">
+                </div>
+            </div>
+
+            <!-- Printable Voucher Preview -->
+            <div class="lg:col-span-7">
+                <div id="printable-voucher" class="bg-white p-6 rounded-2xl shadow-md border border-slate-300 space-y-6 text-slate-800">
+                    <div class="flex items-center justify-between border-b-2 border-slate-800 pb-4">
+                        <div>
+                            <h3 class="text-lg font-black tracking-tight text-navy-900">PAYMENT & TAX SETTLEMENT VOUCHER</h3>
+                            <p class="text-xs font-medium text-slate-500">Tax Year 2027 • FBR Compliant Deduction Statement</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded border border-slate-200">Official Record</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div>
+                            <span class="text-slate-500 font-medium block">Vendor / Payee:</span>
+                            <span id="vch-out-party" class="font-bold text-slate-900 text-sm">ABC Services Ltd.</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-slate-500 font-medium block">Status:</span>
+                            <span id="vch-out-status" class="font-extrabold text-emerald-700">FILER (ACTIVE)</span>
+                        </div>
+                    </div>
+
+                    <!-- Line Item Breakdown Table -->
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+                                <th class="py-2">Description</th>
+                                <th class="py-2 text-right">Calculation</th>
+                                <th class="py-2 text-right">Amount (PKR)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-slate-700">
+                            <tr>
+                                <td class="py-2.5 font-semibold">Gross Base Invoice Value</td>
+                                <td class="py-2.5 text-right text-slate-400">Excl. Sales Tax</td>
+                                <td id="vch-tbl-base" class="py-2.5 text-right font-bold">Rs. 0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 font-semibold">Add: Sales Tax / GST</td>
+                                <td id="vch-tbl-st-calc" class="py-2.5 text-right text-slate-400">18%</td>
+                                <td id="vch-tbl-st-val" class="py-2.5 text-right font-bold text-slate-800">Rs. 0</td>
+                            </tr>
+                            <tr class="bg-slate-50/80 font-bold">
+                                <td class="py-2.5 text-slate-900">Total Billed Invoice Amount</td>
+                                <td class="py-2.5 text-right text-slate-400">Base + GST</td>
+                                <td id="vch-tbl-gross-total" class="py-2.5 text-right text-slate-900">Rs. 0</td>
+                            </tr>
+                            <tr class="text-rose-600">
+                                <td class="py-2.5 font-semibold">Less: Income Tax Withheld (IT WHT)</td>
+                                <td id="vch-tbl-itwht-calc" class="py-2.5 text-right">9% on Base</td>
+                                <td id="vch-tbl-itwht-val" class="py-2.5 text-right font-bold">- Rs. 0</td>
+                            </tr>
+                            <tr class="text-rose-600">
+                                <td class="py-2.5 font-semibold">Less: Sales Tax Withheld (ST WHT)</td>
+                                <td id="vch-tbl-stwht-calc" class="py-2.5 text-right">20% of GST</td>
+                                <td id="vch-tbl-stwht-val" class="py-2.5 text-right font-bold">- Rs. 0</td>
+                            </tr>
+                            <tr class="border-t-2 border-slate-800 text-base font-black bg-emerald-50 text-emerald-900">
+                                <td class="py-3 px-2">NET CASH PAYABLE / RECEIVABLE</td>
+                                <td class="py-3 text-right text-xs font-semibold text-emerald-700">Final Settlement</td>
+                                <td id="vch-tbl-net-payable" class="py-3 px-2 text-right font-black text-emerald-700">Rs. 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="flex items-center justify-between pt-2">
+                        <button onclick="window.print()" class="text-xs bg-navy-900 hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+                            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print Settlement Voucher
+                        </button>
+                        <span class="text-[10px] text-slate-400">Generated via TaxCalc Pakistan FY 2026-27</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-navy-900 text-slate-400 border-t border-slate-800 py-4 mt-auto text-xs">
+        <div class="max-w-7xl mx-auto px-4 text-center sm:flex sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+            <div>Pakistan Tax Engine &copy; 2026-2027 • Tax Year 2027 Finance Bill Edition</div>
+            <div class="flex items-center justify-center space-x-3">
+                <span class="text-emerald-400 font-semibold">FBR Compliant</span>
+                <span>•</span>
+                <span>SRB/PRA/KPRA/BRA Support</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // State
+        let activeTab = 'income';
+        let incomeCategory = 'salaried';
+        let gstMode = 'exclusive';
+
+        // WHT Directory Data (TY 2027 / Finance Bill 2026 Reference Sheet)
+        const whtDatabase = {
+            goods: [
+                { id: "toll_mfg_comp", title: "Toll Mfg (Companies)", filer: 9, nonfiler: 18, nature: "Minimum Tax", desc: "Sec 153(1)(a) Toll manufacturing conducted by corporate taxpayers." },
+                { id: "toll_mfg_ind", title: "Toll Mfg (Individuals / AOPs)", filer: 5, nonfiler: 10, nature: "Minimum Tax", desc: "Sec 153(1)(a) Toll manufacturing for non-corporate suppliers." },
+                { id: "fmcg_dist", title: "FMCG, Fertilizer, Sugar, Cement, Steel, Electronics (Distributors/Retailers)", filer: 0.25, nonfiler: 0.5, nature: "Advance Tax", desc: "Tier-1 Integrated suppliers & distributors." },
+                { id: "rice_cotton_oil", title: "Sale of Rice, Cotton Seed or Edible Oil", filer: 1.5, nonfiler: 3, nature: "Minimum Tax", desc: "Specific agricultural supply rates." },
+                { id: "cigarettes", title: "Cigarettes Distribution", filer: 2.5, nonfiler: 5, nature: "Minimum Tax", desc: "Distributors and wholesalers of tobacco products." },
+                { id: "pharma", title: "Pharma Products Sales", filer: 1, nonfiler: 2, nature: "Minimum Tax", desc: "Distribution of pharmaceutical products." },
+                { id: "goods_other_comp", title: "General Goods Supply (Companies)", filer: 5, nonfiler: 10, nature: "Minimum Tax", desc: "Standard supply of goods by corporate entities." },
+                { id: "goods_other_ind", title: "General Goods Supply (Individuals/AOPs)", filer: 5.5, nonfiler: 11, nature: "Minimum Tax", desc: "Standard supply of goods by individuals or AOPs." }
+            ],
+            services: [
+                { id: "transport_courier", title: "Transport, Courier, Hotel, Security, Software, IT, Advertising", filer: 7, nonfiler: 14, nature: "Minimum Tax", desc: "Sec 153(1)(b) Specified service sectors." },
+                { id: "it_enabled", title: "IT & IT-enabled Services (Registered)", filer: 4, nonfiler: 8, nature: "Minimum Tax", desc: "PSEB Registered / Certified IT exporters & providers." },
+                { id: "professionals", title: "Independent Professionals (Doctors, Lawyers, Accountants, Engineers)", filer: 15, nonfiler: 30, nature: "Minimum Tax", desc: "Individual professional consultancy fees." },
+                { id: "port_services", title: "Terminal & Port Services", filer: 1.5, nonfiler: 3, nature: "Minimum Tax", desc: "Port operations & handling." },
+                { id: "stitching_export", title: "Stitching, Dyeing, Printing to Exporters", filer: 1.25, nonfiler: 2.5, nature: "Minimum Tax", desc: "Textile processing services for direct exporters." },
+                { id: "other_services", title: "All Other General Services", filer: 14, nonfiler: 28, nature: "Minimum Tax", desc: "General service provision under Sec 153(1)(b)." }
+            ],
+            contracts: [
+                { id: "contract_listed", title: "Contracts by Listed Companies", filer: 7.5, nonfiler: 15, nature: "Advance Tax", desc: "Sec 153(1)(c) Execution of contracts by listed corporate entities." },
+                { id: "contract_other_comp", title: "Contracts by Other Companies", filer: 8, nonfiler: 16, nature: "Minimum Tax", desc: "Execution of contracts by private corporate entities." },
+                { id: "contract_ind", title: "Contracts by Individuals & AOPs", filer: 15, nonfiler: 30, nature: "Minimum Tax", desc: "Non-corporate contract execution." },
+                { id: "contract_sports", title: "Contracts by Sportspersons", filer: 15, nonfiler: 30, nature: "Final Tax", desc: "Sports engagement contracts." }
+            ],
+            rent: [
+                { id: "rent_company", title: "Immovable Property Rent (Companies)", filer: 15, nonfiler: 30, nature: "Advance Tax", desc: "Sec 155 flat rate for corporate landlords." },
+                { id: "rent_ind_slabs", title: "Immovable Property Rent (Individuals/AOPs Slabs)", filer: -1, nonfiler: -1, nature: "Advance Tax", desc: "Progressive slabs: <300k: 0%, 300k-600k: 5% > 300k, 600k-2M: 15k + 10% > 600k, >2M: 155k + 25% > 2M." }
+            ],
+            dividend: [
+                { id: "div_ipp", title: "Dividend from IPPs / Pass-through", filer: 7.5, nonfiler: 15, nature: "Final Tax", desc: "Sec 150 Pass-through IPP power projects." },
+                { id: "div_exempt", title: "Dividend from Tax Exempt / Loss Companies", filer: 25, nonfiler: 50, nature: "Final Tax", desc: "Companies enjoying exemptions or carried-forward losses." },
+                { id: "div_debt_fund", title: "Debt Mutual Funds (Company Recipient)", filer: 29, nonfiler: 58, nature: "Final Tax", desc: "Mutual fund distribution from debt securities." },
+                { id: "div_equity_fund", title: "Equity Mutual Funds (Individual/General)", filer: 15, nonfiler: 30, nature: "Final Tax", desc: "Mutual fund distribution from equity funds." },
+                { id: "div_general", title: "REITs & General Company Dividend", filer: 15, nonfiler: 30, nature: "Final Tax", desc: "Standard corporate dividend distribution." }
+            ],
+            property: [
+                { id: "prop_sale_same_yr", title: "Property Sale Sec 236C (Acquired & Disposed Same Year)", filer: 3, nonfiler: 10, nature: "Advance Tax", desc: "Disposal within 12 months of purchase." },
+                { id: "prop_sale_other", title: "Property Sale Sec 236C (Other Disposals)", filer: 2.75, nonfiler: 5.5, nature: "Advance Tax", desc: "Standard property transfer tax." },
+                { id: "prop_purchase", title: "Property Purchase Sec 236K", filer: 1.25, nonfiler: 2.5, nature: "Advance Tax", desc: "Acquisition of immovable property." }
+            ],
+            electricity: [
+                { id: "elec_com_under20", title: "Commercial Electricity (Bill Rs. 501 to Rs. 20,000)", filer: 10, nonfiler: 20, nature: "Advance Tax", desc: "10% of bill amount." },
+                { id: "elec_com_over20", title: "Commercial Electricity (Bill > Rs. 20,000)", filer: -2, nonfiler: -2, nature: "Advance Tax", desc: "Rs 1,950 + 12% on amount exceeding Rs. 20,000." },
+                { id: "elec_ind_over20", title: "Industrial Electricity (Bill > Rs. 20,000)", filer: -3, nonfiler: -3, nature: "Advance Tax", desc: "Rs 1,950 + 5% on amount exceeding Rs. 20,000." },
+                { id: "elec_dom_over25", title: "Domestic Electricity (Monthly Bill > Rs. 25,000)", filer: 7.5, nonfiler: 15, nature: "Advance Tax", desc: "Sec 235 advance tax on residential electricity." }
+            ],
+            cash: [
+                { id: "cash_withdraw", title: "Cash Withdrawal exceeding Rs. 50,000 (Sec 231AB)", filer: 0, nonfiler: 0.8, nature: "Advance Tax", desc: "Applicable on aggregate daily cash withdrawals for non-filers." }
+            ],
+            export_services: [
+                { id: "exp_it", title: "IT & ITES Export Proceeds (Sec 154A)", filer: 0.25, nonfiler: 0.5, nature: "Final Tax", desc: "PSEB registered IT exporter remittance." },
+                { id: "exp_social_media", title: "Social Media Income (YouTube, Facebook, TikTok)", filer: 5, nonfiler: 10, nature: "Minimum Tax", desc: "Digital content creator revenue." }
+            ],
+            foreign_cards: [
+                { id: "card_foreign", title: "Foreign Debit/Credit Card Transactions (Sec 236Y)", filer: 0.5, nonfiler: 1, nature: "Advance Tax", desc: "International payments made via card." }
+            ],
+            vehicles: [
+                { id: "ev_purchase", title: "Electric Vehicle (EV > Rs 5 Million Purchase - Sec 231B)", filer: 3, nonfiler: 9, nature: "Advance Tax", desc: "Purchase/registration of electric vehicles." }
+            ]
+        };
+
+        // Initialize App
+        window.onload = function() {
+            lucide.createIcons();
+            populateWhtItems();
+            calculateIncomeTax();
+            calculateGstSuite();
+            calculateVoucher();
+        };
+
+        // Switch Tabs
+        function switchTab(tab) {
+            activeTab = tab;
+            ['income', 'wht', 'gst', 'voucher'].forEach(t => {
+                const navBtn = document.getElementById(`nav-${t}`);
+                const sec = document.getElementById(`tab-sec-${t}`);
+                if (t === tab) {
+                    navBtn.className = "tab-btn flex items-center px-3.5 py-2 font-semibold text-xs sm:text-sm rounded-lg transition-all duration-200 whitespace-nowrap bg-emerald-600 text-white shadow";
+                    sec.classList.remove('hidden');
+                } else {
+                    navBtn.className = "tab-btn flex items-center px-3.5 py-2 font-semibold text-xs sm:text-sm rounded-lg transition-all duration-200 whitespace-nowrap text-slate-300 hover:bg-slate-700/60 hover:text-white";
+                    sec.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- TAB 1: INCOME TAX LOGIC (TY 2027) ---
+        function setIncomeCategory(cat) {
+            incomeCategory = cat;
+            document.getElementById('btn-salaried').className = cat === 'salaried' ? "py-2.5 px-3 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition" : "py-2.5 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition";
+            document.getElementById('btn-business').className = cat === 'business' ? "py-2.5 px-3 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition" : "py-2.5 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition";
+            calculateIncomeTax();
+        }
+
+        function calculateIncomeTax() {
+            const freq = document.getElementById('inc-freq').value;
+            const amount = parseFloat(document.getElementById('inc-amount').value) || 0;
+            const isFiler = document.getElementById('inc-filer').checked;
+
+            const annualIncome = freq === 'monthly' ? amount * 12 : amount;
+            let annualTax = 0;
+            let slabText = "Exempt";
+
+            if (incomeCategory === 'salaried') {
+                // Salaried Slabs TY 2027 (Finance Bill 2026)
+                if (annualIncome <= 600000) {
+                    annualTax = 0;
+                    slabText = "Slab 1 (0% Tax)";
+                } else if (annualIncome <= 1200000) {
+                    annualTax = (annualIncome - 600000) * 0.01;
+                    slabText = "Slab 2 (1% over 600k)";
+                } else if (annualIncome <= 2200000) {
+                    annualTax = 6000 + (annualIncome - 1200000) * 0.11;
+                    slabText = "Slab 3 (6k + 11% over 1.2M)";
+                } else if (annualIncome <= 3200000) {
+                    annualTax = 116000 + (annualIncome - 2200000) * 0.20;
+                    slabText = "Slab 4 (116k + 20% over 2.2M)";
+                } else if (annualIncome <= 4100000) {
+                    annualTax = 316000 + (annualIncome - 3200000) * 0.25;
+                    slabText = "Slab 5 (316k + 25% over 3.2M)";
+                } else if (annualIncome <= 5600000) {
+                    annualTax = 541000 + (annualIncome - 4100000) * 0.29;
+                    slabText = "Slab 6 (541k + 29% over 4.1M)";
+                } else if (annualIncome <= 7000000) {
+                    annualTax = 976000 + (annualIncome - 5600000) * 0.32;
+                    slabText = "Slab 7 (976k + 32% over 5.6M)";
+                } else {
+                    annualTax = 1424000 + (annualIncome - 7000000) * 0.35;
+                    slabText = "Slab 8 (1.424M + 35% over 7M)";
+                }
+            } else {
+                // Non-Salaried / AOP Slabs
+                if (annualIncome <= 600000) {
+                    annualTax = 0;
+                    slabText = "Slab 1 (0% Tax)";
+                } else if (annualIncome <= 1200000) {
+                    annualTax = (annualIncome - 600000) * 0.15;
+                    slabText = "Slab 2 (15% over 600k)";
+                } else if (annualIncome <= 1600000) {
+                    annualTax = 90000 + (annualIncome - 1200000) * 0.20;
+                    slabText = "Slab 3 (90k + 20% over 1.2M)";
+                } else if (annualIncome <= 3200000) {
+                    annualTax = 170000 + (annualIncome - 1600000) * 0.30;
+                    slabText = "Slab 4 (170k + 30% over 1.6M)";
+                } else if (annualIncome <= 5600000) {
+                    annualTax = 650000 + (annualIncome - 3200000) * 0.40;
+                    slabText = "Slab 5 (650k + 40% over 3.2M)";
+                } else {
+                    annualTax = 1610000 + (annualIncome - 5600000) * 0.45;
+                    slabText = "Slab 6 (1.61M + 45% over 5.6M)";
+                }
+            }
+
+            if (!isFiler && annualTax > 0) {
+                annualTax = annualTax * 1.25; // 25% Surcharge for Non-Filer
+            }
+
+            const monthlyTax = annualTax / 12;
+            const monthlyGross = freq === 'monthly' ? amount : amount / 12;
+            const monthlyNet = monthlyGross - monthlyTax;
+            const effRate = annualIncome > 0 ? (annualTax / annualIncome) * 100 : 0;
+
+            document.getElementById('res-inc-monthly-net').innerText = formatPKR(monthlyNet);
+            document.getElementById('res-inc-monthly-tax').innerText = formatPKR(monthlyTax);
+            document.getElementById('res-inc-annual-gross').innerText = formatPKR(annualIncome);
+            document.getElementById('res-inc-annual-tax').innerText = formatPKR(annualTax);
+            document.getElementById('res-inc-effective').innerText = effRate.toFixed(2) + '%';
+            document.getElementById('res-inc-slab').innerText = slabText;
+        }
+
+        // --- TAB 2: WHT DIRECTORY LOGIC ---
+        function populateWhtItems() {
+            const cat = document.getElementById('wht-main-cat').value;
+            const subSelect = document.getElementById('wht-sub-type');
+            subSelect.innerHTML = '';
+
+            const items = whtDatabase[cat] || [];
+            items.forEach((item, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.innerText = item.title;
+                subSelect.appendChild(opt);
+            });
+
+            calculateWhtDirectory();
+        }
+
+        function calculateWhtDirectory() {
+            const cat = document.getElementById('wht-main-cat').value;
+            const subIdx = parseInt(document.getElementById('wht-sub-type').value) || 0;
+            const gross = parseFloat(document.getElementById('wht-amount').value) || 0;
+            const isFiler = document.querySelector('input[name="wht-status"]:checked').value === 'filer';
+
+            const item = (whtDatabase[cat] && whtDatabase[cat][subIdx]) ? whtDatabase[cat][subIdx] : null;
+
+            if (!item) return;
+
+            let appliedRate = isFiler ? item.filer : item.nonfiler;
+            let taxVal = 0;
+
+            // Handle special formula items (Rent / Electricity)
+            if (item.id === 'rent_ind_slabs') {
+                if (gross <= 300000) taxVal = 0;
+                else if (gross <= 600000) taxVal = (gross - 300000) * 0.05;
+                else if (gross <= 2000000) taxVal = 15000 + (gross - 600000) * 0.10;
+                else taxVal = 155000 + (gross - 2000000) * 0.25;
+
+                if (!isFiler) taxVal *= 2; // +100% for non-filer
+                appliedRate = gross > 0 ? (taxVal / gross) * 100 : 0;
+            } else if (item.id === 'elec_com_over20') {
+                taxVal = 1950 + (gross > 20000 ? (gross - 20000) * 0.12 : 0);
+                if (!isFiler) taxVal *= 2;
+                appliedRate = gross > 0 ? (taxVal / gross) * 100 : 0;
+            } else if (item.id === 'elec_ind_over20') {
+                taxVal = 1950 + (gross > 20000 ? (gross - 20000) * 0.05 : 0);
+                if (!isFiler) taxVal *= 2;
+                appliedRate = gross > 0 ? (taxVal / gross) * 100 : 0;
+            } else {
+                taxVal = gross * (appliedRate / 100);
+            }
+
+            const netVal = gross - taxVal;
+
+            // Update UI
+            document.getElementById('badge-wht-filer-rate').innerText = item.filer < 0 ? "Slab" : item.filer + "%";
+            document.getElementById('badge-wht-nonfiler-rate').innerText = item.nonfiler < 0 ? "Slab" : item.nonfiler + "%";
+
+            document.getElementById('res-wht-tax-val').innerText = formatPKR(taxVal);
+            document.getElementById('res-wht-net-val').innerText = formatPKR(netVal);
+            document.getElementById('res-wht-gross-val').innerText = formatPKR(gross);
+            document.getElementById('res-wht-applied-rate').innerText = appliedRate.toFixed(2) + '%';
+            document.getElementById('res-wht-tax-nature').innerText = item.nature;
+            document.getElementById('res-wht-desc').innerText = item.desc;
+        }
+
+        // --- TAB 3: GST & PROVINCIAL LOGIC ---
+        function setGstMode(mode) {
+            gstMode = mode;
+            document.getElementById('btn-gst-ex').className = mode === 'exclusive' ? "py-2.5 px-3 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition" : "py-2.5 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition";
+            document.getElementById('btn-gst-inc').className = mode === 'inclusive' ? "py-2.5 px-3 text-xs font-bold rounded-lg bg-white text-slate-800 shadow-sm transition" : "py-2.5 px-3 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition";
+            calculateGstSuite();
+        }
+
+        function updateGstRatesByProvince() {
+            const prov = document.getElementById('gst-province').value;
+            const rateInput = document.getElementById('gst-rate');
+
+            if (prov === 'fbr') rateInput.value = 18;
+            else if (prov === 'srb') rateInput.value = 15;
+            else if (prov === 'pra') rateInput.value = 16;
+            else if (prov === 'kpra') rateInput.value = 15;
+            else if (prov === 'bra') rateInput.value = 15;
+
+            calculateGstSuite();
+        }
+
+        function calculateGstSuite() {
+            const amount = parseFloat(document.getElementById('gst-amount').value) || 0;
+            const rate = parseFloat(document.getElementById('gst-rate').value) || 0;
+            const stWhtPercent = parseFloat(document.getElementById('gst-wht-percent').value) || 0;
+
+            let net = 0, tax = 0, total = 0;
+
+            if (gstMode === 'exclusive') {
+                net = amount;
+                tax = net * (rate / 100);
+                total = net + tax;
+            } else {
+                total = amount;
+                net = total / (1 + (rate / 100));
+                tax = total - net;
+            }
+
+            const stWhtDeduction = tax * (stWhtPercent / 100);
+
+            document.getElementById('res-gst-tax').innerText = formatPKR(tax);
+            document.getElementById('res-gst-total').innerText = formatPKR(total);
+            document.getElementById('res-gst-net').innerText = formatPKR(net);
+            document.getElementById('res-gst-wht-deduction').innerText = formatPKR(stWhtDeduction);
+        }
+
+        // --- TAB 4: SETTLEMENT VOUCHER LOGIC ---
+        function calculateVoucher() {
+            const base = parseFloat(document.getElementById('vch-base').value) || 0;
+            const stRate = parseFloat(document.getElementById('vch-st-rate').value) || 0;
+            const stWhtRate = parseFloat(document.getElementById('vch-stwht-rate').value) || 0;
+            let itWhtRate = parseFloat(document.getElementById('vch-itwht-rate').value) || 0;
+            const filerStatus = document.getElementById('vch-filer-status').value;
+            const partyName = document.getElementById('vch-party-name').value || "Vendor Name";
+
+            if (filerStatus === 'nonfiler') {
+                itWhtRate = itWhtRate * 2; // Double tax for non-filers
+            }
+
+            const stVal = base * (stRate / 100);
+            const grossTotal = base + stVal;
+
+            const itWhtVal = base * (itWhtRate / 100);
+            const stWhtVal = stVal * (stWhtRate / 100);
+
+            const netPayable = grossTotal - itWhtVal - stWhtVal;
+
+            // DOM Updates
+            document.getElementById('vch-out-party').innerText = partyName;
+            document.getElementById('vch-out-status').innerText = filerStatus === 'filer' ? 'FILER (ACTIVE)' : 'NON-FILER (PENALTY APPLIED)';
+            document.getElementById('vch-out-status').className = filerStatus === 'filer' ? 'font-extrabold text-emerald-700' : 'font-extrabold text-rose-600';
+
+            document.getElementById('vch-tbl-base').innerText = formatPKR(base);
+            document.getElementById('vch-tbl-st-calc').innerText = stRate + '%';
+            document.getElementById('vch-tbl-st-val').innerText = formatPKR(stVal);
+            document.getElementById('vch-tbl-gross-total').innerText = formatPKR(grossTotal);
+
+            document.getElementById('vch-tbl-itwht-calc').innerText = itWhtRate + '% on Base';
+            document.getElementById('vch-tbl-itwht-val').innerText = '- ' + formatPKR(itWhtVal);
+
+            document.getElementById('vch-tbl-stwht-calc').innerText = stWhtRate + '% of GST';
+            document.getElementById('vch-tbl-stwht-val').innerText = '- ' + formatPKR(stWhtVal);
+
+            document.getElementById('vch-tbl-net-payable').innerText = formatPKR(netPayable);
+        }
+
+        // Helpers
+        function formatPKR(val) {
+            return 'Rs. ' + Math.round(val).toLocaleString('en-PK');
+        }
+
+        function copySummary(type) {
+            let text = "";
+            if (type === 'income') {
+                text = `TAXCALC PAKISTAN (INCOME TAX TY 2027)\nMonthly Take-Home: ${document.getElementById('res-inc-monthly-net').innerText}\nMonthly Tax: ${document.getElementById('res-inc-monthly-tax').innerText}\nAnnual Tax: ${document.getElementById('res-inc-annual-tax').innerText}`;
+            } else if (type === 'gst') {
+                text = `TAXCALC PAKISTAN (GST / SALES TAX)\nNet Exclusive: ${document.getElementById('res-gst-net').innerText}\nGST Tax: ${document.getElementById('res-gst-tax').innerText}\nGross Total: ${document.getElementById('res-gst-total').innerText}`;
+            }
+
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            showToast("Copied summary to clipboard!");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+    </script>
+</body>
+</html>
