@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakistan Tax Calculator V2 - Tax Year 2027</title>
+<style>
+:root{--navy:#10243a;--green:#087f5b;--bg:#f3f6f9;--text:#243447;--muted:#64748b;--border:#dce3ea;--red:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{background:var(--navy);color:white;padding:22px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{font-size:22px;margin:0 0 6px}
+header p{font-size:13px;color:#cbd5e1;margin:0}
+.version{background:#155e45;color:#d1fae5;padding:7px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+nav{background:#1d354d;padding:10px 5%;display:flex;gap:8px;overflow-x:auto}
+nav button{background:transparent;color:#dbe5ee;border:0;padding:12px 15px;border-radius:8px;white-space:nowrap;cursor:pointer;font-weight:bold}
+nav button.active{background:var(--green);color:white}
+main{max-width:1200px;margin:25px auto;padding:0 16px}
+.tab{display:none}.tab.active{display:block}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:22px;margin-bottom:18px}
+h2{font-size:19px;margin:0 0 7px}
+h3{font-size:15px;margin:0 0 15px}
+.sub{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5}
+label{display:block;font-size:12px;font-weight:bold;margin:13px 0 6px;color:#475569}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;font-size:14px;color:#243447}
+input:focus,select:focus{outline:2px solid #a7f3d0;border-color:var(--green)}
+button.action{background:var(--green);color:white;border:0;padding:11px 16px;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:12px}
+button.secondary{background:#e8eef3;color:#243447;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold}
+.result{background:var(--navy);color:white;border-radius:12px;padding:22px}
+.result small{color:#cbd5e1}
+.big{font-size:25px;font-weight:bold;margin:7px 0 18px;color:#6ee7b7}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.result-grid strong{display:block;margin-top:6px;font-size:15px}
+.notice{padding:13px;border-radius:8px;background:#fff7e6;border:1px solid #f3d69b;color:#76520b;font-size:12px;line-height:1.6;margin-top:15px}
+.info{padding:13px;border-radius:8px;background:#edf6ff;border:1px solid #c9e1f7;color:#17466d;font-size:12px;line-height:1.6;margin-top:15px}
+.status{font-size:11px;font-weight:bold;padding:5px 8px;border-radius:20px;display:inline-block}
+.verified{background:#dcfce7;color:#166534}
+.pending{background:#fff0d5;color:#8a4b08}
+hr{border:0;border-top:1px solid var(--border);margin:18px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+th,td{padding:11px 8px;border-bottom:1px solid var(--border);text-align:left}
+th{background:#f4f7fa}
+.right{text-align:right}
+footer{text-align:center;color:#64748b;font-size:12px;padding:25px}
+.hidden{display:none!important}
+@media(max-width:760px){.layout{grid-template-columns:1fr}header h1{font-size:19px}.panel{padding:16px}.big{font-size:22px}}
+@media print{header,nav,.no-print,footer{display:none!important}body{background:white}.tab{display:none!important}.tab.active{display:block!important}.panel,.result{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+ <div>
+  <h1>Pakistan Tax Calculator</h1>
+  <p>Income Tax • Withholding Tax • GST • Provincial Sales Tax</p>
+ </div>
+ <span class="version">VERSION 2 • TAX YEAR 2027</span>
+</header>
+
+<nav class="no-print">
+ <button class="active" onclick="showTab('income',this)">Income Tax</button>
+ <button onclick="showTab('wht',this)">WHT Finder & Calculator</button>
+ <button onclick="showTab('gst',this)">GST & Provincial Tax</button>
+ <button onclick="showTab('voucher',this)">Settlement Voucher</button>
+</nav>
+
+<main>
+
+<!-- TAB 1: INCOME TAX -->
+<section id="income" class="tab active">
+ <div class="layout">
+  <div class="panel">
+   <h2>Income Tax Calculator</h2>
+   <p class="sub">Tax Year 2027 — Finance Act 2026. Salaried individual tax estimate.</p>
+
+   <label>Taxpayer Category</label>
+   <select id="incomeCategory" onchange="incomeCategoryChanged()">
+    <option value="salary">Salaried Individual</option>
+    <option value="business">Non-Salaried Individual / AOP / Business</option>
+   </select>
+
+   <div id="salaryInputs">
+    <label>Annual Taxable Salary (PKR)</label>
+    <input id="annualSalary" type="number" min="0" value="3000000" oninput="calculateIncome()">
+    <div class="info">Enter annual taxable salary after allowable exemptions and deductions. This calculator does not determine exemptions or tax credits.</div>
+   </div>
+   <div id="businessPending" class="notice hidden">
+    Non-salaried individual, AOP and business tax calculations are not activated in this version. Their tax treatment depends on legal category and applicable rules. Please consult a tax professional.
+   </div>
+   <button class="action" onclick="calculateIncome()">Calculate Tax</button>
+  </div>
+
+  <div>
+   <div class="result">
+    <small>Estimated Annual Tax</small>
+    <div class="big" id="annualTax">Rs. 0</div>
+    <div class="result-grid">
+     <div><small>Monthly Tax</small><strong id="monthlyTax">Rs. 0</strong></div>
+     <div><small>Annual Taxable Income</small><strong id="taxableIncome">Rs. 0</strong></div>
+     <div><small>Effective Tax Rate</small><strong id="effectiveRate">0%</strong></div>
+     <div><small>Monthly Taxable Salary</small><strong id="monthlySalary">Rs. 0</strong></div>
+    </div>
+   </div>
+   <div class="panel">
+    <h3>Tax Slabs — Salaried Individuals</h3>
+    <table>
+     <tr><th>Annual Taxable Income</th><th>Tax Rate</th></tr>
+     <tr><td>Up to Rs. 600,000</td><td>0%</td></tr>
+     <tr><td>Rs. 600,001 – 1,200,000</td><td>1% above 600,000</td></tr>
+     <tr><td>Rs. 1,200,001 – 2,200,000</td><td>Rs. 6,000 + 11%</td></tr>
+     <tr><td>Rs. 2,200,001 – 3,200,000</td><td>Rs. 116,000 + 20%</td></tr>
+     <tr><td>Rs. 3,200,001 – 4,100,000</td><td>Rs. 316,000 + 25%</td></tr>
+     <tr><td>Rs. 4,100,001 – 5,600,000</td><td>Rs. 541,000 + 29%</td></tr>
+     <tr><td>Rs. 5,600,001 – 7,000,000</td><td>Rs. 976,000 + 32%</td></tr>
+     <tr><td>Above Rs. 7,000,000</td><td>Rs. 1,424,000 + 35%</td></tr>
+    </table>
+    <p class="notice">Estimate only. The salaried slabs apply subject to the statutory definition and salary-income conditions. This calculator does not calculate business income, tax credits, surcharge or special cases.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- TAB 2: WHT -->
+<section id="wht" class="tab">
+ <div class="layout">
+  <div class="panel">
+   <h2>Withholding Tax Finder</h2>
+   <p class="sub">Browse the original WHT categories. Rates not verified for this version remain visible but are not used for automatic calculations.</p>
+
+   <label>WHT Category</label>
+   <select id="whtCategory" onchange="updateWhtItems()">
+    <option value="goods">Supply of Goods / Toll Manufacturing — Section 153</option>
+    <option value="services">Services Provision — Section 153</option>
+    <option value="contracts">Execution of Contracts — Section 153</option>
+    <option value="rent">Rent of Immovable Property — Section 155</option>
+    <option value="dividend">Dividends & Mutual Funds — Section 150</option>
+    <option value="property">Immovable Property Sale / Purchase — Sections 236C / 236K</option>
+    <option value="electricity">Electricity Bills — Section 235</option>
+    <option value="cash">Cash Withdrawal — Section 231AB</option>
+    <option value="export_services">Export of Services & Digital — Section 154A</option>
+    <option value="foreign_cards">Foreign Debit / Credit Cards — Section 236Y</option>
+    <option value="vehicles">Motor Vehicles / EV — Section 231B</option>
+    <option value="profit">Profit on Debt / Sukuk — Sections 150A / 151 / 151A</option>
+    <option value="commission">Brokerage & Commission — Section 233</option>
+    <option value="prizes">Prizes & Winnings — Sections 156 / 156A</option>
+    <option value="ecommerce">E-commerce — Section 153(2A)</option>
+    <option value="collections">Telecom, Auction, Functions, Bonus Shares & Distributors — 236 series</option>
+    <option value="imports">Imports — Section 148</option>
+   </select>
+
+   <label>Specific Transaction</label>
+   <select id="whtItem" onchange="calculateWht()"></select>
+
+   <label>Transaction Amount (PKR)</label>
+   <input id="whtAmount" type="number" min="0" value="1000000" oninput="calculateWht()">
+
+   <label>Taxpayer ATL Status</label>
+   <select id="whtStatus" onchange="calculateWht()">
+    <option value="filer">Active Taxpayer List (ATL)</option>
+    <option value="nonfiler">Not on ATL</option>
+   </select>
+
+   <button class="action" onclick="calculateWht()">Calculate WHT</button>
+  </div>
+
+  <div>
+   <div class="result">
+    <small>Estimated Withholding Tax</small>
+    <div class="big" id="whtTax">Not available</div>
+    <div class="result-grid">
+     <div><small>Applied Rate</small><strong id="whtRate">—</strong></div>
+     <div><small>Net Amount</small><strong id="whtNet">—</strong></div>
+     <div><small>Transaction Amount</small><strong id="whtGross">Rs. 1,000,000</strong></div>
+     <div><small>Tax Nature</small><strong id="whtNature">—</strong></div>
+    </div>
+   </div>
+   <div class="panel">
+    <h3>Rate & Legal Reference Status</h3>
+    <span id="whtStatusBadge" class="status pending">Verification Pending</span>
+    <p id="whtDescription" class="sub" style="margin-top:12px">Select a transaction to view its details.</p>
+    <div class="notice">ATL and non-ATL rates are not assumed to be double. Different sections may have separate rates, thresholds, fixed amounts, conditions and exceptions. Pending entries are retained for reference only.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- TAB 3: GST & PROVINCIAL -->
+<section id="gst" class="tab">
+ <div class="layout">
+  <div class="panel">
+   <h2>GST & Provincial Sales Tax</h2>
+   <p class="sub">Federal goods sales tax and provincial / ICT services tax options.</p>
+
+   <label>Tax Authority / Jurisdiction</label>
+   <select id="gstAuthority" onchange="gstAuthorityChanged()">
+    <option value="fbr">Federal — FBR (Goods)</option>
+    <option value="ict">Islamabad Capital Territory — ICT (Services)</option>
+    <option value="srb">Sindh — SRB (Services)</option>
+    <option value="srb_tel">Sindh — SRB (Telecommunication)</option>
+    <option value="pra">Punjab — PRA (Services)</option>
+    <option value="kpra">Khyber Pakhtunkhwa — KPRA (Services)</option>
+    <option value="bra">Balochistan — BRA (Services)</option>
+   </select>
+
+   <label>Calculation Mode</label>
+   <select id="gstMode" onchange="calculateGst()">
+    <option value="exclusive">Exclusive — Add tax to base amount</option>
+    <option value="inclusive">Inclusive — Extract tax from total amount</option>
+   </select>
+
+   <label>Amount (PKR)</label>
+   <input id="gstAmount" type="number" min="0" value="100000" oninput="calculateGst()">
+
+   <label>Sales Tax Rate (%)</label>
+   <input id="gstRate" type="number" min="0" max="100" step="0.01" value="18" oninput="manualGstRate=true;calculateGst()">
+
+   <label>Sales Tax Withholding (% of calculated tax)</label>
+   <input id="gstWht" type="number" min="0" max="100" value="0" oninput="calculateGst()">
+
+   <button class="action" onclick="calculateGst()">Calculate Sales Tax</button>
+  </div>
+
+  <div>
+   <div class="result">
+    <small>Sales Tax Amount</small>
+    <div class="big" id="gstTax">Rs. 0</div>
+    <div class="result-grid">
+     <div><small>Invoice Total</small><strong id="gstTotal">Rs. 0</strong></div>
+     <div><small>Taxable Base</small><strong id="gstBase">Rs. 0</strong></div>
+     <div><small>Sales Tax Withheld</small><strong id="gstWithheld">Rs. 0</strong></div>
+     <div><small>Net Payable</small><strong id="gstNet">Rs. 0</strong></div>
+    </div>
+   </div>
+   <div class="panel">
+    <h3>Jurisdiction Rate Status</h3>
+    <span id="gstBadge" class="status verified">Verified Standard Rate</span>
+    <p id="gstNote" class="sub" style="margin-top:12px">Federal standard rate estimate.</p>
+    <div class="notice">Rates can vary by service type, goods category, exemptions, registration status, place of supply and applicable withholding rules. For pending jurisdictions, the rate field is a manual estimate entered by the user and is not an official verified rate.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- TAB 4: VOUCHER -->
+<section id="voucher" class="tab">
+ <div class="layout">
+  <div class="panel no-print">
+   <h2>Settlement Voucher Generator</h2>
+   <p class="sub">Illustrative invoice settlement. Enter the applicable tax rates manually.</p>
+
+   <label>Vendor / Party Name</label>
+   <input id="vParty" value="ABC Services Ltd.">
+
+   <label>Invoice Number</label>
+   <input id="vInvoice" placeholder="Enter invoice number">
+
+   <label>Invoice Base Amount (PKR)</label>
+   <input id="vBase" type="number" min="0" value="100000" oninput="calculateVoucher()">
+
+   <label>Sales Tax Rate (%)</label>
+   <input id="vSalesRate" type="number" min="0" max="100" step="0.01" value="18" oninput="calculateVoucher()">
+
+   <label>Income Tax WHT Rate (%)</label>
+   <input id="vIncomeRate" type="number" min="0" max="100" step="0.01" value="0" oninput="calculateVoucher()">
+
+   <label>Sales Tax WHT (% of Sales Tax)</label>
+   <input id="vStWhtRate" type="number" min="0" max="100" step="0.01" value="0" oninput="calculateVoucher()">
+
+   <button class="action" onclick="calculateVoucher()">Update Voucher</button>
+   <button class="secondary" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <div class="panel" id="printVoucher">
+   <h2>Illustrative Tax Settlement Estimate</h2>
+   <p class="sub">Tax Year 2027 • Not an official tax document</p>
+   <hr>
+   <p><strong>Vendor:</strong> <span id="outParty">ABC Services Ltd.</span></p>
+   <p><strong>Invoice:</strong> <span id="outInvoice">—</span></p>
+   <table>
+    <tr><td>Invoice Base Amount</td><td class="right" id="outBase">Rs. 0</td></tr>
+    <tr><td>Add: Sales Tax</td><td class="right" id="outSales">Rs. 0</td></tr>
+    <tr><th>Gross Invoice Total</th><th class="right" id="outGross">Rs. 0</th></tr>
+    <tr><td>Less: Income Tax WHT</td><td class="right" id="outIncome">Rs. 0</td></tr>
+    <tr><td>Less: Sales Tax WHT</td><td class="right" id="outStWht">Rs. 0</td></tr>
+    <tr><th>Net Amount Payable</th><th class="right" id="outNet">Rs. 0</th></tr>
+   </table>
+   <div class="notice">This is an illustrative calculation based on manually entered rates. Actual withholding depends on the applicable law, transaction category, taxpayer status, exemptions and tax authority rules. Verify rates before making a deduction.</div>
+   <p style="margin-top:35px;font-size:12px;color:#64748b">Prepared for estimation purposes only.</p>
+  </div>
+ </div>
+</section>
+
+</main>
+
+<footer>Pakistan Tax Calculator V2 • Independent estimation tool • Not affiliated with FBR or provincial tax authorities.</footer>
+
+<script>
+const fmt=n=>"Rs. "+Number(n||0).toLocaleString("en-PK",{maximumFractionDigits:2});
+function showTab(id,btn){
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ btn.classList.add("active");
+}
+function incomeCategoryChanged(){
+ const salary=document.getElementById("incomeCategory").value==="salary";
+ document.getElementById("salaryInputs").classList.toggle("hidden",!salary);
+ document.getElementById("businessPending").classList.toggle("hidden",salary);
+ if(salary)calculateIncome();
+ else{
+  ["annualTax","monthlyTax","effectiveRate","monthlySalary","taxableIncome"].forEach(id=>document.getElementById(id).textContent="Not available");
+ }
+}
+function calculateIncome(){
+ if(document.getElementById("incomeCategory").value!=="salary")return;
+ const income=Math.max(0,Number(document.getElementById("annualSalary").value)||0);
+ let tax=0,slab="";
+ if(income<=600000){tax=0;slab="0%";}
+ else if(income<=1200000){tax=(income-600000)*.01;slab="1%";}
+ else if(income<=2200000){tax=6000+(income-1200000)*.11;slab="11%";}
+ else if(income<=3200000){tax=116000+(income-2200000)*.20;slab="20%";}
+ else if(income<=4100000){tax=316000+(income-3200000)*.25;slab="25%";}
+ else if(income<=5600000){tax=541000+(income-4100000)*.29;slab="29%";}
+ else if(income<=7000000){tax=976000+(income-5600000)*.32;slab="32%";}
+ else{tax=1424000+(income-7000000)*.35;slab="35%";}
+ document.getElementById("annualTax").textContent=fmt(tax);
+ document.getElementById("monthlyTax").textContent=fmt(tax/12);
+ document.getElementById("taxableIncome").textContent=fmt(income);
+ document.getElementById("effectiveRate").textContent=(income?tax/income*100:0).toFixed(2)+"%";
+ document.getElementById("monthlySalary").textContent=fmt(income/12);
+}
+const whtData={
+ goods:["Toll Manufacturing — Companies","Toll Manufacturing — Individuals / AOPs","General Goods Supply — Companies","General Goods Supply — Individuals / AOPs","FMCG / Fertilizer / Sugar / Cement / Steel Distributors","Rice / Cotton Seed / Edible Oil","Cigarettes Distribution","Pharmaceutical Products"],
+ services:["Transport / Courier / Hotel / Security Services","IT & IT-enabled Services","Independent Professionals","Terminal & Port Services","Stitching / Dyeing / Printing for Exporters","Other Services"],
+ contracts:["Execution of Contracts — Companies","Execution of Contracts — Individuals / AOPs","Construction Contracts","Other Contract Payments"],
+ rent:["Rent of Building / Land — Individual","Rent of Building / Land — Company","Rent of Plant / Machinery"],
+ dividend:["General Company Dividend","Dividend from IPPs","Dividend from Mutual Funds — Equity","Dividend from Mutual Funds — Debt","Dividend from Exempt / Loss Companies"],
+ property:["Property Sale — Section 236C","Property Purchase — Section 236K"],
+ electricity:["Commercial Electricity Bill","Industrial Electricity Bill","Domestic Electricity Bill"],
+ cash:["Cash Withdrawal — Section 231AB"],
+ export_services:["IT / ITES Export Proceeds","Other Export of Services","Export Proceeds of Goods","Digital / Social Media Income"],
+ foreign_cards:["Foreign Debit / Credit Card Transactions"],
+ vehicles:["Vehicle up to 850cc","Vehicle 851–1000cc","Vehicle 1001–1300cc","Vehicle 1301–1600cc","Vehicle 1601–1800cc","Vehicle 1801–2000cc","Vehicle 2001–2500cc","Vehicle 2501–3000cc","Vehicle above 3000cc","Electric Vehicle"],
+ profit:["Profit on Bank Deposits / Debt","Profit on Government Securities","Gain on Debt Securities","Sukuk Return — Company","Sukuk Return — Individual / AOP"],
+ commission:["Advertising Agents","Life Insurance Agents","Other Brokerage / Commission"],
+ prizes:["Prize Bonds / Crossword","Lottery / Raffle / Promotional Prizes","Petroleum Pump Operators Commission"],
+ ecommerce:["E-commerce — Digital / Bank Payment","E-commerce — Cash on Delivery"],
+ collections:["Mobile Phone / Internet Bill","Sale by Auction — General","Sale by Auction — Immovable Property","Marriage Halls / Marquees / Functions","Bonus Shares","Sale to Fertilizer Distributors — 236G","Sale to Other Distributors — 236G","Sale to Retailers — 236H"],
+ imports:["Imports — Twelfth Schedule Part I","Imports — Twelfth Schedule Part II","Commercial Imports","Coal Imports","Ship Breakers","Industrial Undertakings","Other Importers","Plastic Raw Material — Industrial","Plastic Raw Material — Commercial"]
+};
+function updateWhtItems(){
+ const cat=document.getElementById("whtCategory").value;
+ const select=document.getElementById("whtItem");
+ select.innerHTML="";
+ (whtData[cat]||[]).forEach((name,i)=>{
+  const op=document.createElement("option");op.value=i;op.textContent=name;select.appendChild(op);
+ });
+ calculateWht();
+}
+function calculateWht(){
+ const cat=document.getElementById("whtCategory").value;
+ const idx=Number(document.getElementById("whtItem").value)||0;
+ const amount=Math.max(0,Number(document.getElementById("whtAmount").value)||0);
+ const status=document.getElementById("whtStatus").value;
+ const name=(whtData[cat]||[])[idx]||"";
+ let rate=null,description="This transaction rate has not yet been verified for Tax Year 2027. It is retained in the directory, but automatic calculation is disabled.";
+ let nature="To be confirmed";
+ if(cat==="property"&&idx===0){
+  rate=status==="filer"?2.75:11.5;
+  nature="Advance Tax";
+  description="Section 236C — property sale. The displayed rate is a general rate reference. Transaction value, holding period, exceptions and applicable conditions must be checked before deduction.";
+ }
+ if(cat==="property"&&idx===1){
+  const value=amount;
+  if(status==="filer")rate=1.25;
+  else rate=value<=50000000?10.5:value<=100000000?14.5:18.5;
+  nature="Advance Tax";
+  description="Section 236K — property purchase. Non-ATL rate is selected by property value band. Confirm fair market value, applicable conditions and statutory exceptions before relying on the estimate.";
+ }
+ const pending=rate===null;
+ document.getElementById("whtTax").textContent=pending?"Not available":fmt(amount*rate/100);
+ document.getElementById("whtRate").textContent=pending?"—":rate+"%";
+ document.getElementById("whtNet").textContent=pending?"—":fmt(amount-amount*rate/100);
+ document.getElementById("whtGross").textContent=fmt(amount);
+ document.getElementById("whtNature").textContent=nature;
+ document.getElementById("whtDescription").textContent=name+". "+description;
+ const badge=document.getElementById("whtStatusBadge");
+ badge.textContent=pending?"Verification Pending":"Rate Reference Available";
+ badge.className="status "+(pending?"pending":"verified");
+}
+let manualGstRate=false;
+const gstAuthorities={
+ fbr:{rate:18,verified:true,note:"Federal standard sales tax rate for taxable goods. Exemptions, reduced rates and special regimes may apply."},
+ ict:{rate:15,verified:false,note:"ICT services rates require service-wise verification. Enter a rate manually if you have confirmed the applicable rate."},
+ srb:{rate:15,verified:true,note:"SRB general standard services rate. Certain services have reduced, special or different rates."},
+ srb_tel:{rate:19.5,verified:true,note:"SRB telecom standard reference. Confirm the service and applicable statutory treatment."},
+ pra:{rate:16,verified:false,note:"PRA service rates vary by service category. General and reduced rates require current schedule verification."},
+ kpra:{rate:15,verified:false,note:"KPRA service rates vary by category and applicable conditions. Verify the current schedule."},
+ bra:{rate:15,verified:false,note:"BRA service rates vary by category and applicable conditions. Verify the current schedule."}
+};
+function gstAuthorityChanged(){
+ const key=document.getElementById("gstAuthority").value;
+ const item=gstAuthorities[key];
+ document.getElementById("gstRate").value=item.rate;
+ manualGstRate=false;
+ calculateGst();
+}
+function calculateGst(){
+ const amount=Math.max(0,Number(document.getElementById("gstAmount").value)||0);
+ const rate=Math.max(0,Number(document.getElementById("gstRate").value)||0);
+ const wht=Math.min(100,Math.max(0,Number(document.getElementById("gstWht").value)||0));
+ const mode=document.getElementById("gstMode").value;
+ let base,tax,total;
+ if(mode==="exclusive"){base=amount;tax=base*rate/100;total=base+tax;}
+ else{total=amount;base=rate===0?amount:amount/(1+rate/100);tax=total-base;}
+ const withheld=tax*wht/100;
+ document.getElementById("gstTax").textContent=fmt(tax);
+ document.getElementById("gstTotal").textContent=fmt(total);
+ document.getElementById("gstBase").textContent=fmt(base);
+ document.getElementById("gstWithheld").textContent=fmt(withheld);
+ document.getElementById("gstNet").textContent=fmt(total-withheld);
+ const item=gstAuthorities[document.getElementById("gstAuthority").value];
+ const badge=document.getElementById("gstBadge");
+ const verified=item.verified&&!manualGstRate;
+ badge.textContent=verified?"Standard Rate Reference":"Verification Pending / Manual Rate";
+ badge.className="status "+(verified?"verified":"pending");
+ document.getElementById("gstNote").textContent=item.note+(manualGstRate?" You have manually changed the rate; it is not independently verified.":"");
+}
+function calculateVoucher(){
+ const base=Math.max(0,Number(document.getElementById("vBase").value)||0);
+ const sr=Math.max(0,Number(document.getElementById("vSalesRate").value)||0);
+ const ir=Math.max(0,Number(document.getElementById("vIncomeRate").value)||0);
+ const wr=Math.max(0,Number(document.getElementById("vStWhtRate").value)||0);
+ const sales=base*sr/100, gross=base+sales, income=base*ir/100, stwht=sales*wr/100;
+ document.getElementById("outParty").textContent=document.getElementById("vParty").value||"—";
+ document.getElementById("outInvoice").textContent=document.getElementById("vInvoice").value||"—";
+ document.getElementById("outBase").textContent=fmt(base);
+ document.getElementById("outSales").textContent=fmt(sales);
+ document.getElementById("outGross").textContent=fmt(gross);
+ document.getElementById("outIncome").textContent=fmt(income);
+ document.getElementById("outStWht").textContent=fmt(stwht);
+ document.getElementById("outNet").textContent=fmt(gross-income-stwht);
+}
+document.getElementById("whtCategory").addEventListener("change",updateWhtItems);
+updateWhtItems();
+calculateIncome();
+calculateGst();
+calculateVoucher();
+</script>
+</body>
+</html>
