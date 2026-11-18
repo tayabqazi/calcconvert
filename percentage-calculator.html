@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate percentages, find what percentage one number is of another, and calculate percentage increase or decrease with our free Percentage Calculator.">
+  <title>Percentage Calculator - Free Online Tool | CalcConvert</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #202b3c;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #202b3c;
+      padding: 17px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .logo span { color: #4d9aff; }
+
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 35px auto;
+      padding: 0 18px;
+    }
+
+    .intro { margin-bottom: 25px; }
+
+    h1 {
+      font-size: 30px;
+      margin: 0 0 10px;
+    }
+
+    .calculator {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    }
+
+    .calculator h2 {
+      font-size: 19px;
+      margin: 0 0 18px;
+      color: #1769e0;
+    }
+
+    .inputs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #1769e0;
+      box-shadow: 0 0 0 2px rgba(23,105,224,0.12);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      padding: 11px 20px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .calculate {
+      background: #1769e0;
+      color: white;
+    }
+
+    .calculate:hover { background: #1055bd; }
+
+    .reset {
+      background: #e8edf5;
+      color: #202b3c;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      background: #eff6ff;
+      border-left: 4px solid #1769e0;
+      border-radius: 7px;
+    }
+
+    .result strong {
+      display: block;
+      font-size: 22px;
+      color: #1769e0;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    .error {
+      display: none;
+      margin-top: 12px;
+      color: #b91c1c;
+      font-size: 14px;
+    }
+
+    .info {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .info h2 {
+      color: #1769e0;
+      font-size: 21px;
+      margin-top: 0;
+    }
+
+    .info h3 {
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      background: #202b3c;
+      color: white;
+      text-align: center;
+      padding: 28px 15px;
+      margin-top: 45px;
+    }
+
+    footer p {
+      color: #d1d8e2;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #dce4f0;
+      text-decoration: none;
+      margin: 0 8px;
+      font-size: 14px;
+    }
+
+    @media(max-width: 600px) {
+      h1 { font-size: 26px; }
+      .calculator, .info { padding: 20px; }
+      .field { min-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="logo">Calc<span>Convert</span></a>
+  <a href="index.html" class="home-link">Back to Home</a>
+</header>
+
+<main class="container">
+
+  <section class="intro">
+    <h1>Percentage Calculator</h1>
+    <p>Calculate percentages quickly and easily with our free online Percentage Calculator. Find percentages, compare values and calculate percentage increases or decreases.</p>
+  </section>
+
+  <section class="calculator">
+    <h2>1. What is X% of Y?</h2>
+    <div class="inputs">
+      <div class="field">
+        <label for="p1">Percentage (%)</label>
+        <input type="number" id="p1" step="any" placeholder="e.g. 20">
+      </div>
+      <div class="field">
+        <label for="n1">Number</label>
+        <input type="number" id="n1" step="any" placeholder="e.g. 500">
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="calculate" onclick="calculate1()">Calculate</button>
+      <button class="reset" onclick="resetCalc(1)">Reset</button>
+    </div>
+    <div class="error" id="error1"></div>
+    <div class="result" id="result1"></div>
+  </section>
+
+  <section class="calculator">
+    <h2>2. X is what percentage of Y?</h2>
+    <div class="inputs">
+      <div class="field">
+        <label for="n2">First Number (X)</label>
+        <input type="number" id="n2" step="any" placeholder="e.g. 50">
+      </div>
+      <div class="field">
+        <label for="n3">Second Number (Y)</label>
+        <input type="number" id="n3" step="any" placeholder="e.g. 200">
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="calculate" onclick="calculate2()">Calculate</button>
+      <button class="reset" onclick="resetCalc(2)">Reset</button>
+    </div>
+    <div class="error" id="error2"></div>
+    <div class="result" id="result2"></div>
+  </section>
+
+  <section class="calculator">
+    <h2>3. Percentage Increase</h2>
+    <div class="inputs">
+      <div class="field">
+        <label for="n4">Original Value</label>
+        <input type="number" id="n4" step="any" placeholder="e.g. 100">
+      </div>
+      <div class="field">
+        <label for="n5">New Value</label>
+        <input type="number" id="n5" step="any" placeholder="e.g. 120">
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="calculate" onclick="calculate3()">Calculate</button>
+      <button class="reset" onclick="resetCalc(3)">Reset</button>
+    </div>
+    <div class="error" id="error3"></div>
+    <div class="result" id="result3"></div>
+  </section>
+
+  <section class="calculator">
+    <h2>4. Percentage Decrease</h2>
+    <div class="inputs">
+      <div class="field">
+        <label for="n6">Original Value</label>
+        <input type="number" id="n6" step="any" placeholder="e.g. 200">
+      </div>
+      <div class="field">
+        <label for="n7">New Value</label>
+        <input type="number" id="n7" step="any" placeholder="e.g. 150">
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="calculate" onclick="calculate4()">Calculate</button>
+      <button class="reset" onclick="resetCalc(4)">Reset</button>
+    </div>
+    <div class="error" id="error4"></div>
+    <div class="result" id="result4"></div>
+  </section>
+
+  <section class="info">
+    <h2>How to Calculate Percentages</h2>
+    <p>A percentage represents a number as a fraction of 100. It is commonly used for discounts, price changes, marks, salaries, business calculations and everyday comparisons.</p>
+
+    <h3>1. Find a Percentage of a Number</h3>
+    <p>Formula: (Percentage ÷ 100) × Number</p>
+    <p>Example: 20% of 500 = 100.</p>
+
+    <h3>2. Find What Percentage One Number Is of Another</h3>
+    <p>Formula: (First Number ÷ Second Number) × 100</p>
+    <p>Example: 50 is 25% of 200.</p>
+
+    <h3>3. Percentage Increase</h3>
+    <p>Formula: ((New Value − Original Value) ÷ Original Value) × 100</p>
+    <p>Example: An increase from 100 to 120 is 20%.</p>
+
+    <h3>4. Percentage Decrease</h3>
+    <p>Formula: ((Original Value − New Value) ÷ Original Value) × 100</p>
+    <p>Example: A decrease from 200 to 150 is 25%.</p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>What is 20% of 100?</h3>
+    <p>20% of 100 is 20.</p>
+
+    <h3>How do I calculate a percentage?</h3>
+    <p>Divide the percentage by 100 and multiply it by the number.</p>
+
+    <h3>Can I calculate percentage increase and decrease?</h3>
+    <p>Yes. Enter the original value and new value in the relevant calculator above.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="logo" style="color:white;">CalcConvert</div>
+  <p>Free Online Calculators &amp; Converters for Everyone</p>
+  <div style="margin:20px 0; line-height:2.5;">
+    <a href="about-us.html">About Us</a>
+    <a href="contact-us.html">Contact Us</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+  </div>
+  <p>&copy; 2026 CalcConvert. All rights reserved.</p>
+</footer>
+
+<script>
+  function getNumber(id) {
+    const value = document.getElementById(id).value.trim();
+    if (value === "") return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+  }
+
+  function formatNumber(number) {
+    return Number(number.toFixed(8)).toLocaleString("en-US", {
+      maximumFractionDigits: 8
+    });
+  }
+
+  function showResult(id, html) {
+    document.getElementById("error" + id).style.display = "none";
+    const result = document.getElementById("result" + id);
+    result.innerHTML = html;
+    result.style.display = "block";
+  }
+
+  function showError(id, message) {
+    document.getElementById("result" + id).style.display = "none";
+    const error = document.getElementById("error" + id);
+    error.textContent = message;
+    error.style.display = "block";
+  }
+
+  function calculate1() {
+    const p = getNumber("p1");
+    const n = getNumber("n1");
+
+    if (p === null || n === null) {
+      return showError(1, "Please enter valid numbers in both fields.");
+    }
+
+    const answer = (p / 100) * n;
+    showResult(1, `${p}% of ${formatNumber(n)} is:<strong>${formatNumber(answer)}</strong>`);
+  }
+
+  function calculate2() {
+    const x = getNumber("n2");
+    const y = getNumber("n3");
+
+    if (x === null || y === null) {
+      return showError(2, "Please enter valid numbers in both fields.");
+    }
+    if (y === 0) {
+      return showError(2, "The second number cannot be zero.");
+    }
+
+    const answer = (x / y) * 100;
+    showResult(2, `${formatNumber(x)} is what percentage of ${formatNumber(y)}?<strong>${formatNumber(answer)}%</strong>`);
+  }
+
+  function calculate3() {
+    const oldValue = getNumber("n4");
+    const newValue = getNumber("n5");
+
+    if (oldValue === null || newValue === null) {
+      return showError(3, "Please enter valid numbers in both fields.");
+    }
+    if (oldValue === 0) {
+      return showError(3, "Original value cannot be zero.");
+    }
+
+    const change = ((newValue - oldValue) / Math.abs(oldValue)) * 100;
+    const label = change >= 0 ? "Increase" : "Decrease";
+    showResult(3, `Percentage change:<strong>${formatNumber(Math.abs(change))}% ${label}</strong>`);
+  }
+
+  function calculate4() {
+    const oldValue = getNumber("n6");
+    const newValue = getNumber("n7");
+
+    if (oldValue === null || newValue === null) {
+      return showError(4, "Please enter valid numbers in both fields.");
+    }
+    if (oldValue === 0) {
+      return showError(4, "Original value cannot be zero.");
+    }
+
+    const change = ((oldValue - newValue) / Math.abs(oldValue)) * 100;
+    const label = change >= 0 ? "Decrease" : "Increase";
+    showResult(4, `Percentage change:<strong>${formatNumber(Math.abs(change))}% ${label}</strong>`);
+  }
+
+  function resetCalc(id) {
+    const section = document.querySelectorAll(".calculator")[id - 1];
+    section.querySelectorAll("input").forEach(input => input.value = "");
+    document.getElementById("result" + id).style.display = "none";
+    document.getElementById("error" + id).style.display = "none";
+  }
+</script>
+
+</body>
+</html>
