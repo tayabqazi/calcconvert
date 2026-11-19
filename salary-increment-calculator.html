@@ -26,7 +26,7 @@
         header {
             background: #0f172a;
             color: white;
-            padding: 20px;
+            padding: 22px 15px;
             text-align: center;
         }
 
@@ -41,24 +41,6 @@
             font-size: 14px;
         }
 
-        .back-home {
-            display: inline-block;
-            margin-bottom: 14px;
-            padding: 9px 16px;
-            background: #334155;
-            color: white;
-            text-decoration: none;
-            border-radius: 7px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .back-home:hover {
-            background: #475569;
-        }
-
-        /* Main page layout */
-
         .page-layout {
             width: 100%;
             max-width: 1300px;
@@ -69,8 +51,6 @@
             gap: 20px;
             align-items: start;
         }
-
-        /* Side advertisement spaces */
 
         .side-ad {
             margin-top: 35px;
@@ -102,9 +82,30 @@
         .container {
             width: 100%;
             max-width: 900px;
-            margin: 35px auto;
+            margin: 30px auto;
             padding: 0;
             min-width: 0;
+        }
+
+        .top-navigation {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .back-home {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #334155;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-home:hover {
+            background: #475569;
         }
 
         .card {
@@ -337,8 +338,6 @@
             text-decoration: underline;
         }
 
-        /* Tablet and mobile layout */
-
         @media(max-width: 1319px) {
             .page-layout {
                 display: block;
@@ -351,7 +350,7 @@
 
             .container {
                 max-width: 900px;
-                margin: 35px auto;
+                margin: 30px auto;
             }
         }
 
@@ -386,15 +385,14 @@
             }
         }
 
-        /* Print settings */
-
         @media print {
             header,
             footer,
             .side-ad,
             .form-card,
             .print-button,
-            .content-card {
+            .content-card,
+            .top-navigation {
                 display: none !important;
             }
 
@@ -428,7 +426,6 @@
 <body>
 
 <header>
-    <a href="index.html" class="back-home">← Back to Home</a>
     <h1>Salary Increment Calculator</h1>
     <p>Calculate your revised salary and annual increase</p>
 </header>
@@ -444,7 +441,9 @@
 
     <div class="container">
 
-        <!-- Calculator Form -->
+        <div class="top-navigation">
+            <a href="index.html" class="back-home">← Back to Home</a>
+        </div>
 
         <section class="card form-card">
             <h2>Enter Current Salary Details</h2>
@@ -452,12 +451,12 @@
             <div class="grid">
 
                 <div>
-                    <label for="basic">Current Basic Salary (Rs.)</label>
+                    <label for="basic">Current Basic Salary</label>
                     <input type="number" id="basic" min="0" step="any" placeholder="e.g. 60000">
                 </div>
 
                 <div>
-                    <label for="gross">Current Gross Salary (Rs.)</label>
+                    <label for="gross">Current Gross Salary</label>
                     <input type="number" id="gross" min="0" step="any" placeholder="e.g. 100000">
                     <div class="hint">Optional. Enter current gross salary including allowances.</div>
                 </div>
@@ -474,7 +473,7 @@
                     <label for="incrementType">Increment Type</label>
                     <select id="incrementType">
                         <option value="percentage">Percentage (%)</option>
-                        <option value="fixed">Fixed Amount (Rs.)</option>
+                        <option value="fixed">Fixed Amount</option>
                     </select>
                 </div>
 
@@ -489,8 +488,6 @@
             <button class="button reset" onclick="resetCalculator()">Reset</button>
         </section>
 
-        <!-- Results -->
-
         <section class="card results" id="results">
             <h2>Salary Increment Results</h2>
 
@@ -498,22 +495,22 @@
 
                 <div class="result-box">
                     <small>Monthly Increment</small>
-                    <strong class="positive" id="monthlyIncrease">Rs. 0</strong>
+                    <strong class="positive" id="monthlyIncrease">0</strong>
                 </div>
 
                 <div class="result-box highlight">
                     <small>Revised Monthly Gross Salary</small>
-                    <strong id="newGross">Rs. 0</strong>
+                    <strong id="newGross">0</strong>
                 </div>
 
                 <div class="result-box">
                     <small>Annual Increment</small>
-                    <strong class="positive" id="annualIncrease">Rs. 0</strong>
+                    <strong class="positive" id="annualIncrease">0</strong>
                 </div>
 
                 <div class="result-box highlight">
                     <small>Revised Annual Gross Salary</small>
-                    <strong id="annualSalary">Rs. 0</strong>
+                    <strong id="annualSalary">0</strong>
                 </div>
 
             </div>
@@ -555,8 +552,6 @@
             <button class="button print-button" onclick="window.print()">Print / Save as PDF</button>
         </section>
 
-        <!-- Description -->
-
         <section class="card content-card">
 
             <h2>About Salary Increment Calculator</h2>
@@ -580,7 +575,7 @@
                 <li>Enter your current basic salary.</li>
                 <li>Enter your current gross salary, including allowances, if available.</li>
                 <li>Select whether the increment will apply to basic salary or gross salary.</li>
-                <li>Choose Percentage (%) or Fixed Amount (Rs.) as the increment type.</li>
+                <li>Choose Percentage (%) or Fixed Amount as the increment type.</li>
                 <li>Enter the increment percentage or amount.</li>
                 <li>Click Calculate Increment to view your revised salary and comparison.</li>
             </ul>
@@ -620,8 +615,8 @@
             <h3>Example of Salary Increment Calculation</h3>
 
             <p>
-                Suppose your current basic salary is Rs. 60,000 and your gross
-                salary is Rs. 100,000. If your employer gives you a 15% increment
+                Suppose your current basic salary is 60,000 and your gross
+                salary is 100,000. If your employer gives you a 15% increment
                 on basic salary, the calculation will be:
             </p>
 
@@ -636,7 +631,7 @@
                 <tbody>
                     <tr>
                         <td>Current Basic Salary</td>
-                        <td>Rs. 60,000</td>
+                        <td>60,000</td>
                     </tr>
                     <tr>
                         <td>Increment Percentage</td>
@@ -644,23 +639,23 @@
                     </tr>
                     <tr>
                         <td>Monthly Increment</td>
-                        <td>Rs. 9,000</td>
+                        <td>9,000</td>
                     </tr>
                     <tr>
                         <td>Revised Basic Salary</td>
-                        <td>Rs. 69,000</td>
+                        <td>69,000</td>
                     </tr>
                     <tr>
                         <td>Current Gross Salary</td>
-                        <td>Rs. 100,000</td>
+                        <td>100,000</td>
                     </tr>
                     <tr>
                         <td>Revised Gross Salary</td>
-                        <td>Rs. 109,000</td>
+                        <td>109,000</td>
                     </tr>
                     <tr>
                         <td>Annual Increment</td>
-                        <td>Rs. 108,000</td>
+                        <td>108,000</td>
                     </tr>
                 </tbody>
             </table>
@@ -682,7 +677,7 @@
             <h3>Important Notes</h3>
 
             <ul>
-                <li>All amounts are displayed in Pakistani Rupees (Rs.).</li>
+                <li>Enter salary amounts in your preferred currency.</li>
                 <li>If gross salary is not entered, the calculator uses basic salary as gross salary.</li>
                 <li>When increment is applied to basic salary, the same increment amount is added to gross salary.</li>
                 <li>When increment is applied to gross salary, basic salary remains unchanged.</li>
@@ -691,8 +686,6 @@
             </ul>
 
         </section>
-
-        <!-- FAQs -->
 
         <section class="card content-card">
 
@@ -703,14 +696,14 @@
                 <p>
                     Multiply your current salary by the increment percentage
                     and divide the result by 100. For example, a 10% increment
-                    on Rs. 50,000 equals Rs. 5,000 per month.
+                    on 50,000 equals 5,000 per month.
                 </p>
             </div>
 
             <div class="faq-item">
                 <h3>2. Can I calculate a fixed salary increment?</h3>
                 <p>
-                    Yes. Select Fixed Amount (Rs.) as the increment type and
+                    Yes. Select Fixed Amount as the increment type and
                     enter the amount you want to add to your current salary.
                 </p>
             </div>
@@ -738,7 +731,7 @@
                 <p>
                     No. This calculator estimates salary increases before tax
                     and other deductions. It does not calculate income tax,
-                    provident fund, EOBI or other payroll deductions.
+                    provident fund, social security or other payroll deductions.
                 </p>
             </div>
 
@@ -799,13 +792,14 @@
             label.textContent = "Increment Percentage (%)";
             input.placeholder = "e.g. 15";
         } else {
-            label.textContent = "Fixed Increment Amount (Rs.)";
+            label.textContent = "Fixed Increment Amount";
             input.placeholder = "e.g. 10000";
         }
     });
 
-    function formatPKR(value) {
-        return "Rs. " + Number(value).toLocaleString("en-PK", {
+    function formatNumber(value) {
+        return Number(value).toLocaleString("en-US", {
+            minimumFractionDigits: 0,
             maximumFractionDigits: 2
         });
     }
@@ -857,17 +851,17 @@
         const revisedGross = gross + increase;
         const annualIncrease = increase * 12;
 
-        document.getElementById("monthlyIncrease").textContent = formatPKR(increase);
-        document.getElementById("newGross").textContent = formatPKR(revisedGross);
-        document.getElementById("annualIncrease").textContent = formatPKR(annualIncrease);
-        document.getElementById("annualSalary").textContent = formatPKR(revisedGross * 12);
+        document.getElementById("monthlyIncrease").textContent = formatNumber(increase);
+        document.getElementById("newGross").textContent = formatNumber(revisedGross);
+        document.getElementById("annualIncrease").textContent = formatNumber(annualIncrease);
+        document.getElementById("annualSalary").textContent = formatNumber(revisedGross * 12);
 
-        document.getElementById("oldBasic").textContent = formatPKR(basic);
-        document.getElementById("revisedBasic").textContent = formatPKR(revisedBasic);
-        document.getElementById("oldGross").textContent = formatPKR(gross);
-        document.getElementById("revisedGross").textContent = formatPKR(revisedGross);
-        document.getElementById("oldAnnual").textContent = formatPKR(gross * 12);
-        document.getElementById("revisedAnnual").textContent = formatPKR(revisedGross * 12);
+        document.getElementById("oldBasic").textContent = formatNumber(basic);
+        document.getElementById("revisedBasic").textContent = formatNumber(revisedBasic);
+        document.getElementById("oldGross").textContent = formatNumber(gross);
+        document.getElementById("revisedGross").textContent = formatNumber(revisedGross);
+        document.getElementById("oldAnnual").textContent = formatNumber(gross * 12);
+        document.getElementById("revisedAnnual").textContent = formatNumber(revisedGross * 12);
 
         document.getElementById("resultNote").textContent =
             "Increment applied on " +
@@ -875,6 +869,7 @@
             ". Other salary components remain unchanged.";
 
         document.getElementById("results").style.display = "block";
+
         document.getElementById("results").scrollIntoView({
             behavior: "smooth"
         });
