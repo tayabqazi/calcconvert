@@ -691,7 +691,7 @@ function calculateDateRange() {
 
     }
 
-    const totalDays = dayDifference(start, end);
+    const totalDays = dayDifference(start, end) + 1;
 
     const totalWeeks = Math.floor(totalDays / 7);
 
@@ -743,7 +743,7 @@ function calculateDateRange() {
 
     const counts = [0,0,0,0,0,0,0];
 
-    const inclusiveDays = totalDays + 1;
+    const inclusiveDays = totalDays;
 
     const fullWeeks = Math.floor(inclusiveDays / 7);
 
