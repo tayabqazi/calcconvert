@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Calculate percentages, find what percentage one number is of another, and calculate percentage increase or decrease with our free Percentage Calculator.">
   <title>Percentage Calculator - Free Online Tool | CalcConvert</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -42,10 +43,52 @@
       font-size: 14px;
     }
 
+    /* Main three-column layout */
+    .page-layout {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: 160px minmax(0, 900px) 160px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Temporary advertisement spaces */
+    .side-ad {
+      margin-top: 35px;
+      min-height: 600px;
+      background: #e8edf5;
+      border: 1px dashed #b8c4d5;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .ad-label {
+      padding: 10px;
+    }
+
+    .ad-label strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 5px;
+      color: #475569;
+    }
+
     .container {
+      width: 100%;
       max-width: 900px;
       margin: 35px auto;
-      padding: 0 18px;
+      padding: 0;
+      min-width: 0;
     }
 
     .intro { margin-bottom: 25px; }
@@ -190,10 +233,33 @@
       font-size: 14px;
     }
 
+    /* Hide side advertisement spaces on smaller screens */
+    @media(max-width: 1319px) {
+      .page-layout {
+        display: block;
+        max-width: 936px;
+      }
+
+      .side-ad {
+        display: none;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 35px auto;
+      }
+    }
+
     @media(max-width: 600px) {
       h1 { font-size: 26px; }
-      .calculator, .info { padding: 20px; }
-      .field { min-width: 100%; }
+
+      .calculator, .info {
+        padding: 20px;
+      }
+
+      .field {
+        min-width: 100%;
+      }
     }
   </style>
 </head>
@@ -205,124 +271,145 @@
   <a href="index.html" class="home-link">Back to Home</a>
 </header>
 
-<main class="container">
+<main class="page-layout">
 
-  <section class="intro">
-    <h1>Percentage Calculator</h1>
-    <p>Calculate percentages quickly and easily with our free online Percentage Calculator. Find percentages, compare values and calculate percentage increases or decreases.</p>
-  </section>
-
-  <section class="calculator">
-    <h2>1. What is X% of Y?</h2>
-    <div class="inputs">
-      <div class="field">
-        <label for="p1">Percentage (%)</label>
-        <input type="number" id="p1" step="any" placeholder="e.g. 20">
-      </div>
-      <div class="field">
-        <label for="n1">Number</label>
-        <input type="number" id="n1" step="any" placeholder="e.g. 500">
-      </div>
+  <!-- Left Advertisement Space -->
+  <aside class="side-ad">
+    <div class="ad-label">
+      <strong>Advertisement</strong>
+      Left Side Ad Space
     </div>
-    <div class="buttons">
-      <button class="calculate" onclick="calculate1()">Calculate</button>
-      <button class="reset" onclick="resetCalc(1)">Reset</button>
-    </div>
-    <div class="error" id="error1"></div>
-    <div class="result" id="result1"></div>
-  </section>
+  </aside>
 
-  <section class="calculator">
-    <h2>2. X is what percentage of Y?</h2>
-    <div class="inputs">
-      <div class="field">
-        <label for="n2">First Number (X)</label>
-        <input type="number" id="n2" step="any" placeholder="e.g. 50">
+  <!-- Main Calculator Content -->
+  <div class="container">
+
+    <section class="intro">
+      <h1>Percentage Calculator</h1>
+      <p>Calculate percentages quickly and easily with our free online Percentage Calculator. Find percentages, compare values and calculate percentage increases or decreases.</p>
+    </section>
+
+    <section class="calculator">
+      <h2>1. What is X% of Y?</h2>
+      <div class="inputs">
+        <div class="field">
+          <label for="p1">Percentage (%)</label>
+          <input type="number" id="p1" step="any" placeholder="e.g. 20">
+        </div>
+        <div class="field">
+          <label for="n1">Number</label>
+          <input type="number" id="n1" step="any" placeholder="e.g. 500">
+        </div>
       </div>
-      <div class="field">
-        <label for="n3">Second Number (Y)</label>
-        <input type="number" id="n3" step="any" placeholder="e.g. 200">
+      <div class="buttons">
+        <button class="calculate" onclick="calculate1()">Calculate</button>
+        <button class="reset" onclick="resetCalc(1)">Reset</button>
       </div>
-    </div>
-    <div class="buttons">
-      <button class="calculate" onclick="calculate2()">Calculate</button>
-      <button class="reset" onclick="resetCalc(2)">Reset</button>
-    </div>
-    <div class="error" id="error2"></div>
-    <div class="result" id="result2"></div>
-  </section>
+      <div class="error" id="error1"></div>
+      <div class="result" id="result1"></div>
+    </section>
 
-  <section class="calculator">
-    <h2>3. Percentage Increase</h2>
-    <div class="inputs">
-      <div class="field">
-        <label for="n4">Original Value</label>
-        <input type="number" id="n4" step="any" placeholder="e.g. 100">
+    <section class="calculator">
+      <h2>2. X is what percentage of Y?</h2>
+      <div class="inputs">
+        <div class="field">
+          <label for="n2">First Number (X)</label>
+          <input type="number" id="n2" step="any" placeholder="e.g. 50">
+        </div>
+        <div class="field">
+          <label for="n3">Second Number (Y)</label>
+          <input type="number" id="n3" step="any" placeholder="e.g. 200">
+        </div>
       </div>
-      <div class="field">
-        <label for="n5">New Value</label>
-        <input type="number" id="n5" step="any" placeholder="e.g. 120">
+      <div class="buttons">
+        <button class="calculate" onclick="calculate2()">Calculate</button>
+        <button class="reset" onclick="resetCalc(2)">Reset</button>
       </div>
-    </div>
-    <div class="buttons">
-      <button class="calculate" onclick="calculate3()">Calculate</button>
-      <button class="reset" onclick="resetCalc(3)">Reset</button>
-    </div>
-    <div class="error" id="error3"></div>
-    <div class="result" id="result3"></div>
-  </section>
+      <div class="error" id="error2"></div>
+      <div class="result" id="result2"></div>
+    </section>
 
-  <section class="calculator">
-    <h2>4. Percentage Decrease</h2>
-    <div class="inputs">
-      <div class="field">
-        <label for="n6">Original Value</label>
-        <input type="number" id="n6" step="any" placeholder="e.g. 200">
+    <section class="calculator">
+      <h2>3. Percentage Increase</h2>
+      <div class="inputs">
+        <div class="field">
+          <label for="n4">Original Value</label>
+          <input type="number" id="n4" step="any" placeholder="e.g. 100">
+        </div>
+        <div class="field">
+          <label for="n5">New Value</label>
+          <input type="number" id="n5" step="any" placeholder="e.g. 120">
+        </div>
       </div>
-      <div class="field">
-        <label for="n7">New Value</label>
-        <input type="number" id="n7" step="any" placeholder="e.g. 150">
+      <div class="buttons">
+        <button class="calculate" onclick="calculate3()">Calculate</button>
+        <button class="reset" onclick="resetCalc(3)">Reset</button>
       </div>
+      <div class="error" id="error3"></div>
+      <div class="result" id="result3"></div>
+    </section>
+
+    <section class="calculator">
+      <h2>4. Percentage Decrease</h2>
+      <div class="inputs">
+        <div class="field">
+          <label for="n6">Original Value</label>
+          <input type="number" id="n6" step="any" placeholder="e.g. 200">
+        </div>
+        <div class="field">
+          <label for="n7">New Value</label>
+          <input type="number" id="n7" step="any" placeholder="e.g. 150">
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="calculate" onclick="calculate4()">Calculate</button>
+        <button class="reset" onclick="resetCalc(4)">Reset</button>
+      </div>
+      <div class="error" id="error4"></div>
+      <div class="result" id="result4"></div>
+    </section>
+
+    <section class="info">
+      <h2>How to Calculate Percentages</h2>
+      <p>A percentage represents a number as a fraction of 100. It is commonly used for discounts, price changes, marks, salaries, business calculations and everyday comparisons.</p>
+
+      <h3>1. Find a Percentage of a Number</h3>
+      <p>Formula: (Percentage ÷ 100) × Number</p>
+      <p>Example: 20% of 500 = 100.</p>
+
+      <h3>2. Find What Percentage One Number Is of Another</h3>
+      <p>Formula: (First Number ÷ Second Number) × 100</p>
+      <p>Example: 50 is 25% of 200.</p>
+
+      <h3>3. Percentage Increase</h3>
+      <p>Formula: ((New Value − Original Value) ÷ Original Value) × 100</p>
+      <p>Example: An increase from 100 to 120 is 20%.</p>
+
+      <h3>4. Percentage Decrease</h3>
+      <p>Formula: ((Original Value − New Value) ÷ Original Value) × 100</p>
+      <p>Example: A decrease from 200 to 150 is 25%.</p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <h3>What is 20% of 100?</h3>
+      <p>20% of 100 is 20.</p>
+
+      <h3>How do I calculate a percentage?</h3>
+      <p>Divide the percentage by 100 and multiply it by the number.</p>
+
+      <h3>Can I calculate percentage increase and decrease?</h3>
+      <p>Yes. Enter the original value and new value in the relevant calculator above.</p>
+    </section>
+
+  </div>
+
+  <!-- Right Advertisement Space -->
+  <aside class="side-ad">
+    <div class="ad-label">
+      <strong>Advertisement</strong>
+      Right Side Ad Space
     </div>
-    <div class="buttons">
-      <button class="calculate" onclick="calculate4()">Calculate</button>
-      <button class="reset" onclick="resetCalc(4)">Reset</button>
-    </div>
-    <div class="error" id="error4"></div>
-    <div class="result" id="result4"></div>
-  </section>
-
-  <section class="info">
-    <h2>How to Calculate Percentages</h2>
-    <p>A percentage represents a number as a fraction of 100. It is commonly used for discounts, price changes, marks, salaries, business calculations and everyday comparisons.</p>
-
-    <h3>1. Find a Percentage of a Number</h3>
-    <p>Formula: (Percentage ÷ 100) × Number</p>
-    <p>Example: 20% of 500 = 100.</p>
-
-    <h3>2. Find What Percentage One Number Is of Another</h3>
-    <p>Formula: (First Number ÷ Second Number) × 100</p>
-    <p>Example: 50 is 25% of 200.</p>
-
-    <h3>3. Percentage Increase</h3>
-    <p>Formula: ((New Value − Original Value) ÷ Original Value) × 100</p>
-    <p>Example: An increase from 100 to 120 is 20%.</p>
-
-    <h3>4. Percentage Decrease</h3>
-    <p>Formula: ((Original Value − New Value) ÷ Original Value) × 100</p>
-    <p>Example: A decrease from 200 to 150 is 25%.</p>
-
-    <h2>Frequently Asked Questions</h2>
-
-    <h3>What is 20% of 100?</h3>
-    <p>20% of 100 is 20.</p>
-
-    <h3>How do I calculate a percentage?</h3>
-    <p>Divide the percentage by 100 and multiply it by the number.</p>
-
-    <h3>Can I calculate percentage increase and decrease?</h3>
-    <p>Yes. Enter the original value and new value in the relevant calculator above.</p>
-  </section>
+  </aside>
 
 </main>
 
