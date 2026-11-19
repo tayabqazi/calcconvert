@@ -4,81 +4,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Free Monthly Payroll Calculator for calculating employee salary, allowances, deductions and net payable salary in Pakistan.">
+<meta name="description" content="Free online Monthly Payroll Calculator. Calculate employee basic salary, allowances, attendance deductions, PF, EOBI, income tax and net payable salary.">
 <title>Monthly Payroll Calculator - CalcConvert</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
  font-family:Arial,sans-serif;
  background:#f4f7fb;
  color:#263244;
- padding:20px;
+ padding:20px 12px;
 }
-.container{max-width:1050px;margin:auto}
-.home{display:inline-block;margin:5px 0 18px;color:#2563eb;text-decoration:none;font-weight:600}
-.header{text-align:center;margin-bottom:25px}
-.header h1{font-size:28px;color:#172554;margin-bottom:8px}
-.header p{color:#64748b;font-size:14px}
+
+.page-layout{
+ width:100%;
+ max-width:1300px;
+ margin:0 auto;
+ padding:0 8px;
+ display:grid;
+ grid-template-columns:160px minmax(0,900px) 160px;
+ gap:20px;
+ align-items:start;
+}
+
+.container{
+ width:100%;
+ max-width:900px;
+ min-width:0;
+ margin:auto;
+}
+
+.side-ad{
+ margin-top:35px;
+ min-height:600px;
+ background:#e8edf5;
+ border:1px dashed #b8c4d5;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ color:#64748b;
+ font-size:13px;
+ position:sticky;
+ top:20px;
+ padding:10px;
+}
+
+.top-nav{
+ display:flex;
+ justify-content:flex-end;
+ margin:5px 0 18px;
+}
+
+.home{
+ display:inline-block;
+ color:#2563eb;
+ text-decoration:none;
+ font-weight:600;
+ font-size:14px;
+}
+
+.home:hover{text-decoration:underline}
+
+.header{
+ text-align:center;
+ margin-bottom:25px;
+}
+
+.header h1{
+ font-size:28px;
+ color:#172554;
+ margin-bottom:8px;
+}
+
+.header p{
+ color:#64748b;
+ font-size:14px;
+ line-height:1.6;
+}
+
 .card{
- background:#fff;border-radius:12px;padding:22px;
+ background:#fff;
+ border-radius:12px;
+ padding:22px;
  margin-bottom:20px;
  box-shadow:0 2px 12px rgba(0,0,0,.05);
 }
-.card h2{font-size:19px;margin-bottom:18px;color:#1e3a8a}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#475569}
+
+.card h2{
+ font-size:19px;
+ margin-bottom:18px;
+ color:#1e3a8a;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:16px;
+}
+
+.field label{
+ display:block;
+ font-size:13px;
+ font-weight:600;
+ margin-bottom:7px;
+ color:#475569;
+}
+
 .field input{
- width:100%;padding:11px 12px;border:1px solid #cbd5e1;
- border-radius:7px;font-size:15px;background:#fff;
+ width:100%;
+ padding:11px 12px;
+ border:1px solid #cbd5e1;
+ border-radius:7px;
+ font-size:15px;
+ background:#fff;
+ color:#263244;
 }
-.field input:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 2px #dbeafe}
+
+.field input:focus{
+ outline:none;
+ border-color:#2563eb;
+ box-shadow:0 0 0 2px #dbeafe;
+}
+
 .field input::placeholder{color:#a0aaba}
-.section-note{font-size:12px;color:#64748b;margin-top:-9px;margin-bottom:17px}
-.results{background:#eff6ff;border:1px solid #bfdbfe}
+
+.section-note{
+ font-size:12px;
+ color:#64748b;
+ margin-top:-9px;
+ margin-bottom:17px;
+ line-height:1.6;
+}
+
+.results{
+ background:#eff6ff;
+ border:1px solid #bfdbfe;
+}
+
 .result-row{
- display:flex;justify-content:space-between;gap:15px;
- padding:12px 0;border-bottom:1px solid #dbeafe;font-size:15px
+ display:flex;
+ justify-content:space-between;
+ gap:15px;
+ padding:12px 0;
+ border-bottom:1px solid #dbeafe;
+ font-size:15px;
 }
-.result-row:last-child{border:0}
-.result-row strong{font-variant-numeric:tabular-nums}
-.result-row.total{font-size:18px;font-weight:bold;color:#1e40af}
-.result-row.net{font-size:22px;font-weight:bold;color:#166534}
-.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+.result-row:last-of-type{border:0}
+
+.result-row strong{
+ font-variant-numeric:tabular-nums;
+ text-align:right;
+ overflow-wrap:anywhere;
+}
+
+.result-row.total{
+ font-size:18px;
+ font-weight:bold;
+ color:#1e40af;
+}
+
+.result-row.net{
+ font-size:22px;
+ font-weight:bold;
+ color:#166534;
+}
+
+.buttons{
+ display:flex;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-top:18px;
+}
+
 button{
- border:0;border-radius:7px;padding:12px 22px;
- font-size:14px;font-weight:600;cursor:pointer
+ border:0;
+ border-radius:7px;
+ padding:12px 22px;
+ font-size:14px;
+ font-weight:600;
+ cursor:pointer;
 }
+
 .primary{background:#2563eb;color:white}
 .secondary{background:#e2e8f0;color:#334155}
 button:hover{opacity:.9}
-.note{font-size:12px;color:#64748b;line-height:1.6;margin-top:12px}
-.footer{text-align:center;color:#94a3b8;font-size:12px;padding:15px}
+
+.note{
+ font-size:12px;
+ color:#64748b;
+ line-height:1.6;
+ margin-top:12px;
+}
+
+.info-card{
+ line-height:1.7;
+}
+
+.info-card h2{
+ margin-bottom:12px;
+}
+
+.info-card h3{
+ font-size:15px;
+ color:#1e3a8a;
+ margin:17px 0 6px;
+}
+
+.info-card p{
+ color:#475569;
+ font-size:14px;
+ margin-bottom:10px;
+}
+
+.info-card ul{
+ padding-left:20px;
+ color:#475569;
+ font-size:14px;
+}
+
+.info-card li{margin-bottom:6px}
+
+.formula{
+ background:#f1f5f9;
+ border-radius:8px;
+ padding:12px;
+ margin:10px 0;
+ color:#334155;
+ font-size:14px;
+ overflow-wrap:anywhere;
+}
+
+.faq-item{
+ padding:13px 0;
+ border-bottom:1px solid #e2e8f0;
+}
+
+.faq-item:last-child{border-bottom:0}
+
+.faq-item h3{
+ font-size:15px;
+ color:#1e3a8a;
+ margin:0 0 6px;
+}
+
+.faq-item p{
+ font-size:14px;
+ color:#475569;
+ margin:0;
+}
+
+.footer{
+ text-align:center;
+ color:#94a3b8;
+ font-size:12px;
+ padding:15px 5px 25px;
+ line-height:2;
+}
+
+.footer a{
+ color:#64748b;
+ text-decoration:none;
+ margin:0 7px;
+}
+
+.footer a:hover{text-decoration:underline}
+
+@media(max-width:1319px){
+ .page-layout{
+  display:block;
+  max-width:940px;
+ }
+ .side-ad{display:none}
+}
+
 @media(max-width:600px){
- body{padding:12px}
+ body{padding:12px 8px}
+ .page-layout{padding:0}
  .card{padding:16px}
  .grid{grid-template-columns:1fr}
  .header h1{font-size:23px}
+ .header p{font-size:13px}
  .result-row{font-size:14px}
+ .result-row.total{font-size:16px}
  .result-row.net{font-size:19px}
+ .buttons button{width:100%}
+ .top-nav{margin-bottom:15px}
 }
+
 @media print{
  body{background:#fff;padding:0}
- .home,.buttons{display:none!important}
- .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+ .page-layout{display:block;padding:0}
+ .side-ad,.top-nav,.buttons,.footer{display:none!important}
+ .card{
+  box-shadow:none;
+  border:1px solid #ddd;
+  break-inside:avoid;
+ }
  .container{max-width:100%}
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<a class="home" href="index.html">← Back to Home</a>
+<div class="page-layout">
+
+<aside class="side-ad">
+ Advertisement
+</aside>
+
+<main class="container">
+
+<div class="top-nav">
+ <a class="home" href="index.html">← Back to Home</a>
+</div>
 
 <div class="header">
  <h1>Monthly Payroll Calculator</h1>
- <p>Calculate monthly salary, allowances, deductions and net payable salary.</p>
+ <p>Calculate employee salary, allowances, attendance deductions and net payable salary with this free online payroll calculator.</p>
 </div>
 
 <div class="card">
@@ -105,33 +352,35 @@ button:hover{opacity:.9}
 
 <div class="card">
  <h2>1. Earnings & Allowances</h2>
- <p class="section-note">Enter monthly salary and applicable allowances.</p>
+ <p class="section-note">Enter monthly basic salary and applicable allowances. Leave fields blank if they do not apply.</p>
+
  <div class="grid">
-  <div class="field"><label for="basic">Basic Salary (Rs.)</label><input id="basic" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="house">House Rent Allowance (Rs.)</label><input id="house" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="medical">Medical Allowance (Rs.)</label><input id="medical" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="vehicle">Vehicle / Conveyance Allowance (Rs.)</label><input id="vehicle" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="fuel">Fuel Allowance (Rs.)</label><input id="fuel" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="tada">TA / DA (Rs.)</label><input id="tada" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="opd">OPD / Medical Reimbursement (Rs.)</label><input id="opd" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="mobile">Mobile / Communication Allowance (Rs.)</label><input id="mobile" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="bonus">Bonus / Commission / Incentive (Rs.)</label><input id="bonus" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="otherallow">Other Allowances (Rs.)</label><input id="otherallow" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="basic">Basic Salary</label><input id="basic" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="house">House Rent Allowance</label><input id="house" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="medical">Medical Allowance</label><input id="medical" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="vehicle">Vehicle / Conveyance Allowance</label><input id="vehicle" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="fuel">Fuel Allowance</label><input id="fuel" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="tada">TA / DA</label><input id="tada" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="opd">OPD / Medical Reimbursement</label><input id="opd" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="mobile">Mobile / Communication Allowance</label><input id="mobile" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="bonus">Bonus / Commission / Incentive</label><input id="bonus" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="otherallow">Other Allowances</label><input id="otherallow" type="number" min="0" step="0.01" placeholder="0.00"></div>
  </div>
 </div>
 
 <div class="card">
  <h2>2. Attendance & Deductions</h2>
  <p class="section-note">Enter applicable deductions. Absent deduction is calculated using Basic Salary and Salary Divisor.</p>
+
  <div class="grid">
   <div class="field"><label for="absent">Absent Days</label><input id="absent" type="number" min="0" step="0.01" placeholder="0"></div>
   <div class="field"><label for="divisor">Salary Divisor (e.g. 30 days)</label><input id="divisor" type="number" min="0" step="0.01" placeholder="Enter divisor"></div>
-  <div class="field"><label for="late">Late Deduction (Rs.)</label><input id="late" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="pf">Employee PF Deduction (Rs.)</label><input id="pf" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="eobi">EOBI Deduction (Rs.)</label><input id="eobi" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="tax">Income Tax Deduction (Rs.)</label><input id="tax" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="advance">Salary Advance / Loan (Rs.)</label><input id="advance" type="number" min="0" step="0.01" placeholder="0.00"></div>
-  <div class="field"><label for="otherded">Other Deductions (Rs.)</label><input id="otherded" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="late">Late Deduction</label><input id="late" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="pf">Employee PF Deduction</label><input id="pf" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="eobi">EOBI Deduction</label><input id="eobi" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="tax">Income Tax Deduction</label><input id="tax" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="advance">Salary Advance / Loan</label><input id="advance" type="number" min="0" step="0.01" placeholder="0.00"></div>
+  <div class="field"><label for="otherded">Other Deductions</label><input id="otherded" type="number" min="0" step="0.01" placeholder="0.00"></div>
  </div>
 </div>
 
@@ -139,7 +388,7 @@ button:hover{opacity:.9}
  <h2>3. Employer Contribution</h2>
  <div class="grid">
   <div class="field">
-   <label for="employerpf">Employer PF Contribution (Rs.)</label>
+   <label for="employerpf">Employer PF Contribution</label>
    <input id="employerpf" type="number" min="0" step="0.01" placeholder="0.00">
   </div>
  </div>
@@ -148,19 +397,21 @@ button:hover{opacity:.9}
 
 <div class="card results">
  <h2>4. Payroll Summary</h2>
- <div class="result-row"><span>Basic Salary</span><strong id="rBasic">Rs. 0.00</strong></div>
- <div class="result-row"><span>Total Other Earnings & Allowances</span><strong id="rAllowances">Rs. 0.00</strong></div>
- <div class="result-row total"><span>Gross Salary</span><strong id="rGross">Rs. 0.00</strong></div>
- <div class="result-row"><span>Absent Deduction</span><strong id="rAbsent">Rs. 0.00</strong></div>
- <div class="result-row"><span>Late Deduction</span><strong id="rLate">Rs. 0.00</strong></div>
- <div class="result-row"><span>Employee PF</span><strong id="rPF">Rs. 0.00</strong></div>
- <div class="result-row"><span>EOBI</span><strong id="rEOBI">Rs. 0.00</strong></div>
- <div class="result-row"><span>Income Tax</span><strong id="rTax">Rs. 0.00</strong></div>
- <div class="result-row"><span>Advance / Loan</span><strong id="rAdvance">Rs. 0.00</strong></div>
- <div class="result-row"><span>Other Deductions</span><strong id="rOtherDed">Rs. 0.00</strong></div>
- <div class="result-row total"><span>Total Deductions</span><strong id="rTotalDed">Rs. 0.00</strong></div>
- <div class="result-row net"><span>Net Payable Salary</span><strong id="rNet">Rs. 0.00</strong></div>
- <div class="result-row"><span>Employer PF Contribution (Separate)</span><strong id="rEmployerPF">Rs. 0.00</strong></div>
+
+ <div class="result-row"><span>Basic Salary</span><strong id="rBasic">0.00</strong></div>
+ <div class="result-row"><span>Total Other Earnings & Allowances</span><strong id="rAllowances">0.00</strong></div>
+ <div class="result-row total"><span>Gross Salary</span><strong id="rGross">0.00</strong></div>
+ <div class="result-row"><span>Absent Deduction</span><strong id="rAbsent">0.00</strong></div>
+ <div class="result-row"><span>Late Deduction</span><strong id="rLate">0.00</strong></div>
+ <div class="result-row"><span>Employee PF</span><strong id="rPF">0.00</strong></div>
+ <div class="result-row"><span>EOBI</span><strong id="rEOBI">0.00</strong></div>
+ <div class="result-row"><span>Income Tax</span><strong id="rTax">0.00</strong></div>
+ <div class="result-row"><span>Advance / Loan</span><strong id="rAdvance">0.00</strong></div>
+ <div class="result-row"><span>Other Deductions</span><strong id="rOtherDed">0.00</strong></div>
+ <div class="result-row total"><span>Total Deductions</span><strong id="rTotalDed">0.00</strong></div>
+ <div class="result-row net"><span>Net Payable Salary</span><strong id="rNet">0.00</strong></div>
+ <div class="result-row"><span>Employer PF Contribution (Separate)</span><strong id="rEmployerPF">0.00</strong></div>
+
  <p class="note" id="calculationNote">Enter salary and deduction details to calculate payroll.</p>
 </div>
 
@@ -169,7 +420,91 @@ button:hover{opacity:.9}
  <button class="secondary" onclick="resetPayroll()">Clear All</button>
 </div>
 
-<div class="footer">CalcConvert • Calculations Made Simple.</div>
+<div class="card info-card">
+ <h2>About the Monthly Payroll Calculator</h2>
+ <p>This free Monthly Payroll Calculator helps employers, HR teams, payroll professionals and employees calculate monthly salary and net payable amounts. It includes basic salary, allowances, attendance deductions, employee contributions and employer PF.</p>
+ <p>You can enter different earnings and deductions according to your organisation's payroll policy. The calculator updates the payroll summary automatically as you enter the figures.</p>
+
+ <h3>How to Calculate Monthly Payroll</h3>
+ <ul>
+  <li>Enter employee information and the relevant pay month.</li>
+  <li>Enter basic salary and applicable allowances.</li>
+  <li>Enter absent days and salary divisor, if applicable.</li>
+  <li>Enter other deductions such as PF, EOBI, income tax, advances and loans.</li>
+  <li>Enter employer PF separately, if applicable.</li>
+  <li>Review the gross salary, total deductions and net payable salary in the payroll summary.</li>
+ </ul>
+
+ <h3>Payroll Calculation Formulas</h3>
+ <div class="formula"><strong>Gross Salary</strong> = Basic Salary + Total Allowances</div>
+ <div class="formula"><strong>Absent Deduction</strong> = (Basic Salary ÷ Salary Divisor) × Absent Days</div>
+ <div class="formula"><strong>Total Deductions</strong> = Absent Deduction + Other Applicable Deductions</div>
+ <div class="formula"><strong>Net Payable Salary</strong> = Gross Salary − Total Deductions</div>
+ <div class="formula"><strong>Employer PF</strong> = Employer Contribution (shown separately)</div>
+
+ <h3>Payroll Calculation Example</h3>
+ <p>Suppose an employee has a basic salary of 60,000 and total allowances of 15,000. Gross salary will be 75,000. If the employee has one absent day and the salary divisor is 30, the absent deduction will be 2,000. Any additional deductions are then subtracted to calculate net payable salary.</p>
+
+ <p class="note">This calculator provides general payroll calculations. Tax, PF, EOBI, attendance and other deductions should be entered according to applicable laws and your organisation's payroll policy. The calculator does not automatically determine statutory deduction rates.</p>
+</div>
+
+<div class="card info-card">
+ <h2>Frequently Asked Questions</h2>
+
+ <div class="faq-item">
+  <h3>1. What is a Monthly Payroll Calculator?</h3>
+  <p>A Monthly Payroll Calculator helps calculate employee gross salary, allowances, deductions and net payable salary for a selected pay period.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>2. How is gross salary calculated?</h3>
+  <p>Gross salary is calculated by adding basic salary and all applicable earnings and allowances.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>3. How is absent deduction calculated?</h3>
+  <p>Absent deduction is calculated by dividing basic salary by the salary divisor and multiplying the result by the number of absent days.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>4. Can I include different allowances?</h3>
+  <p>Yes. You can enter house rent, medical, vehicle, fuel, TA/DA, OPD, mobile, bonus, commission and other allowances.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>5. Is employer PF deducted from net salary?</h3>
+  <p>No. Employer PF contribution is displayed separately and is not included in employee deductions.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>6. Does this calculator automatically calculate income tax and EOBI?</h3>
+  <p>No. Income tax, EOBI, PF and other deductions are entered manually. Please use the applicable rates and rules for your payroll.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>7. Can I print or save the payroll summary?</h3>
+  <p>Yes. Use the Print / Save as PDF button to print the payroll summary or save it as a PDF file.</p>
+ </div>
+</div>
+
+<div class="footer">
+ <div>CalcConvert • Calculations Made Simple.</div>
+ <div>
+  <a href="about-us.html">About Us</a>
+  <a href="contact-us.html">Contact Us</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="disclaimer.html">Disclaimer</a>
+  <a href="terms-and-conditions.html">Terms & Conditions</a>
+ </div>
+ <div>© 2026 CalcConvert. All rights reserved.</div>
+</div>
+
+</main>
+
+<aside class="side-ad">
+ Advertisement
+</aside>
+
 </div>
 
 <script>
@@ -185,8 +520,9 @@ function value(id){
 }
 
 function money(n){
- return "Rs. " + n.toLocaleString("en-PK",{
-  minimumFractionDigits:2,maximumFractionDigits:2
+ return n.toLocaleString("en-US",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
  });
 }
 
@@ -237,6 +573,7 @@ function calculate(){
  show("rEmployerPF",value("employerpf"));
 
  let note = "";
+
  if(absentDays > 0 && divisor === 0){
   note = "Please enter Salary Divisor to calculate absent deduction. No absent deduction has been applied yet.";
  }else if(net < 0){
@@ -244,6 +581,7 @@ function calculate(){
  }else{
   note = "Absent deduction = Basic Salary ÷ Salary Divisor × Absent Days. Other deductions are entered manually.";
  }
+
  document.getElementById("calculationNote").textContent = note;
 }
 
@@ -253,13 +591,16 @@ ids.forEach(id=>{
 
 function resetPayroll(){
  ids.forEach(id=>document.getElementById(id).value="");
+
  ["employee","empid","department","paymonth"].forEach(id=>{
   document.getElementById(id).value="";
  });
+
  calculate();
 }
 
 calculate();
 </script>
+
 </body>
 </html>
