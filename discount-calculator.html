@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free online Discount Calculator to calculate discount amount, final sale price and original price after discount.">
+<title>Discount Calculator - CalcConvert</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+ font-family:Arial,sans-serif;
+ background:#f4f7fb;
+ color:#263244;
+ padding:20px 12px;
+}
+
+.page-layout{
+ width:100%;
+ max-width:1300px;
+ margin:0 auto;
+ padding:0 8px;
+ display:grid;
+ grid-template-columns:160px minmax(0,900px) 160px;
+ gap:20px;
+ align-items:start;
+}
+
+.container{
+ width:100%;
+ max-width:900px;
+ min-width:0;
+ margin:auto;
+}
+
+.side-ad{
+ margin-top:35px;
+ min-height:600px;
+ background:#e8edf5;
+ border:1px dashed #b8c4d5;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ color:#64748b;
+ font-size:13px;
+ position:sticky;
+ top:20px;
+ padding:10px;
+}
+
+.top-nav{
+ display:flex;
+ justify-content:flex-end;
+ margin:5px 0 18px;
+}
+
+.home{
+ display:inline-block;
+ color:#2563eb;
+ text-decoration:none;
+ font-weight:600;
+ font-size:14px;
+}
+
+.home:hover{text-decoration:underline}
+
+.header{
+ text-align:center;
+ margin-bottom:25px;
+}
+
+.header h1{
+ font-size:28px;
+ color:#172554;
+ margin-bottom:8px;
+}
+
+.header p{
+ color:#64748b;
+ font-size:14px;
+ line-height:1.6;
+}
+
+.card{
+ background:#fff;
+ border-radius:12px;
+ padding:22px;
+ margin-bottom:20px;
+ box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+
+.card h2{
+ font-size:19px;
+ margin-bottom:18px;
+ color:#1e3a8a;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:16px;
+}
+
+.field label{
+ display:block;
+ font-size:13px;
+ font-weight:600;
+ margin-bottom:7px;
+ color:#475569;
+}
+
+.field input{
+ width:100%;
+ padding:11px 12px;
+ border:1px solid #cbd5e1;
+ border-radius:7px;
+ font-size:15px;
+ background:#fff;
+ color:#263244;
+}
+
+.field input:focus{
+ outline:none;
+ border-color:#2563eb;
+ box-shadow:0 0 0 2px #dbeafe;
+}
+
+.field input::placeholder{color:#a0aaba}
+
+.result-box{
+ background:#eff6ff;
+ border:1px solid #bfdbfe;
+ border-radius:10px;
+ padding:18px;
+ margin-top:20px;
+}
+
+.result-row{
+ display:flex;
+ justify-content:space-between;
+ gap:15px;
+ padding:12px 0;
+ border-bottom:1px solid #dbeafe;
+ font-size:15px;
+}
+
+.result-row:last-child{border:0}
+
+.result-row strong{
+ font-variant-numeric:tabular-nums;
+ text-align:right;
+ overflow-wrap:anywhere;
+}
+
+.result-row.discount strong{color:#dc2626}
+
+.result-row.final{
+ font-size:21px;
+ font-weight:bold;
+ color:#166534;
+}
+
+.buttons{
+ display:flex;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-top:18px;
+}
+
+button{
+ border:0;
+ border-radius:7px;
+ padding:12px 22px;
+ font-size:14px;
+ font-weight:600;
+ cursor:pointer;
+}
+
+.primary{background:#2563eb;color:white}
+.secondary{background:#e2e8f0;color:#334155}
+button:hover{opacity:.9}
+
+.note{
+ font-size:12px;
+ color:#64748b;
+ line-height:1.6;
+ margin-top:12px;
+}
+
+.info-card{line-height:1.7}
+.info-card h2{margin-bottom:12px}
+
+.info-card h3{
+ font-size:15px;
+ color:#1e3a8a;
+ margin:17px 0 6px;
+}
+
+.info-card p{
+ color:#475569;
+ font-size:14px;
+ margin-bottom:10px;
+}
+
+.formula{
+ background:#f1f5f9;
+ border-radius:8px;
+ padding:12px;
+ margin:10px 0;
+ color:#334155;
+ font-size:14px;
+ overflow-wrap:anywhere;
+}
+
+.faq-item{
+ padding:13px 0;
+ border-bottom:1px solid #e2e8f0;
+}
+
+.faq-item:last-child{border-bottom:0}
+
+.faq-item h3{
+ font-size:15px;
+ color:#1e3a8a;
+ margin:0 0 6px;
+}
+
+.faq-item p{
+ font-size:14px;
+ color:#475569;
+ margin:0;
+}
+
+.footer{
+ text-align:center;
+ color:#94a3b8;
+ font-size:12px;
+ padding:15px 5px 25px;
+ line-height:2;
+}
+
+.footer a{
+ color:#64748b;
+ text-decoration:none;
+ margin:0 7px;
+}
+
+.footer a:hover{text-decoration:underline}
+
+@media(max-width:1319px){
+ .page-layout{
+  display:block;
+  max-width:940px;
+ }
+ .side-ad{display:none}
+}
+
+@media(max-width:600px){
+ body{padding:12px 8px}
+ .page-layout{padding:0}
+ .card{padding:16px}
+ .grid{grid-template-columns:1fr}
+ .header h1{font-size:23px}
+ .header p{font-size:13px}
+ .result-row{font-size:14px}
+ .result-row.final{font-size:19px}
+ .buttons button{width:100%}
+}
+
+@media print{
+ body{background:#fff;padding:0}
+ .page-layout{display:block;padding:0}
+ .side-ad,.top-nav,.buttons,.footer{display:none!important}
+ .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+ .container{max-width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-layout">
+
+<aside class="side-ad">Advertisement</aside>
+
+<main class="container">
+
+<div class="top-nav">
+ <a class="home" href="index.html">← Back to Home</a>
+</div>
+
+<div class="header">
+ <h1>Discount Calculator</h1>
+ <p>Calculate discount amount, sale price and original price quickly with this free online discount calculator.</p>
+</div>
+
+<div class="card">
+ <h2>1. Calculate Discount</h2>
+
+ <div class="grid">
+  <div class="field">
+   <label for="originalPrice">Original Price</label>
+   <input id="originalPrice" type="number" min="0" step="any" placeholder="Enter original price">
+  </div>
+
+  <div class="field">
+   <label for="discountPercent">Discount Percentage (%)</label>
+   <input id="discountPercent" type="number" min="0" max="100" step="any" placeholder="Enter discount percentage">
+  </div>
+ </div>
+
+ <div class="result-box">
+  <div class="result-row">
+   <span>Original Price</span>
+   <strong id="rOriginal">0.00</strong>
+  </div>
+  <div class="result-row discount">
+   <span>Discount Amount</span>
+   <strong id="rDiscount">0.00</strong>
+  </div>
+  <div class="result-row final">
+   <span>Final Price After Discount</span>
+   <strong id="rFinal">0.00</strong>
+  </div>
+ </div>
+
+ <p class="note" id="discountNote">Enter original price and discount percentage to calculate the sale price.</p>
+
+ <div class="buttons">
+  <button class="secondary" onclick="resetDiscount()">Clear All</button>
+ </div>
+</div>
+
+<div class="card">
+ <h2>2. Reverse Discount Calculator</h2>
+ <p class="note" style="margin-top:-10px;margin-bottom:16px">
+ Enter the final sale price and discount percentage to find the original price.
+ </p>
+
+ <div class="grid">
+  <div class="field">
+   <label for="salePrice">Sale Price (After Discount)</label>
+   <input id="salePrice" type="number" min="0" step="any" placeholder="Enter sale price">
+  </div>
+
+  <div class="field">
+   <label for="reversePercent">Discount Percentage (%)</label>
+   <input id="reversePercent" type="number" min="0" max="99.99" step="any" placeholder="Enter discount percentage">
+  </div>
+ </div>
+
+ <div class="result-box">
+  <div class="result-row">
+   <span>Sale Price</span>
+   <strong id="rSale">0.00</strong>
+  </div>
+  <div class="result-row">
+   <span>Discount Percentage</span>
+   <strong id="rReversePercent">0%</strong>
+  </div>
+  <div class="result-row final">
+   <span>Original Price</span>
+   <strong id="rReverseOriginal">0.00</strong>
+  </div>
+ </div>
+
+ <p class="note" id="reverseNote">Enter sale price and discount percentage to find the original price.</p>
+
+ <div class="buttons">
+  <button class="secondary" onclick="resetReverse()">Clear All</button>
+ </div>
+</div>
+
+<div class="card info-card">
+ <h2>About the Discount Calculator</h2>
+ <p>This free Discount Calculator helps shoppers, retailers and businesses calculate discounts, savings and final sale prices. Simply enter the original price and discount percentage to see how much you save and how much you need to pay.</p>
+
+ <h3>How to Use the Discount Calculator</h3>
+ <ul style="padding-left:20px;color:#475569;font-size:14px">
+  <li>Enter the original price of the product.</li>
+  <li>Enter the discount percentage offered by the seller.</li>
+  <li>View the discount amount and final price automatically.</li>
+  <li>Use the reverse calculator to find the original price from a sale price.</li>
+ </ul>
+
+ <h3>Discount Calculation Formula</h3>
+ <div class="formula"><strong>Discount Amount</strong> = Original Price × (Discount Percentage ÷ 100)</div>
+ <div class="formula"><strong>Final Price</strong> = Original Price − Discount Amount</div>
+ <div class="formula"><strong>Original Price</strong> = Sale Price ÷ (1 − Discount Percentage ÷ 100)</div>
+
+ <h3>Discount Calculation Example</h3>
+ <p>If a product costs 1,000 and has a 20% discount, the discount amount is 200. Subtracting 200 from the original price gives a final sale price of 800.</p>
+
+ <p class="note">This calculator provides general mathematical calculations. Actual prices, taxes, delivery charges and other fees may vary by seller.</p>
+</div>
+
+<div class="card info-card">
+ <h2>Frequently Asked Questions</h2>
+
+ <div class="faq-item">
+  <h3>1. What is a Discount Calculator?</h3>
+  <p>A Discount Calculator calculates the amount saved on a product and its final price after applying a discount percentage.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>2. How do I calculate a discount amount?</h3>
+  <p>Multiply the original price by the discount percentage and divide by 100.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>3. How do I calculate the final price after discount?</h3>
+  <p>Subtract the discount amount from the original price.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>4. Can I calculate the original price from a sale price?</h3>
+  <p>Yes. Enter the sale price and discount percentage in the Reverse Discount Calculator to find the original price.</p>
+ </div>
+
+ <div class="faq-item">
+  <h3>5. Can I use this calculator for any currency?</h3>
+  <p>Yes. The calculator uses numbers without a fixed currency symbol, so you can use it with any currency.</p>
+ </div>
+</div>
+
+<div class="footer">
+ <div>CalcConvert • Calculations Made Simple.</div>
+ <div>
+  <a href="about-us.html">About Us</a>
+  <a href="contact-us.html">Contact Us</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="disclaimer.html">Disclaimer</a>
+  <a href="terms-and-conditions.html">Terms & Conditions</a>
+ </div>
+ <div>© 2026 CalcConvert. All rights reserved.</div>
+</div>
+
+</main>
+
+<aside class="side-ad">Advertisement</aside>
+
+</div>
+
+<script>
+function getValue(id){
+ const n = parseFloat(document.getElementById(id).value);
+ return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function money(n){
+ return n.toLocaleString("en-US",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
+}
+
+function calculateDiscount(){
+ const original = getValue("originalPrice");
+ const percent = getValue("discountPercent");
+
+ const valid = document.getElementById("originalPrice").value !== "" &&
+               document.getElementById("discountPercent").value !== "";
+
+ const note = document.getElementById("discountNote");
+
+ if(percent > 100){
+  note.textContent = "Discount percentage cannot exceed 100%.";
+  document.getElementById("rOriginal").textContent = money(original);
+  document.getElementById("rDiscount").textContent = "—";
+  document.getElementById("rFinal").textContent = "—";
+  return;
+ }
+
+ const discount = original * percent / 100;
+ const finalPrice = original - discount;
+
+ document.getElementById("rOriginal").textContent = money(original);
+ document.getElementById("rDiscount").textContent = money(discount);
+ document.getElementById("rFinal").textContent = money(finalPrice);
+
+ note.textContent = valid
+  ? "You save " + money(discount) + " (" + percent + "% discount)."
+  : "Enter original price and discount percentage to calculate the sale price.";
+}
+
+function calculateReverse(){
+ const sale = getValue("salePrice");
+ const percent = getValue("reversePercent");
+
+ const valid = document.getElementById("salePrice").value !== "" &&
+               document.getElementById("reversePercent").value !== "";
+
+ const note = document.getElementById("reverseNote");
+
+ document.getElementById("rSale").textContent = money(sale);
+ document.getElementById("rReversePercent").textContent = percent + "%";
+
+ if(percent >= 100){
+  document.getElementById("rReverseOriginal").textContent = "—";
+  note.textContent = "Discount percentage must be less than 100% to calculate the original price.";
+  return;
+ }
+
+ const original = sale / (1 - percent / 100);
+
+ document.getElementById("rReverseOriginal").textContent = money(original);
+
+ note.textContent = valid
+  ? "The original price before discount was " + money(original) + "."
+  : "Enter sale price and discount percentage to find the original price.";
+}
+
+function resetDiscount(){
+ document.getElementById("originalPrice").value = "";
+ document.getElementById("discountPercent").value = "";
+ calculateDiscount();
+}
+
+function resetReverse(){
+ document.getElementById("salePrice").value = "";
+ document.getElementById("reversePercent").value = "";
+ calculateReverse();
+}
+
+["originalPrice","discountPercent"].forEach(id=>{
+ document.getElementById(id).addEventListener("input",calculateDiscount);
+});
+
+["salePrice","reversePercent"].forEach(id=>{
+ document.getElementById(id).addEventListener("input",calculateReverse);
+});
+
+calculateDiscount();
+calculateReverse();
+</script>
+
+</body>
+</html>
