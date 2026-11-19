@@ -4,29 +4,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free Salary Increment Calculator to calculate revised salary, monthly increase and annual increase in Pakistan.">
+
+    <meta name="description" content="Use CalcConvert's free Salary Increment Calculator to calculate revised monthly salary, annual increase and salary changes based on percentage or fixed increments.">
+
+    <meta name="keywords" content="salary increment calculator, salary increase calculator, revised salary calculator, percentage increment, basic salary increment">
+
     <title>Salary Increment Calculator - CalcConvert</title>
+
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f1f5f9;
             color: #1e293b;
         }
+
         header {
             background: #0f172a;
             color: white;
             padding: 20px;
             text-align: center;
         }
-        header h1 { margin: 0 0 8px; font-size: 25px; }
-        header p { margin: 0; color: #cbd5e1; font-size: 14px; }
-        .container {
-            max-width: 850px;
-            margin: 30px auto;
-            padding: 0 15px;
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 25px;
         }
+
+        header p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 9px 16px;
+            background: #334155;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-home:hover {
+            background: #475569;
+        }
+
+        /* Main page layout */
+
+        .page-layout {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 18px;
+            display: grid;
+            grid-template-columns: 160px minmax(0, 900px) 160px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* Side advertisement spaces */
+
+        .side-ad {
+            margin-top: 35px;
+            min-height: 600px;
+            background: #e8edf5;
+            border: 1px dashed #b8c4d5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .ad-label {
+            padding: 10px;
+        }
+
+        .ad-label strong {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #475569;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 0;
+            min-width: 0;
+        }
+
         .card {
             background: white;
             padding: 24px;
@@ -34,18 +114,32 @@
             margin-bottom: 20px;
             box-shadow: 0 3px 12px rgba(0,0,0,.06);
         }
-        h2 { font-size: 19px; margin: 0 0 20px; }
+
+        h2 {
+            font-size: 19px;
+            margin: 0 0 20px;
+            color: #0f172a;
+        }
+
+        h3 {
+            font-size: 16px;
+            margin: 22px 0 10px;
+            color: #1e293b;
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 17px;
         }
+
         label {
             display: block;
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 7px;
         }
+
         input, select {
             width: 100%;
             padding: 12px;
@@ -54,11 +148,18 @@
             font-size: 15px;
             background: white;
         }
+
         input:focus, select:focus {
             outline: 2px solid #93c5fd;
             border-color: #2563eb;
         }
-        .hint { font-size: 12px; color: #64748b; margin-top: 5px; }
+
+        .hint {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
         .button {
             width: 100%;
             border: 0;
@@ -71,198 +172,620 @@
             cursor: pointer;
             margin-top: 20px;
         }
-        .button:hover { background: #1d4ed8; }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
         .reset {
             background: #64748b;
             margin-top: 10px;
         }
-        .results { display: none; }
+
+        .reset:hover {
+            background: #475569;
+        }
+
+        .results {
+            display: none;
+        }
+
         .result-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
+
         .result-box {
             background: #f8fafc;
             padding: 16px;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
         }
+
         .result-box small {
             color: #64748b;
             display: block;
             margin-bottom: 8px;
         }
+
         .result-box strong {
             font-size: 19px;
             color: #0f172a;
             overflow-wrap: anywhere;
         }
+
         .highlight {
             background: #eff6ff;
             border-color: #bfdbfe;
         }
-        .positive { color: #15803d !important; }
+
+        .positive {
+            color: #15803d !important;
+        }
+
         .comparison {
             width: 100%;
             border-collapse: collapse;
             margin-top: 18px;
         }
-        .comparison th, .comparison td {
+
+        .comparison th,
+        .comparison td {
             padding: 12px 8px;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
             font-size: 14px;
         }
-        .comparison th { background: #f8fafc; }
+
+        .comparison th {
+            background: #f8fafc;
+        }
+
         .note {
             color: #64748b;
             font-size: 13px;
-            line-height: 1.6;
+            line-height: 1.7;
             margin-top: 15px;
         }
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #64748b;
+
+        .content-card p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        .content-card ul {
+            padding-left: 22px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .formula-box {
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 13px 16px;
+            margin: 12px 0;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .example-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        .example-table th,
+        .example-table td {
+            padding: 11px 9px;
+            text-align: left;
+            border: 1px solid #e2e8f0;
             font-size: 13px;
         }
-        @media(max-width: 600px) {
-            .grid, .result-grid { grid-template-columns: 1fr; }
-            .card { padding: 18px; }
-            header h1 { font-size: 22px; }
+
+        .example-table th {
+            background: #f1f5f9;
         }
+
+        .faq-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+        }
+
+        .faq-item p {
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            background: #0f172a;
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        footer .footer-logo {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        footer a {
+            color: #dce4f0;
+            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
+        }
+
+        footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* Tablet and mobile layout */
+
+        @media(max-width: 1319px) {
+            .page-layout {
+                display: block;
+                max-width: 936px;
+            }
+
+            .side-ad {
+                display: none;
+            }
+
+            .container {
+                max-width: 900px;
+                margin: 35px auto;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            .comparison th,
+            .comparison td {
+                font-size: 12px;
+                padding: 10px 5px;
+            }
+
+            .example-table th,
+            .example-table td {
+                font-size: 12px;
+                padding: 9px 5px;
+            }
+
+            footer a {
+                margin: 0 7px;
+            }
+        }
+
+        /* Print settings */
+
         @media print {
-            header, footer, .form-card, .button { display: none !important; }
-            body { background: white; }
-            .container { margin: 0; }
-            .results { display: block !important; }
-            .card { box-shadow: none; border: 1px solid #ddd; }
+            header,
+            footer,
+            .side-ad,
+            .form-card,
+            .print-button,
+            .content-card {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .page-layout {
+                display: block;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .container {
+                margin: 0;
+                max-width: 100%;
+            }
+
+            .results {
+                display: block !important;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
         }
     </style>
 </head>
+
 <body>
 
 <header>
+    <a href="index.html" class="back-home">← Back to Home</a>
     <h1>Salary Increment Calculator</h1>
     <p>Calculate your revised salary and annual increase</p>
 </header>
 
-<main class="container">
+<main class="page-layout">
 
-    <section class="card form-card">
-        <h2>Enter Current Salary Details</h2>
-
-        <div class="grid">
-            <div>
-                <label for="basic">Current Basic Salary (Rs.)</label>
-                <input type="number" id="basic" min="0" step="any" placeholder="e.g. 60000">
-            </div>
-
-            <div>
-                <label for="gross">Current Gross Salary (Rs.)</label>
-                <input type="number" id="gross" min="0" step="any" placeholder="e.g. 100000">
-                <div class="hint">Optional. Enter current gross salary including allowances.</div>
-            </div>
-
-            <div>
-                <label for="incrementOn">Increment Applied On</label>
-                <select id="incrementOn">
-                    <option value="basic">Basic Salary</option>
-                    <option value="gross">Gross Salary</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="incrementType">Increment Type</label>
-                <select id="incrementType">
-                    <option value="percentage">Percentage (%)</option>
-                    <option value="fixed">Fixed Amount (Rs.)</option>
-                </select>
-            </div>
-
-            <div>
-                <label id="incrementLabel" for="incrementValue">Increment Percentage (%)</label>
-                <input type="number" id="incrementValue" min="0" step="any" placeholder="e.g. 15">
-            </div>
+    <aside class="side-ad">
+        <div class="ad-label">
+            <strong>Advertisement</strong>
+            Left Side Ad Space
         </div>
+    </aside>
 
-        <button class="button" onclick="calculateSalary()">Calculate Increment</button>
-        <button class="button reset" onclick="resetCalculator()">Reset</button>
-    </section>
+    <div class="container">
 
-    <section class="card results" id="results">
-        <h2>Salary Increment Results</h2>
+        <!-- Calculator Form -->
 
-        <div class="result-grid">
-            <div class="result-box">
-                <small>Monthly Increment</small>
-                <strong class="positive" id="monthlyIncrease">Rs. 0</strong>
+        <section class="card form-card">
+            <h2>Enter Current Salary Details</h2>
+
+            <div class="grid">
+
+                <div>
+                    <label for="basic">Current Basic Salary (Rs.)</label>
+                    <input type="number" id="basic" min="0" step="any" placeholder="e.g. 60000">
+                </div>
+
+                <div>
+                    <label for="gross">Current Gross Salary (Rs.)</label>
+                    <input type="number" id="gross" min="0" step="any" placeholder="e.g. 100000">
+                    <div class="hint">Optional. Enter current gross salary including allowances.</div>
+                </div>
+
+                <div>
+                    <label for="incrementOn">Increment Applied On</label>
+                    <select id="incrementOn">
+                        <option value="basic">Basic Salary</option>
+                        <option value="gross">Gross Salary</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="incrementType">Increment Type</label>
+                    <select id="incrementType">
+                        <option value="percentage">Percentage (%)</option>
+                        <option value="fixed">Fixed Amount (Rs.)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label id="incrementLabel" for="incrementValue">Increment Percentage (%)</label>
+                    <input type="number" id="incrementValue" min="0" step="any" placeholder="e.g. 15">
+                </div>
+
             </div>
-            <div class="result-box highlight">
-                <small>Revised Monthly Salary</small>
-                <strong id="newGross">Rs. 0</strong>
+
+            <button class="button" onclick="calculateSalary()">Calculate Increment</button>
+            <button class="button reset" onclick="resetCalculator()">Reset</button>
+        </section>
+
+        <!-- Results -->
+
+        <section class="card results" id="results">
+            <h2>Salary Increment Results</h2>
+
+            <div class="result-grid">
+
+                <div class="result-box">
+                    <small>Monthly Increment</small>
+                    <strong class="positive" id="monthlyIncrease">Rs. 0</strong>
+                </div>
+
+                <div class="result-box highlight">
+                    <small>Revised Monthly Gross Salary</small>
+                    <strong id="newGross">Rs. 0</strong>
+                </div>
+
+                <div class="result-box">
+                    <small>Annual Increment</small>
+                    <strong class="positive" id="annualIncrease">Rs. 0</strong>
+                </div>
+
+                <div class="result-box highlight">
+                    <small>Revised Annual Gross Salary</small>
+                    <strong id="annualSalary">Rs. 0</strong>
+                </div>
+
             </div>
-            <div class="result-box">
-                <small>Annual Increment</small>
-                <strong class="positive" id="annualIncrease">Rs. 0</strong>
+
+            <h2 style="margin-top:25px;">Salary Comparison</h2>
+
+            <table class="comparison">
+                <thead>
+                    <tr>
+                        <th>Salary Details</th>
+                        <th>Before</th>
+                        <th>After</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Basic Salary</td>
+                        <td id="oldBasic">-</td>
+                        <td id="revisedBasic">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Gross Salary</td>
+                        <td id="oldGross">-</td>
+                        <td id="revisedGross">-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Annual Gross Salary</td>
+                        <td id="oldAnnual">-</td>
+                        <td id="revisedAnnual">-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="note" id="resultNote"></p>
+
+            <button class="button print-button" onclick="window.print()">Print / Save as PDF</button>
+        </section>
+
+        <!-- Description -->
+
+        <section class="card content-card">
+
+            <h2>About Salary Increment Calculator</h2>
+
+            <p>
+                The CalcConvert Salary Increment Calculator is a free online tool
+                designed to help employees, HR professionals and employers
+                calculate revised salaries after a salary increase.
+            </p>
+
+            <p>
+                You can calculate an increment using either a percentage or a
+                fixed amount. The calculator also allows you to apply the
+                increment to basic salary or gross salary and view the resulting
+                monthly and annual salary figures.
+            </p>
+
+            <h3>How to Use the Salary Increment Calculator</h3>
+
+            <ul>
+                <li>Enter your current basic salary.</li>
+                <li>Enter your current gross salary, including allowances, if available.</li>
+                <li>Select whether the increment will apply to basic salary or gross salary.</li>
+                <li>Choose Percentage (%) or Fixed Amount (Rs.) as the increment type.</li>
+                <li>Enter the increment percentage or amount.</li>
+                <li>Click Calculate Increment to view your revised salary and comparison.</li>
+            </ul>
+
+            <h3>Salary Increment Calculation Formula</h3>
+
+            <p>
+                The calculator uses the following formulas to calculate the
+                monthly and annual salary increase.
+            </p>
+
+            <div class="formula-box">
+                <strong>Percentage Increment:</strong><br>
+                Increment Amount = Salary × Increment Percentage ÷ 100
             </div>
-            <div class="result-box highlight">
-                <small>Revised Annual Salary</small>
-                <strong id="annualSalary">Rs. 0</strong>
+
+            <div class="formula-box">
+                <strong>Fixed Amount Increment:</strong><br>
+                Increment Amount = Fixed Increment Value
             </div>
+
+            <div class="formula-box">
+                <strong>Revised Gross Salary:</strong><br>
+                Revised Gross Salary = Current Gross Salary + Monthly Increment
+            </div>
+
+            <div class="formula-box">
+                <strong>Annual Increment:</strong><br>
+                Annual Increment = Monthly Increment × 12
+            </div>
+
+            <div class="formula-box">
+                <strong>Revised Annual Gross Salary:</strong><br>
+                Revised Annual Gross Salary = Revised Monthly Gross Salary × 12
+            </div>
+
+            <h3>Example of Salary Increment Calculation</h3>
+
+            <p>
+                Suppose your current basic salary is Rs. 60,000 and your gross
+                salary is Rs. 100,000. If your employer gives you a 15% increment
+                on basic salary, the calculation will be:
+            </p>
+
+            <table class="example-table">
+                <thead>
+                    <tr>
+                        <th>Salary Details</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Current Basic Salary</td>
+                        <td>Rs. 60,000</td>
+                    </tr>
+                    <tr>
+                        <td>Increment Percentage</td>
+                        <td>15%</td>
+                    </tr>
+                    <tr>
+                        <td>Monthly Increment</td>
+                        <td>Rs. 9,000</td>
+                    </tr>
+                    <tr>
+                        <td>Revised Basic Salary</td>
+                        <td>Rs. 69,000</td>
+                    </tr>
+                    <tr>
+                        <td>Current Gross Salary</td>
+                        <td>Rs. 100,000</td>
+                    </tr>
+                    <tr>
+                        <td>Revised Gross Salary</td>
+                        <td>Rs. 109,000</td>
+                    </tr>
+                    <tr>
+                        <td>Annual Increment</td>
+                        <td>Rs. 108,000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Basic Salary vs Gross Salary Increment</h3>
+
+            <p>
+                A basic salary increment increases the basic pay component.
+                In this calculator, the same increment amount is also added
+                to gross salary, while other allowances remain unchanged.
+            </p>
+
+            <p>
+                A gross salary increment is calculated using the complete
+                gross salary, including allowances. The basic salary remains
+                unchanged when the increment is applied to gross salary.
+            </p>
+
+            <h3>Important Notes</h3>
+
+            <ul>
+                <li>All amounts are displayed in Pakistani Rupees (Rs.).</li>
+                <li>If gross salary is not entered, the calculator uses basic salary as gross salary.</li>
+                <li>When increment is applied to basic salary, the same increment amount is added to gross salary.</li>
+                <li>When increment is applied to gross salary, basic salary remains unchanged.</li>
+                <li>Other allowances and deductions are not separately recalculated.</li>
+                <li>This calculator does not calculate income tax, provident fund or other payroll deductions.</li>
+            </ul>
+
+        </section>
+
+        <!-- FAQs -->
+
+        <section class="card content-card">
+
+            <h2>Frequently Asked Questions (FAQs)</h2>
+
+            <div class="faq-item">
+                <h3>1. How do I calculate my salary increment percentage?</h3>
+                <p>
+                    Multiply your current salary by the increment percentage
+                    and divide the result by 100. For example, a 10% increment
+                    on Rs. 50,000 equals Rs. 5,000 per month.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>2. Can I calculate a fixed salary increment?</h3>
+                <p>
+                    Yes. Select Fixed Amount (Rs.) as the increment type and
+                    enter the amount you want to add to your current salary.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>3. What is the difference between basic and gross salary increment?</h3>
+                <p>
+                    A basic salary increment is calculated on basic pay,
+                    whereas a gross salary increment is calculated on total
+                    gross salary, including allowances.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>4. How is annual salary increment calculated?</h3>
+                <p>
+                    Annual increment is calculated by multiplying the monthly
+                    increment amount by 12, assuming the revised salary applies
+                    for all 12 months.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>5. Does this calculator calculate income tax and deductions?</h3>
+                <p>
+                    No. This calculator estimates salary increases before tax
+                    and other deductions. It does not calculate income tax,
+                    provident fund, EOBI or other payroll deductions.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>6. Can I save or print my salary increment results?</h3>
+                <p>
+                    Yes. After calculating your revised salary, click
+                    Print / Save as PDF to print the results or save them
+                    as a PDF document.
+                </p>
+            </div>
+
+            <div class="faq-item">
+                <h3>7. Is this Salary Increment Calculator free?</h3>
+                <p>
+                    Yes. CalcConvert provides this salary increment calculator
+                    free of charge, without requiring user registration.
+                </p>
+            </div>
+
+        </section>
+
+    </div>
+
+    <aside class="side-ad">
+        <div class="ad-label">
+            <strong>Advertisement</strong>
+            Right Side Ad Space
         </div>
-
-        <h2 style="margin-top:25px;">Salary Comparison</h2>
-        <table class="comparison">
-            <thead>
-                <tr>
-                    <th>Salary Details</th>
-                    <th>Before</th>
-                    <th>After</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Basic Salary</td>
-                    <td id="oldBasic">-</td>
-                    <td id="revisedBasic">-</td>
-                </tr>
-                <tr>
-                    <td>Gross Salary</td>
-                    <td id="oldGross">-</td>
-                    <td id="revisedGross">-</td>
-                </tr>
-                <tr>
-                    <td>Annual Gross Salary</td>
-                    <td id="oldAnnual">-</td>
-                    <td id="revisedAnnual">-</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <p class="note" id="resultNote"></p>
-        <button class="button" onclick="window.print()">Print / Save as PDF</button>
-    </section>
-
-    <section class="card">
-        <h2>About Salary Increment Calculator</h2>
-        <p class="note">
-            This free calculator helps employees and employers estimate revised
-            salaries after a percentage-based or fixed-amount increment.
-            It supports increments on either basic salary or gross salary.
-        </p>
-        <p class="note">
-            Note: If increment is applied to basic salary, gross salary is
-            increased by the same amount. Other allowances are assumed unchanged.
-            This is an estimate and does not calculate tax or deductions.
-        </p>
-    </section>
+    </aside>
 
 </main>
 
 <footer>
-    © 2026 CalcConvert | Free Online Calculators & Converters
+    <div class="footer-logo">CalcConvert</div>
+
+    <p>Free Online Calculators &amp; Converters for Everyone</p>
+
+    <div style="margin:20px 0 15px; line-height:2.5;">
+        <a href="about-us.html">About Us</a>
+        <a href="contact-us.html">Contact Us</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+    </div>
+
+    <p>© 2026 CalcConvert. All rights reserved.</p>
 </footer>
 
 <script>
@@ -323,6 +846,7 @@
         }
 
         const base = incrementOn === "basic" ? basic : gross;
+
         const increase = type === "percentage"
             ? base * value / 100
             : value;
@@ -351,7 +875,9 @@
             ". Other salary components remain unchanged.";
 
         document.getElementById("results").style.display = "block";
-        document.getElementById("results").scrollIntoView({behavior: "smooth"});
+        document.getElementById("results").scrollIntoView({
+            behavior: "smooth"
+        });
     }
 
     function resetCalculator() {
