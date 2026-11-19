@@ -7,6 +7,7 @@
 <title>Date Calculator - Date Difference, Weekdays & Date Addition | CalcConvert</title>
 <meta name="description" content="Free online Date Calculator. Calculate date differences, count Sundays and other weekdays, find working days, and add or subtract days, weeks and months.">
 <meta name="keywords" content="date calculator, date difference calculator, count weekdays, count Sundays, working days calculator, add days to date">
+
 <style>
 :root {
     --navy:#202b3c;
@@ -15,7 +16,6 @@
     --text:#253247;
     --muted:#64748b;
     --border:#dce3ed;
-    --white:#fff;
 }
 * {box-sizing:border-box;}
 body {
@@ -146,6 +146,7 @@ button {
 .primary {background:var(--blue);color:white;}
 .secondary {background:#e9eef6;color:var(--navy);}
 button:hover {opacity:.9;}
+
 .result {
     display:none;
     margin-top:20px;
@@ -210,6 +211,17 @@ button:hover {opacity:.9;}
     color:var(--muted);
     margin-top:12px;
 }
+.error-message {
+    display:none;
+    margin-top:15px;
+    padding:12px 14px;
+    background:#fff1f0;
+    color:#b42318;
+    border:1px solid #f5c2c0;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+}
 .info-card h2 {margin-bottom:12px;}
 .info-card h3 {
     font-size:16px;
@@ -244,6 +256,7 @@ footer a {
     font-size:13px;
 }
 footer a:hover {text-decoration:underline;}
+
 @media(max-width:1319px) {
     .page-layout {display:block;max-width:940px;}
     .side-ad {display:none;}
@@ -264,10 +277,12 @@ footer a:hover {text-decoration:underline;}
     .page-layout {display:block;max-width:100%;margin:0;padding:0;}
     .card {box-shadow:none;break-inside:avoid;border:1px solid #ccc;}
     .result {display:block !important;}
+    .error-message {display:none !important;}
     .page-heading {margin-top:10px;}
 }
 </style>
 </head>
+
 <body>
 
 <header class="top-nav">
@@ -278,6 +293,7 @@ footer a:hover {text-decoration:underline;}
 </header>
 
 <div class="page-layout">
+
     <aside class="side-ad">Advertisement</aside>
 
     <main class="main-content">
@@ -287,83 +303,93 @@ footer a:hover {text-decoration:underline;}
             <p>Calculate date differences, count weekdays and find future or past dates easily.</p>
         </div>
 
-        <!-- DATE DIFFERENCE -->
+        <!-- DATE DIFFERENCE AND WEEKDAY COUNT -->
         <section class="card">
-            <h2>1. Date Difference Calculator</h2>
-            <p class="card-description">Find the time between two dates in years, months, weeks and days.</p>
+
+            <h2>1. Date Difference &amp; Weekday Counter</h2>
+
+            <p class="card-description">
+                Select two dates to calculate the date difference, count each weekday,
+                and find total working days and weekends.
+            </p>
 
             <div class="form-grid">
+
                 <div class="field">
                     <label for="startDate">Start Date</label>
                     <input type="date" id="startDate">
                 </div>
+
                 <div class="field">
                     <label for="endDate">End Date</label>
                     <input type="date" id="endDate">
                 </div>
+
             </div>
 
             <div class="buttons">
-                <button class="primary" onclick="calculateDifference()">Calculate Difference</button>
-                <button class="secondary" onclick="clearDifference()">Clear All</button>
+                <button class="primary" onclick="calculateDateRange()">Calculate</button>
+                <button class="secondary" onclick="clearDateRange()">Clear All</button>
             </div>
 
-            <div class="result" id="differenceResult" aria-live="polite">
-                <h3>Date Difference Result</h3>
+            <div class="error-message" id="dateRangeError" role="alert"></div>
+
+            <div class="result" id="dateRangeResult" aria-live="polite">
+
+                <h3>Date Difference</h3>
+
                 <div class="result-main" id="differenceMain"></div>
+
                 <div class="result-grid" id="differenceDetails"></div>
-            </div>
-        </section>
 
-        <!-- WEEKDAY COUNT -->
-        <section class="card">
-            <h2>2. Weekday & Working Days Counter</h2>
-            <p class="card-description">Find how many Sundays, Mondays and other weekdays occur between two dates. Both selected dates are included.</p>
+                <h3 style="margin-top:25px;">Day-wise Count</h3>
 
-            <div class="form-grid">
-                <div class="field">
-                    <label for="countStart">Start Date</label>
-                    <input type="date" id="countStart">
+                <div class="result-note" style="margin-top:0;">
+                    Individual count of each day between the selected dates.
                 </div>
-                <div class="field">
-                    <label for="countEnd">End Date</label>
-                    <input type="date" id="countEnd">
-                </div>
-            </div>
 
-            <div class="buttons">
-                <button class="primary" onclick="countWeekdays()">Count Days</button>
-                <button class="secondary" onclick="clearWeekdays()">Clear All</button>
-            </div>
-
-            <div class="result" id="weekdayResult" aria-live="polite">
-                <h3>Day-wise Count</h3>
-                <div class="result-main" id="totalDays"></div>
                 <div class="weekday-grid" id="weekdayDetails"></div>
+
                 <div class="result-grid">
+
                     <div class="result-item">
-                        <span>Working Days (Monday–Friday)</span>
+                        <span>Total Working Days (Monday–Friday)</span>
                         <strong id="workingDays"></strong>
                     </div>
+
                     <div class="result-item">
-                        <span>Weekend Days (Saturday–Sunday)</span>
+                        <span>Total Weekend Days (Saturday–Sunday)</span>
                         <strong id="weekendDays"></strong>
                     </div>
+
                 </div>
-                <p class="result-note">Both the start date and end date are included in this count. Working days are Monday to Friday; weekends are Saturday and Sunday.</p>
+
+                <p class="result-note">
+                    Both the start date and end date are included in all counts.
+                    Working days are Monday to Friday, and weekends are Saturday and Sunday.
+                </p>
+
             </div>
+
         </section>
 
         <!-- ADD / SUBTRACT -->
         <section class="card">
-            <h2>3. Add or Subtract Days</h2>
-            <p class="card-description">Calculate a new date by adding or subtracting days, weeks or months from a starting date.</p>
+
+            <h2>2. Add or Subtract Days</h2>
+
+            <p class="card-description">
+                Calculate a new date by adding or subtracting days, weeks or months
+                from a starting date.
+            </p>
 
             <div class="form-grid">
+
                 <div class="field">
                     <label for="baseDate">Starting Date</label>
                     <input type="date" id="baseDate">
                 </div>
+
                 <div class="field">
                     <label for="operation">Operation</label>
                     <select id="operation">
@@ -371,10 +397,12 @@ footer a:hover {text-decoration:underline;}
                         <option value="subtract">Subtract (−)</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label for="amount">Number</label>
                     <input type="number" id="amount" min="0" step="1" placeholder="Enter a number">
                 </div>
+
                 <div class="field">
                     <label for="unit">Unit</label>
                     <select id="unit">
@@ -383,6 +411,7 @@ footer a:hover {text-decoration:underline;}
                         <option value="months">Months</option>
                     </select>
                 </div>
+
             </div>
 
             <div class="buttons">
@@ -390,11 +419,18 @@ footer a:hover {text-decoration:underline;}
                 <button class="secondary" onclick="clearNewDate()">Clear All</button>
             </div>
 
+            <div class="error-message" id="newDateError" role="alert"></div>
+
             <div class="result" id="newDateResult" aria-live="polite">
+
                 <h3>Calculated Date</h3>
+
                 <div class="result-main" id="newDateMain"></div>
+
                 <div id="newDateExtra"></div>
+
             </div>
+
         </section>
 
         <div class="buttons" style="justify-content:center;margin:25px 0;">
@@ -403,65 +439,115 @@ footer a:hover {text-decoration:underline;}
 
         <!-- INFORMATION -->
         <section class="card info-card">
+
             <h2>About the Date Calculator</h2>
-            <p>CalcConvert's free Date Calculator helps you calculate the difference between two dates, count individual weekdays, identify working days and weekends, and find future or past dates by adding or subtracting time.</p>
+
+            <p>
+                CalcConvert's free Date Calculator helps you calculate the difference
+                between two dates, count individual weekdays, identify working days
+                and weekends, and find future or past dates by adding or subtracting time.
+            </p>
 
             <h3>How to Use the Date Calculator</h3>
+
             <ul>
-                <li><strong>Date Difference:</strong> Select a start date and an end date, then click Calculate Difference.</li>
-                <li><strong>Weekday Counter:</strong> Select your date range to see the number of Sundays, Mondays and all other weekdays.</li>
+                <li><strong>Date Difference:</strong> Select a start date and an end date, then click Calculate.</li>
+                <li><strong>Weekday Counter:</strong> The same selected dates automatically calculate the number of Sundays, Mondays and all other weekdays.</li>
+                <li><strong>Working Days:</strong> View the total Monday-to-Friday days and Saturday-to-Sunday weekend days.</li>
                 <li><strong>Add or Subtract:</strong> Select a starting date, choose Add or Subtract, enter a number and select days, weeks or months.</li>
             </ul>
 
             <h3>Calculation Examples</h3>
+
             <div class="example">
                 <strong>Example 1: Count Sundays</strong><br>
-                Select October 1 to October 30. The calculator will show the exact number of Sundays and every other weekday in that range.
+                Select October 1 to October 30. The calculator will show the exact number
+                of Sundays and every other weekday in that range.
             </div>
+
             <div class="example">
                 <strong>Example 2: Working Days</strong><br>
-                Select any two dates to find total weekdays (Monday to Friday) and weekend days (Saturday and Sunday).
+                Select any two dates to find total weekdays (Monday to Friday)
+                and weekend days (Saturday and Sunday).
             </div>
+
             <div class="example">
                 <strong>Example 3: Add Days</strong><br>
-                If your starting date is January 1 and you add 30 days, the calculator will show the resulting date.
+                If your starting date is January 1 and you add 30 days,
+                the calculator will show the resulting date.
             </div>
 
             <h3>Calculation Methods</h3>
-            <p><strong>Date Difference:</strong> The calculator finds the calendar difference between the selected dates. The total day count is also shown.</p>
-            <p><strong>Weekday Count:</strong> Each calendar date from the start date through the end date is counted, including both selected dates.</p>
-            <p><strong>Working Days:</strong> Monday through Friday are counted as working days. Saturday and Sunday are counted as weekend days.</p>
-            <p><strong>Add / Subtract:</strong> Days and weeks are calculated as calendar days. When adding or subtracting months, the day of the month is adjusted to the last valid day of the destination month when necessary.</p>
+
+            <p>
+                <strong>Date Difference:</strong> The calculator finds the calendar
+                difference between the selected dates. The total day count is also shown.
+            </p>
+
+            <p>
+                <strong>Weekday Count:</strong> Each calendar date from the start date
+                through the end date is counted, including both selected dates.
+            </p>
+
+            <p>
+                <strong>Working Days:</strong> Monday through Friday are counted as
+                working days. Saturday and Sunday are counted as weekend days.
+            </p>
+
+            <p>
+                <strong>Add / Subtract:</strong> Days and weeks are calculated as
+                calendar days. When adding or subtracting months, the day of the month
+                is adjusted to the last valid day of the destination month when necessary.
+            </p>
 
             <h3>Frequently Asked Questions</h3>
 
             <h3>Can I count how many Sundays are between two dates?</h3>
-            <p>Yes. Enter the start and end dates in the Weekday Counter. It will show the exact count for Sunday and every other day of the week.</p>
+            <p>
+                Yes. Enter the start and end dates in the Date Difference Calculator.
+                It will show the exact count for Sunday and every other day of the week.
+            </p>
 
             <h3>Are the start and end dates included?</h3>
-            <p>Yes. Both dates are included in the weekday and working-day count.</p>
+            <p>
+                Yes. Both dates are included in the weekday and working-day count.
+            </p>
 
             <h3>Does the calculator account for leap years?</h3>
-            <p>Yes. The calculator uses calendar dates and automatically accounts for leap years, including February 29.</p>
+            <p>
+                Yes. The calculator uses calendar dates and automatically accounts
+                for leap years, including February 29.
+            </p>
 
             <h3>Does the working-day calculation exclude public holidays?</h3>
-            <p>No. The working-day count includes Monday to Friday and does not automatically exclude public holidays. It also does not account for company-specific working schedules.</p>
+            <p>
+                No. The working-day count includes Monday to Friday and does not
+                automatically exclude public holidays. It also does not account
+                for company-specific working schedules.
+            </p>
 
             <h3>Can I save the calculation as a PDF?</h3>
-            <p>Yes. Click Print / Save as PDF and select Save as PDF in your browser's print options.</p>
+            <p>
+                Yes. Click Print / Save as PDF and select Save as PDF in your browser's print options.
+            </p>
 
             <h3>Is this Date Calculator free?</h3>
-            <p>Yes. All three date calculation tools are free to use.</p>
+            <p>Yes. All date calculation tools are free to use.</p>
+
         </section>
 
     </main>
 
     <aside class="side-ad">Advertisement</aside>
+
 </div>
 
 <footer>
-    <div class="logo">Calc<span style="color:#63a0ff;">Convert</span></div>
+
+    <div class="logo">Calc<span>Convert</span></div>
+
     <p>Free Online Calculators &amp; Converters for Everyone</p>
+
     <div style="margin:20px 0 15px;line-height:2.5;">
         <a href="about-us.html">About Us</a>
         <a href="contact-us.html">Contact Us</a>
@@ -469,148 +555,269 @@ footer a:hover {text-decoration:underline;}
         <a href="disclaimer.html">Disclaimer</a>
         <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
     </div>
+
     <p>&copy; 2026 CalcConvert. All rights reserved.</p>
+
 </footer>
 
 <script>
+
+// Convert an HTML date input into a UTC date.
+// UTC avoids date shifts caused by local time zones.
+
 function parseDate(value) {
+
     if (!value) return null;
+
     const parts = value.split("-").map(Number);
+
     if (parts.length !== 3) return null;
-    return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+
+    const date = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+
+    if (
+        date.getUTCFullYear() !== parts[0] ||
+        date.getUTCMonth() !== parts[1] - 1 ||
+        date.getUTCDate() !== parts[2]
+    ) {
+        return null;
+    }
+
+    return date;
 }
+
+
+// Format date for display.
 
 function formatDate(date) {
+
     return new Intl.DateTimeFormat("en-GB", {
-        day:"2-digit", month:"long", year:"numeric", timeZone:"UTC"
+        day:"2-digit",
+        month:"long",
+        year:"numeric",
+        timeZone:"UTC"
     }).format(date);
+
 }
 
-function formatInputDate(date) {
-    return date.getUTCFullYear() + "-" +
-        String(date.getUTCMonth() + 1).padStart(2, "0") + "-" +
-        String(date.getUTCDate()).padStart(2, "0");
+
+// Difference in calendar days.
+
+function dayDifference(start, end) {
+
+    return Math.round((end.getTime() - start.getTime()) / 86400000);
+
 }
 
-function dayDifference(a, b) {
-    return Math.round((b.getTime() - a.getTime()) / 86400000);
+
+// Show or clear an error without replacing calculator HTML.
+
+function showError(errorId, message) {
+
+    const error = document.getElementById(errorId);
+
+    error.textContent = message;
+    error.style.display = "block";
+
 }
 
-function showDateError(resultId, message) {
-    const box = document.getElementById(resultId);
-    box.style.display = "block";
-    box.innerHTML = '<p style="color:#b42318;margin:0;font-weight:600;">' +
-        message + '</p>';
+
+function clearError(errorId) {
+
+    const error = document.getElementById(errorId);
+
+    error.textContent = "";
+    error.style.display = "none";
+
 }
 
-function calculateDifference() {
+
+// DATE DIFFERENCE + WEEKDAY COUNTER
+
+function calculateDateRange() {
+
+    clearError("dateRangeError");
+
     const start = parseDate(document.getElementById("startDate").value);
     const end = parseDate(document.getElementById("endDate").value);
 
     if (!start || !end) {
-        showDateError("differenceResult", "Please select both dates.");
+
+        document.getElementById("dateRangeResult").style.display = "none";
+
+        showError("dateRangeError", "Please select both start and end dates.");
+
         return;
+
     }
 
     if (end < start) {
-        showDateError("differenceResult", "End date must be on or after the start date.");
+
+        document.getElementById("dateRangeResult").style.display = "none";
+
+        showError("dateRangeError", "End date must be on or after the start date. Please check your dates.");
+
         return;
+
     }
 
+    // Calculate calendar difference.
+
     let years = end.getUTCFullYear() - start.getUTCFullYear();
+
     let months = end.getUTCMonth() - start.getUTCMonth();
+
     let days = end.getUTCDate() - start.getUTCDate();
 
     if (days < 0) {
+
         months--;
+
         const previousMonthLastDay = new Date(Date.UTC(
-            end.getUTCFullYear(), end.getUTCMonth(), 0
+            end.getUTCFullYear(),
+            end.getUTCMonth(),
+            0
         )).getUTCDate();
+
         days += previousMonthLastDay;
+
     }
 
     if (months < 0) {
+
         years--;
+
         months += 12;
+
     }
 
     const totalDays = dayDifference(start, end);
+
     const totalWeeks = Math.floor(totalDays / 7);
+
     const remainingDays = totalDays % 7;
+
 
     document.getElementById("differenceMain").textContent =
         years + " Years, " + months + " Months, " + days + " Days";
 
+
     document.getElementById("differenceDetails").innerHTML = `
-        <div class="result-item"><span>Total Calendar Days</span><strong>${totalDays.toLocaleString("en-US")}</strong></div>
-        <div class="result-item"><span>Complete Weeks</span><strong>${totalWeeks} Weeks</strong></div>
-        <div class="result-item"><span>Remaining Days after Weeks</span><strong>${remainingDays}</strong></div>
-        <div class="result-item"><span>Selected Date Range</span><strong style="font-size:14px;">${formatDate(start)} – ${formatDate(end)}</strong></div>
+
+        <div class="result-item">
+            <span>Total Calendar Days</span>
+            <strong>${totalDays.toLocaleString("en-US")}</strong>
+        </div>
+
+        <div class="result-item">
+            <span>Complete Weeks</span>
+            <strong>${totalWeeks} Weeks</strong>
+        </div>
+
+        <div class="result-item">
+            <span>Remaining Days after Weeks</span>
+            <strong>${remainingDays}</strong>
+        </div>
+
+        <div class="result-item">
+            <span>Selected Date Range</span>
+            <strong style="font-size:14px;">
+                ${formatDate(start)} – ${formatDate(end)}
+            </strong>
+        </div>
+
     `;
 
-    document.getElementById("differenceResult").style.display = "block";
-}
 
-function clearDifference() {
-    document.getElementById("startDate").value = "";
-    document.getElementById("endDate").value = "";
-    document.getElementById("differenceResult").style.display = "none";
-}
+    // Count every weekday, including both selected dates.
 
-function countWeekdays() {
-    const start = parseDate(document.getElementById("countStart").value);
-    const end = parseDate(document.getElementById("countEnd").value);
+    const names = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
 
-    if (!start || !end) {
-        showDateError("weekdayResult", "Please select both dates.");
-        return;
-    }
-
-    if (end < start) {
-        showDateError("weekdayResult", "End date must be on or after the start date.");
-        return;
-    }
-
-    const names = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const counts = [0,0,0,0,0,0,0];
 
-    // Count complete weeks first, then the remaining days.
-    // This avoids looping through very large date ranges.
-    const totalDays = dayDifference(start, end) + 1;
-    const fullWeeks = Math.floor(totalDays / 7);
-    const remaining = totalDays % 7;
+    const inclusiveDays = totalDays + 1;
 
-    for (let i = 0; i < 7; i++) counts[i] = fullWeeks;
+    const fullWeeks = Math.floor(inclusiveDays / 7);
 
-    const startDay = start.getUTCDay();
-    for (let i = 0; i < remaining; i++) {
-        counts[(startDay + i) % 7]++;
+    const remaining = inclusiveDays % 7;
+
+    // Every complete week contains one of each weekday.
+
+    for (let i = 0; i < 7; i++) {
+
+        counts[i] = fullWeeks;
+
     }
 
-    const weekends = counts[0] + counts[6];
-    const working = totalDays - weekends;
+    // Count remaining days after complete weeks.
 
-    document.getElementById("totalDays").textContent =
-        "Total Days: " + totalDays.toLocaleString("en-US");
+    const startDay = start.getUTCDay();
+
+    for (let i = 0; i < remaining; i++) {
+
+        counts[(startDay + i) % 7]++;
+
+    }
+
+
+    const weekendDays = counts[0] + counts[6];
+
+    const workingDays = inclusiveDays - weekendDays;
+
 
     document.getElementById("weekdayDetails").innerHTML =
-        names.map((name, index) =>
-            `<div class="weekday-item"><span>${name}</span><strong>${counts[index]}</strong></div>`
-        ).join("");
 
-    document.getElementById("workingDays").textContent = working.toLocaleString("en-US");
-    document.getElementById("weekendDays").textContent = weekends.toLocaleString("en-US");
-    document.getElementById("weekdayResult").style.display = "block";
+        names.map((name, index) => `
+
+            <div class="weekday-item">
+                <span>${name}</span>
+                <strong>${counts[index]}</strong>
+            </div>
+
+        `).join("");
+
+
+    document.getElementById("workingDays").textContent =
+        workingDays.toLocaleString("en-US");
+
+    document.getElementById("weekendDays").textContent =
+        weekendDays.toLocaleString("en-US");
+
+
+    // Show the complete result.
+
+    document.getElementById("dateRangeResult").style.display = "block";
+
 }
 
-function clearWeekdays() {
-    document.getElementById("countStart").value = "";
-    document.getElementById("countEnd").value = "";
-    document.getElementById("weekdayResult").style.display = "none";
+
+function clearDateRange() {
+
+    document.getElementById("startDate").value = "";
+
+    document.getElementById("endDate").value = "";
+
+    document.getElementById("dateRangeResult").style.display = "none";
+
+    clearError("dateRangeError");
+
 }
+
+
+// ADD / SUBTRACT DATE CALCULATOR
 
 function addMonthsClamped(date, amount) {
+
     const originalDay = date.getUTCDate();
+
     const firstOfTargetMonth = new Date(Date.UTC(
         date.getUTCFullYear(),
         date.getUTCMonth() + amount,
@@ -628,57 +835,171 @@ function addMonthsClamped(date, amount) {
         firstOfTargetMonth.getUTCMonth(),
         Math.min(originalDay, lastDay)
     ));
+
 }
 
+
 function calculateNewDate() {
+
+    clearError("newDateError");
+
     const base = parseDate(document.getElementById("baseDate").value);
+
     const operation = document.getElementById("operation").value;
+
     const amountInput = document.getElementById("amount").value;
+
     const unit = document.getElementById("unit").value;
 
+
     if (!base || amountInput === "") {
-        showDateError("newDateResult", "Please select a starting date and enter a number.");
+
+        document.getElementById("newDateResult").style.display = "none";
+
+        showError("newDateError", "Please select a starting date and enter a number.");
+
         return;
+
     }
+
 
     const amount = Number(amountInput);
 
     if (!Number.isSafeInteger(amount) || amount < 0) {
-        showDateError("newDateResult", "Please enter a valid whole number of zero or more.");
+
+        document.getElementById("newDateResult").style.display = "none";
+
+        showError("newDateError", "Please enter a valid whole number of zero or more.");
+
         return;
+
     }
+
 
     const signedAmount = operation === "add" ? amount : -amount;
+
     let result = new Date(base.getTime());
 
+
     if (unit === "days") {
+
         result.setUTCDate(result.getUTCDate() + signedAmount);
+
     } else if (unit === "weeks") {
+
         result.setUTCDate(result.getUTCDate() + signedAmount * 7);
+
     } else if (unit === "months") {
+
         result = addMonthsClamped(result, signedAmount);
+
     }
+
 
     if (!Number.isFinite(result.getTime())) {
-        showDateError("newDateResult", "The calculated date is outside the supported date range.");
+
+        document.getElementById("newDateResult").style.display = "none";
+
+        showError("newDateError", "The calculated date is outside the supported date range.");
+
         return;
+
     }
 
+
     document.getElementById("newDateMain").textContent = formatDate(result);
-    document.getElementById("newDateExtra").innerHTML =
-        `<p>Starting date: <strong>${formatDate(base)}</strong></p>
-         <p>Operation: <strong>${operation === "add" ? "Add" : "Subtract"} ${amount} ${unit}</strong></p>`;
+
+    document.getElementById("newDateExtra").innerHTML = `
+
+        <p>
+            Starting date:
+            <strong>${formatDate(base)}</strong>
+        </p>
+
+        <p>
+            Operation:
+            <strong>
+                ${operation === "add" ? "Add" : "Subtract"}
+                ${amount} ${unit}
+            </strong>
+        </p>
+
+    `;
+
 
     document.getElementById("newDateResult").style.display = "block";
+
 }
 
+
 function clearNewDate() {
+
     document.getElementById("baseDate").value = "";
+
     document.getElementById("amount").value = "";
+
     document.getElementById("operation").value = "add";
+
     document.getElementById("unit").value = "days";
+
     document.getElementById("newDateResult").style.display = "none";
+
+    clearError("newDateError");
+
 }
+
+
+// If a user changes dates after an error or calculation,
+// hide old results so they cannot be mistaken for current results.
+
+document.getElementById("startDate").addEventListener("change", function() {
+
+    clearError("dateRangeError");
+
+    document.getElementById("dateRangeResult").style.display = "none";
+
+});
+
+document.getElementById("endDate").addEventListener("change", function() {
+
+    clearError("dateRangeError");
+
+    document.getElementById("dateRangeResult").style.display = "none";
+
+});
+
+document.getElementById("baseDate").addEventListener("change", function() {
+
+    clearError("newDateError");
+
+    document.getElementById("newDateResult").style.display = "none";
+
+});
+
+document.getElementById("amount").addEventListener("input", function() {
+
+    clearError("newDateError");
+
+    document.getElementById("newDateResult").style.display = "none";
+
+});
+
+document.getElementById("operation").addEventListener("change", function() {
+
+    clearError("newDateError");
+
+    document.getElementById("newDateResult").style.display = "none";
+
+});
+
+document.getElementById("unit").addEventListener("change", function() {
+
+    clearError("newDateError");
+
+    document.getElementById("newDateResult").style.display = "none";
+
+});
+
 </script>
 
 </body>
