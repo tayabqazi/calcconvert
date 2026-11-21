@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VAT Calculator - Add or Remove VAT Online | CalcConvert</title>
+<meta name="description" content="Free online VAT calculator. Easily add VAT to a price or remove VAT from a VAT-inclusive amount. Calculate net price, VAT amount and gross price using your own VAT rate.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://calcconvert.calcconvert.workers.dev/vat-calculator.html">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#263445;line-height:1.6}
+header{background:#202b3c;padding:17px 20px;color:white}
+.header-inner{max-width:1250px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold;color:white;text-decoration:none}
+.logo span{color:#4c9aff}
+.home-link{color:white;text-decoration:none;font-size:14px}
+.page-layout{max-width:1300px;margin:25px auto;padding:0 18px;display:grid;grid-template-columns:160px minmax(0,900px) 160px;gap:20px;align-items:start}
+.side-ad{margin-top:35px;min-height:600px;background:#e8edf5;border:1px dashed #b8c4d5;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;color:#64748b;font-size:13px;position:sticky;top:20px}
+main{min-width:0}
+.intro{text-align:center;margin:0 0 22px}
+h1{font-size:30px;margin:0 0 8px;color:#202b3c}
+.intro p{margin:0;color:#64748b}
+.card{background:white;border:1px solid #e2e8f0;border-radius:13px;padding:22px;margin-bottom:20px;box-shadow:0 3px 12px rgba(25,45,75,.04)}
+.card h2{font-size:20px;margin:0 0 16px;color:#202b3c}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.tab{background:#edf2f8;color:#475569}
+.tab.active{background:#1769e0;color:white}
+.field{margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#475569}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px;background:white;color:#263445}
+input:focus,select:focus{outline:2px solid #bfdbfe;border-color:#1769e0}
+.input-hint{font-size:12px;color:#64748b;margin-top:5px}
+.primary{background:#1769e0;color:white}
+.primary:hover{background:#1056bd}
+.secondary{background:#eaf2ff;color:#1769e0}
+button{cursor:pointer;border:0;border-radius:8px;padding:11px 17px;font-size:14px;font-weight:600}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.error{color:#c0392b;font-size:13px;margin-top:10px}
+.result-box{background:#f1f6ff;border:1px solid #dbeafe;border-radius:10px;padding:18px;margin-top:20px}
+.result-box h3{color:#1769e0;margin:0 0 14px;font-size:18px}
+.result-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #dce7f5;font-size:14px}
+.result-row:last-child{border-bottom:0}
+.result-row.total{font-size:17px;font-weight:bold;color:#1769e0;padding-top:15px}
+.amount{font-weight:600;text-align:right;overflow-wrap:anywhere}
+.info h2{font-size:19px;margin:20px 0 8px}
+.info p,.info li{color:#526174;font-size:14px}
+.info ul{padding-left:20px}
+.formula{background:#f5f7fb;border-radius:7px;padding:11px;margin:8px 0;font-size:14px;color:#334155}
+footer{background:#202b3c;color:#dce4f0;text-align:center;padding:28px 15px;margin-top:35px}
+footer a{color:#dce4f0;text-decoration:none;margin:0 9px;font-size:13px}
+footer p{font-size:13px;margin:8px 0}
+.hidden{display:none}
+@media(max-width:1319px){.page-layout{display:block;max-width:950px}.side-ad{display:none}}
+@media(max-width:600px){
+ .page-layout{padding:0 12px;margin:18px auto}
+ .card{padding:16px}
+ h1{font-size:25px}
+ .header-inner{gap:10px}
+ .logo{font-size:20px}
+ .result-row{font-size:13px}
+ .result-row.total{font-size:16px}
+}
+@media print{
+ body{background:white}
+ header,.side-ad,.button-row,.tabs,footer,.home-link{display:none!important}
+ .page-layout{display:block;margin:0;padding:0}
+ .card{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="header-inner">
+  <a class="logo" href="index.html">Calc<span>Convert</span></a>
+  <a class="home-link" href="index.html">← Back to Home</a>
+ </div>
+</header>
+
+<div class="page-layout">
+ <aside class="side-ad">Advertisement</aside>
+
+ <main>
+  <div class="intro">
+   <h1>VAT Calculator</h1>
+   <p>Calculate VAT easily. Add VAT to a price or remove VAT from a VAT-inclusive amount.</p>
+  </div>
+
+  <section class="card">
+   <h2>Calculate VAT</h2>
+
+   <div class="tabs">
+    <button type="button" class="tab active" id="addTab">Add VAT</button>
+    <button type="button" class="tab" id="removeTab">Remove VAT</button>
+   </div>
+
+   <div class="field">
+    <label for="price">Price Amount</label>
+    <input type="number" id="price" min="0" step="any" placeholder="Enter price amount">
+    <div class="input-hint" id="priceHint">Enter the price before VAT (Net Price).</div>
+   </div>
+
+   <div class="field">
+    <label for="vatRate">VAT Rate (%)</label>
+    <input type="number" id="vatRate" min="0" max="100" step="any" placeholder="e.g. 15">
+    <div class="input-hint">Enter the VAT percentage applicable in your country or transaction.</div>
+   </div>
+
+   <div class="field">
+    <label for="currency">Currency Code / Symbol (Optional)</label>
+    <input type="text" id="currency" maxlength="8" placeholder="e.g. USD, EUR, GBP, AED">
+    <div class="input-hint">Leave blank if you do not want a currency label.</div>
+   </div>
+
+   <div class="button-row">
+    <button type="button" class="primary" id="calculateBtn">Calculate VAT</button>
+    <button type="button" class="secondary" id="resetBtn">Reset</button>
+   </div>
+
+   <div id="error" class="error" role="alert"></div>
+
+   <div id="result" class="result-box hidden" aria-live="polite">
+    <h3 id="resultTitle">VAT Calculation Result</h3>
+    <div class="result-row">
+     <span id="baseLabel">Net Price</span>
+     <span class="amount" id="baseResult"></span>
+    </div>
+    <div class="result-row">
+     <span>VAT Rate</span>
+     <span class="amount" id="rateResult"></span>
+    </div>
+    <div class="result-row">
+     <span>VAT Amount</span>
+     <span class="amount" id="vatResult"></span>
+    </div>
+    <div class="result-row total">
+     <span id="totalLabel">Gross Price (Including VAT)</span>
+     <span class="amount" id="totalResult"></span>
+    </div>
+   </div>
+  </section>
+
+  <div class="button-row">
+   <button type="button" class="primary" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <section class="card info">
+   <h2>About VAT</h2>
+   <p>VAT stands for Value Added Tax. It is a consumption tax applied to goods and services in many countries. VAT rates and rules vary by country and transaction type.</p>
+   <p>This calculator allows you to enter your own VAT rate. It is a general calculation tool and does not determine which tax rate applies to a particular transaction.</p>
+
+   <h2>How to Use the VAT Calculator</h2>
+   <ul>
+    <li>Select Add VAT to calculate VAT on a price before tax.</li>
+    <li>Select Remove VAT to extract VAT from a VAT-inclusive price.</li>
+    <li>Enter the price amount.</li>
+    <li>Enter the applicable VAT rate as a percentage.</li>
+    <li>Optionally enter a currency code or symbol.</li>
+    <li>Click Calculate VAT to view the breakdown.</li>
+   </ul>
+
+   <h2>VAT Calculation Formulas</h2>
+   <p><strong>Add VAT:</strong></p>
+   <div class="formula">VAT Amount = Net Price × (VAT Rate ÷ 100)</div>
+   <div class="formula">Gross Price = Net Price + VAT Amount</div>
+
+   <p><strong>Remove VAT:</strong></p>
+   <div class="formula">Net Price = Gross Price ÷ (1 + VAT Rate ÷ 100)</div>
+   <div class="formula">VAT Amount = Gross Price − Net Price</div>
+
+   <h2>Calculation Examples</h2>
+   <p>If the price before VAT is 100 and the VAT rate is 15%:</p>
+   <div class="formula">VAT Amount = 100 × 15% = 15</div>
+   <div class="formula">Total Price = 100 + 15 = 115</div>
+
+   <p>If the price including 15% VAT is 115:</p>
+   <div class="formula">Price Before VAT = 115 ÷ 1.15 = 100</div>
+   <div class="formula">VAT Amount = 115 − 100 = 15</div>
+
+   <h2>Frequently Asked Questions</h2>
+   <p><strong>What is the difference between Add VAT and Remove VAT?</strong><br>Add VAT calculates tax on a price before VAT. Remove VAT extracts the tax included in the final price.</p>
+   <p><strong>Can I use this calculator for different countries?</strong><br>Yes. Enter the VAT rate applicable to your country. The calculator does not automatically select country-specific tax rates.</p>
+   <p><strong>Does this calculator support different currencies?</strong><br>Yes. You can enter an optional currency code or symbol. The calculator does not perform currency conversion.</p>
+   <p><strong>Is VAT always charged at the same rate?</strong><br>No. Rates, exemptions and applicable rules differ between countries, products and services. Verify the correct rate before using the result for tax reporting.</p>
+  </section>
+ </main>
+
+ <aside class="side-ad">Advertisement</aside>
+</div>
+
+<footer>
+ <div class="logo">CalcConvert</div>
+ <p>Free Online Calculators &amp; Converters for Everyone</p>
+ <div style="margin:18px 0;line-height:2.5">
+  <a href="about-us.html">About Us</a>
+  <a href="contact-us.html">Contact Us</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="disclaimer.html">Disclaimer</a>
+  <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+ </div>
+ <p>© 2026 CalcConvert. All rights reserved.</p>
+</footer>
+
+<script>
+let currentMode = "add";
+
+const priceInput = document.getElementById("price");
+const rateInput = document.getElementById("vatRate");
+const currencyInput = document.getElementById("currency");
+const errorBox = document.getElementById("error");
+const resultBox = document.getElementById("result");
+
+const addTab = document.getElementById("addTab");
+const removeTab = document.getElementById("removeTab");
+
+function setMode(mode) {
+ currentMode = mode;
+
+ addTab.classList.toggle("active", mode === "add");
+ removeTab.classList.toggle("active", mode === "remove");
+
+ document.getElementById("priceHint").textContent =
+  mode === "add"
+  ? "Enter the price before VAT (Net Price)."
+  : "Enter the price including VAT (Gross Price).";
+
+ document.getElementById("calculateBtn").textContent =
+  mode === "add" ? "Calculate VAT" : "Remove VAT";
+
+ clearResults();
+}
+
+function formatNumber(value) {
+ return value.toLocaleString("en-US", {
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
+}
+
+function displayAmount(value) {
+ const currency = currencyInput.value.trim();
+ const amount = formatNumber(value);
+ return currency ? currency + " " + amount : amount;
+}
+
+function clearResults() {
+ errorBox.textContent = "";
+ resultBox.classList.add("hidden");
+}
+
+function calculateVAT() {
+ clearResults();
+
+ const price = Number(priceInput.value);
+ const rate = Number(rateInput.value);
+
+ if (priceInput.value.trim() === "" || !Number.isFinite(price) || price < 0) {
+  errorBox.textContent = "Please enter a valid price amount (zero or greater).";
+  return;
+ }
+
+ if (rateInput.value.trim() === "" || !Number.isFinite(rate) || rate < 0 || rate > 100) {
+  errorBox.textContent = "Please enter a valid VAT rate between 0 and 100%.";
+  return;
+ }
+
+ let netPrice;
+ let vatAmount;
+ let grossPrice;
+
+ if (currentMode === "add") {
+  netPrice = price;
+  vatAmount = netPrice * rate / 100;
+  grossPrice = netPrice + vatAmount;
+ } else {
+  grossPrice = price;
+  netPrice = grossPrice / (1 + rate / 100);
+  vatAmount = grossPrice - netPrice;
+ }
+
+ document.getElementById("baseLabel").textContent =
+  currentMode === "add" ? "Net Price (Before VAT)" : "Gross Price (Including VAT)";
+
+ document.getElementById("baseResult").textContent =
+  displayAmount(currentMode === "add" ? netPrice : grossPrice);
+
+ document.getElementById("rateResult").textContent = rate + "%";
+ document.getElementById("vatResult").textContent = displayAmount(vatAmount);
+
+ document.getElementById("totalLabel").textContent =
+  currentMode === "add" ? "Gross Price (Including VAT)" : "Net Price (Excluding VAT)";
+
+ document.getElementById("totalResult").textContent =
+  displayAmount(currentMode === "add" ? grossPrice : netPrice);
+
+ document.getElementById("resultTitle").textContent =
+  currentMode === "add" ? "VAT Added Successfully" : "VAT Removed Successfully";
+
+ resultBox.classList.remove("hidden");
+}
+
+function resetCalculator() {
+ priceInput.value = "";
+ rateInput.value = "";
+ currencyInput.value = "";
+ setMode("add");
+}
+
+addTab.addEventListener("click", () => setMode("add"));
+removeTab.addEventListener("click", () => setMode("remove"));
+document.getElementById("calculateBtn").addEventListener("click", calculateVAT);
+document.getElementById("resetBtn").addEventListener("click", resetCalculator);
+
+[priceInput,rateInput,currencyInput].forEach(input => {
+ input.addEventListener("input", clearResults);
+});
+
+priceInput.addEventListener("keydown", e => {
+ if (e.key === "Enter") calculateVAT();
+});
+rateInput.addEventListener("keydown", e => {
+ if (e.key === "Enter") calculateVAT();
+});
+</script>
+
+</body>
+</html>
