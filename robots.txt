@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://calcconvert.calcconvert.workers.dev/sitemap.xml
