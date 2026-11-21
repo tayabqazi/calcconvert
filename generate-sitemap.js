@@ -30,4 +30,4 @@ fs.writeFileSync(
 );
 
 console.log(`Sitemap generated with ${urls.length} pages.`);
-// Trigger fresh deployment with sitemap build command. 
+// Trigger fresh deployment - sitemap build command.
