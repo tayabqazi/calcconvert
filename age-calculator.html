@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator - Calculate Exact Age & Age Difference | CalcConvert</title>
+<meta name="description" content="Calculate exact age in years, months and days. Compare ages of multiple people and find total days, next birthday and more with CalcConvert.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://calcconvert.calcconvert.workers.dev/age-calculator.html">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#263445;line-height:1.6}
+header{background:#202b3c;padding:17px 20px;color:white}
+.header-inner{max-width:1250px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold;color:white;text-decoration:none}
+.logo span{color:#4c9aff}
+.home-link{color:white;text-decoration:none;font-size:14px}
+.page-layout{max-width:1300px;margin:25px auto;padding:0 18px;display:grid;grid-template-columns:160px minmax(0,900px) 160px;gap:20px;align-items:start}
+.side-ad{margin-top:35px;min-height:600px;background:#e8edf5;border:1px dashed #b8c4d5;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;color:#64748b;font-size:13px;position:sticky;top:20px}
+main{min-width:0}
+.intro{text-align:center;margin:0 0 22px}
+h1{font-size:30px;margin:0 0 8px;color:#202b3c}
+.intro p{margin:0;color:#64748b}
+.card{background:white;border:1px solid #e2e8f0;border-radius:13px;padding:22px;margin-bottom:20px;box-shadow:0 3px 12px rgba(25,45,75,.04)}
+.card h2{font-size:20px;margin:0 0 16px;color:#202b3c}
+.person-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.person-card{border:1px solid #dce4ef;border-radius:11px;padding:16px;min-width:0}
+.person-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.person-heading h3{margin:0;font-size:17px;color:#263445}
+.remove-btn{border:0;background:#fff0f0;color:#c0392b;border-radius:7px;padding:5px 9px;cursor:pointer}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#475569}
+input,select{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px;background:white;color:#263445}
+input:focus,select:focus{outline:2px solid #bfdbfe;border-color:#1769e0}
+.field{margin-bottom:12px}
+button{cursor:pointer;border:0;border-radius:8px;padding:11px 17px;font-size:14px;font-weight:600}
+.primary{background:#1769e0;color:white}
+.primary:hover{background:#1056bd}
+.secondary{background:#eaf2ff;color:#1769e0}
+.danger{background:#fff0f0;color:#c0392b}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.add-btn{margin-top:15px}
+.error{color:#c0392b;font-size:13px;margin-top:8px}
+.result-box{margin-top:14px;padding:14px;background:#f1f6ff;border-radius:9px}
+.result-box h4{margin:0 0 8px;color:#1769e0}
+.age-main{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.age-part{background:white;border:1px solid #dce7f8;border-radius:8px;padding:10px;text-align:center}
+.age-part strong{display:block;font-size:25px;color:#1769e0;line-height:1.3}
+.age-part span{font-size:12px;color:#64748b}
+.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.detail{background:white;border:1px solid #e2e8f0;padding:9px 11px;border-radius:7px;font-size:13px}
+.detail strong{display:block;color:#263445;margin-top:3px}
+.muted{color:#64748b;font-size:13px}
+.comparison-result{background:#f1f6ff;border:1px solid #dbeafe;border-radius:10px;padding:18px;margin-top:15px}
+.comparison-result h3{margin:0 0 8px;color:#1769e0}
+.diff-number{font-size:25px;font-weight:bold;color:#202b3c;margin:8px 0}
+.hidden{display:none}
+.info h2{font-size:19px;margin:20px 0 8px}
+.info p,.info li{color:#526174;font-size:14px}
+.info ul{padding-left:20px}
+footer{background:#202b3c;color:#dce4f0;text-align:center;padding:28px 15px;margin-top:35px}
+footer a{color:#dce4f0;text-decoration:none;margin:0 9px;font-size:13px}
+footer p{font-size:13px;margin:8px 0}
+@media(max-width:1319px){.page-layout{display:block;max-width:950px}.side-ad{display:none}}
+@media(max-width:600px){
+ .page-layout{padding:0 12px;margin:18px auto}
+ .card{padding:16px}
+ h1{font-size:25px}
+ .person-grid{grid-template-columns:1fr}
+ .detail-grid{grid-template-columns:1fr}
+ .age-part strong{font-size:21px}
+ .header-inner{gap:10px}
+ .logo{font-size:20px}
+}
+@media print{
+ body{background:white}
+ header,.side-ad,.button-row,.add-btn,footer,.home-link{display:none!important}
+ .page-layout{display:block;margin:0;padding:0}
+ .card,.person-card{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="header-inner">
+  <a class="logo" href="index.html">Calc<span>Convert</span></a>
+  <a class="home-link" href="index.html">← Back to Home</a>
+ </div>
+</header>
+
+<div class="page-layout">
+ <aside class="side-ad">Advertisement</aside>
+
+ <main>
+  <div class="intro">
+   <h1>Advanced Age Calculator</h1>
+   <p>Calculate exact age, explore birthday details and compare ages of multiple people.</p>
+  </div>
+
+  <section class="card">
+   <h2>Enter Date of Birth</h2>
+
+   <div class="field">
+    <label for="asOfDate">Calculate Age As Of</label>
+    <input type="date" id="asOfDate">
+   </div>
+
+   <div id="persons" class="person-grid"></div>
+
+   <div class="button-row add-btn">
+    <button class="secondary" id="addPerson">＋ Add Person</button>
+   </div>
+   <p class="muted">You can add up to 10 people. Each person's age will be calculated separately.</p>
+  </section>
+
+  <section class="card" id="comparisonSection">
+   <h2>Age Difference Calculator</h2>
+   <p class="muted">Select any two people to compare their ages.</p>
+
+   <div class="person-grid">
+    <div class="field">
+     <label for="compareA">Select First Person</label>
+     <select id="compareA"></select>
+    </div>
+    <div class="field">
+     <label for="compareB">Select Second Person</label>
+     <select id="compareB"></select>
+    </div>
+   </div>
+
+   <div id="comparisonResult" class="comparison-result">
+    <p class="muted">Add at least two people with valid dates of birth to compare their ages.</p>
+   </div>
+  </section>
+
+  <div class="button-row">
+   <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+   <button class="secondary" onclick="resetCalculator()">Reset Calculator</button>
+  </div>
+
+  <section class="card info">
+   <h2>About the Age Calculator</h2>
+   <p>CalcConvert's Advanced Age Calculator helps you calculate your exact age between two dates. You can also add multiple people and compare their age differences.</p>
+
+   <h2>How to Use</h2>
+   <ul>
+    <li>Enter the date of birth for the first person.</li>
+    <li>Select the date up to which you want to calculate age.</li>
+    <li>Use Add Person to include more people.</li>
+    <li>View each person's detailed age and birthday information.</li>
+    <li>Select any two people in the Age Difference section to compare their ages.</li>
+   </ul>
+
+   <h2>Calculation Method</h2>
+   <p>Age is calculated using calendar years, months and days. Total days are based on the actual calendar difference between the date of birth and the selected calculation date.</p>
+   <p>Age Difference is calculated as the calendar interval between the two dates of birth.</p>
+
+   <h2>Frequently Asked Questions</h2>
+   <p><strong>Can I calculate age as of a past date?</strong><br>Yes. Select any date on or after the date of birth.</p>
+   <p><strong>Can I compare more than two people?</strong><br>Yes. Add multiple people and select any two for comparison.</p>
+   <p><strong>Does the calculator support leap years?</strong><br>Yes. Actual calendar dates, including leap years, are considered.</p>
+   <p><strong>Can I save my results?</strong><br>Yes. Use Print / Save as PDF to save your results.</p>
+  </section>
+ </main>
+
+ <aside class="side-ad">Advertisement</aside>
+</div>
+
+<footer>
+ <div class="logo">CalcConvert</div>
+ <p>Free Online Calculators &amp; Converters for Everyone</p>
+ <div style="margin:18px 0;line-height:2.5">
+  <a href="about-us.html">About Us</a>
+  <a href="contact-us.html">Contact Us</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="disclaimer.html">Disclaimer</a>
+  <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+ </div>
+ <p>© 2026 CalcConvert. All rights reserved.</p>
+</footer>
+
+<script>
+const personsContainer = document.getElementById("persons");
+const asOfInput = document.getElementById("asOfDate");
+const compareA = document.getElementById("compareA");
+const compareB = document.getElementById("compareB");
+const comparisonResult = document.getElementById("comparisonResult");
+
+let people = [];
+let nextId = 1;
+
+function localDateString(date = new Date()) {
+ const y = date.getFullYear();
+ const m = String(date.getMonth() + 1).padStart(2, "0");
+ const d = String(date.getDate()).padStart(2, "0");
+ return `${y}-${m}-${d}`;
+}
+
+asOfInput.value = localDateString();
+
+function parseDate(value) {
+ if (!value) return null;
+ const parts = value.split("-").map(Number);
+ if (parts.length !== 3) return null;
+ const date = new Date(parts[0], parts[1] - 1, parts[2]);
+ if (date.getFullYear() !== parts[0] ||
+     date.getMonth() !== parts[1] - 1 ||
+     date.getDate() !== parts[2]) return null;
+ date.setHours(0,0,0,0);
+ return date;
+}
+
+function formatDate(date) {
+ return date.toLocaleDateString("en-US", {
+  weekday:"long", year:"numeric", month:"long", day:"numeric"
+ });
+}
+
+function addMonths(date, months) {
+ const result = new Date(date.getFullYear(), date.getMonth() + months, 1);
+ const lastDay = new Date(result.getFullYear(), result.getMonth() + 1, 0).getDate();
+ result.setDate(Math.min(date.getDate(), lastDay));
+ return result;
+}
+
+function calendarAge(start, end) {
+ let years = end.getFullYear() - start.getFullYear();
+ let cursor = new Date(start);
+ cursor.setFullYear(start.getFullYear() + years);
+
+ if (cursor > end) {
+  years--;
+  cursor = new Date(start);
+  cursor.setFullYear(start.getFullYear() + years);
+ }
+
+ let months = 0;
+ while (months < 11) {
+  const next = addMonths(cursor, 1);
+  if (next > end) break;
+  cursor = next;
+  months++;
+ }
+
+ const days = Math.round((end - cursor) / 86400000);
+ return {years, months, days};
+}
+
+function dayDifference(a,b) {
+ return Math.round((b-a)/86400000);
+}
+
+function nextBirthday(dob, asOf) {
+ let year = asOf.getFullYear();
+ let candidate = new Date(year, dob.getMonth(), 1);
+ const last = new Date(year, dob.getMonth()+1, 0).getDate();
+ candidate.setDate(Math.min(dob.getDate(), last));
+
+ if (candidate <= asOf) {
+  year++;
+  candidate = new Date(year, dob.getMonth(), 1);
+  const nextLast = new Date(year, dob.getMonth()+1, 0).getDate();
+  candidate.setDate(Math.min(dob.getDate(), nextLast));
+ }
+ return candidate;
+}
+
+function addPerson() {
+ if (people.length >= 10) {
+  alert("You can add a maximum of 10 people.");
+  return;
+ }
+
+ const person = {id:nextId++, dob:""};
+ people.push(person);
+ renderPeople();
+ updateComparison();
+}
+
+function renderPeople() {
+ personsContainer.innerHTML = "";
+
+ people.forEach((person,index) => {
+  const card = document.createElement("div");
+  card.className = "person-card";
+  card.innerHTML = `
+   <div class="person-heading">
+    <h3>Person ${index+1}</h3>
+    ${people.length > 1 ? `<button class="remove-btn" type="button" data-remove="${person.id}">Remove</button>` : ""}
+   </div>
+   <div class="field">
+    <label for="dob-${person.id}">Date of Birth</label>
+    <input type="date" id="dob-${person.id}" value="${person.dob}" max="${asOfInput.value}">
+   </div>
+   <div id="result-${person.id}"></div>
+  `;
+  personsContainer.appendChild(card);
+ });
+
+ people.forEach(person => {
+  const input = document.getElementById(`dob-${person.id}`);
+  input.addEventListener("change", () => {
+   person.dob = input.value;
+   updateAll();
+  });
+ });
+
+ personsContainer.querySelectorAll("[data-remove]").forEach(button => {
+  button.addEventListener("click", () => {
+   const id = Number(button.dataset.remove);
+   people = people.filter(p => p.id !== id);
+   renderPeople();
+   updateAll();
+  });
+ });
+
+ updateAll();
+}
+
+function renderPersonResult(person) {
+ const output = document.getElementById(`result-${person.id}`);
+ const dob = parseDate(person.dob);
+ const asOf = parseDate(asOfInput.value);
+
+ if (!person.dob) {
+  output.innerHTML = `<p class="muted">Enter a date of birth to calculate age.</p>`;
+  return;
+ }
+
+ if (!dob || !asOf || dob > asOf) {
+  output.innerHTML = `<p class="error">Date of Birth cannot be later than the selected calculation date.</p>`;
+  return;
+ }
+
+ const age = calendarAge(dob,asOf);
+ const days = dayDifference(dob,asOf);
+ const weeks = Math.floor(days/7);
+ const birthday = nextBirthday(dob,asOf);
+ const daysLeft = dayDifference(asOf,birthday);
+ const birthdayAge = birthday.getFullYear() - dob.getFullYear();
+
+ output.innerHTML = `
+  <div class="result-box">
+   <h4>Exact Age</h4>
+   <div class="age-main">
+    <div class="age-part"><strong>${age.years}</strong><span>Years</span></div>
+    <div class="age-part"><strong>${age.months}</strong><span>Months</span></div>
+    <div class="age-part"><strong>${age.days}</strong><span>Days</span></div>
+   </div>
+   <div class="detail-grid">
+    <div class="detail">Day of Birth<strong>${formatDate(dob)}</strong></div>
+    <div class="detail">Next Birthday<strong>${formatDate(birthday)}</strong></div>
+    <div class="detail">Days Until Next Birthday<strong>${daysLeft} days</strong></div>
+    <div class="detail">Age on Next Birthday<strong>${birthdayAge} years</strong></div>
+    <div class="detail">Total Days<strong>${days.toLocaleString("en-US")}</strong></div>
+    <div class="detail">Total Weeks<strong>${weeks.toLocaleString("en-US")} weeks</strong></div>
+    <div class="detail">Total Months<strong>${(age.years*12+age.months).toLocaleString("en-US")} months</strong></div>
+    <div class="detail">Total Hours<strong>${(days*24).toLocaleString("en-US")}</strong></div>
+    <div class="detail">Total Minutes<strong>${(days*1440).toLocaleString("en-US")}</strong></div>
+   </div>
+  </div>
+ `;
+}
+
+function updateComparisonOptions() {
+ const validPeople = people.filter(p => {
+  const dob = parseDate(p.dob);
+  const asOf = parseDate(asOfInput.value);
+  return dob && asOf && dob <= asOf;
+ });
+
+ const previousA = compareA.value;
+ const previousB = compareB.value;
+
+ function fill(select, preferred) {
+  select.innerHTML = "";
+  validPeople.forEach((person) => {
+   const index = people.findIndex(p => p.id === person.id);
+   const option = document.createElement("option");
+   option.value = String(person.id);
+   option.textContent = `Person ${index+1}`;
+   select.appendChild(option);
+  });
+  if (validPeople.some(p => String(p.id) === preferred)) {
+   select.value = preferred;
+  }
+ }
+
+ fill(compareA,previousA);
+ fill(compareB,previousB);
+
+ if (validPeople.length >= 2 && compareA.value === compareB.value) {
+  compareB.value = String(validPeople.find(p => String(p.id) !== compareA.value).id);
+ }
+}
+
+function updateComparison() {
+ updateComparisonOptions();
+
+ const idA = Number(compareA.value);
+ const idB = Number(compareB.value);
+ const personA = people.find(p => p.id === idA);
+ const personB = people.find(p => p.id === idB);
+
+ if (!personA || !personB || idA === idB) {
+  comparisonResult.innerHTML = `<p class="muted">Add at least two people with valid dates of birth to compare their ages.</p>`;
+  return;
+ }
+
+ const dateA = parseDate(personA.dob);
+ const dateB = parseDate(personB.dob);
+
+ if (!dateA || !dateB) {
+  comparisonResult.innerHTML = `<p class="muted">Enter valid dates of birth for both selected people.</p>`;
+  return;
+ }
+
+ const earlier = dateA < dateB ? dateA : dateB;
+ const later = dateA < dateB ? dateB : dateA;
+ const difference = calendarAge(earlier,later);
+ const totalDays = dayDifference(earlier,later);
+ const olderIndex = people.findIndex(p => p.id === (dateA < dateB ? idA : idB)) + 1;
+ const youngerIndex = people.findIndex(p => p.id === (dateA < dateB ? idB : idA)) + 1;
+
+ comparisonResult.innerHTML = `
+  <h3>Age Difference</h3>
+  <div class="diff-number">${difference.years} Years, ${difference.months} Months, ${difference.days} Days</div>
+  <p><strong>Person ${olderIndex}</strong> is older than <strong>Person ${youngerIndex}</strong>.</p>
+  <p class="muted">Total difference: ${totalDays.toLocaleString("en-US")} days</p>
+ `;
+}
+
+function updateAll() {
+ people.forEach(renderPersonResult);
+ updateComparison();
+}
+
+function resetCalculator() {
+ people = [];
+ nextId = 1;
+ asOfInput.value = localDateString();
+ addPerson();
+}
+
+asOfInput.addEventListener("change", () => {
+ const asOf = parseDate(asOfInput.value);
+ if (!asOf) return;
+ document.querySelectorAll('input[id^="dob-"]').forEach(input => {
+  input.max = asOfInput.value;
+ });
+ updateAll();
+});
+
+compareA.addEventListener("change", updateComparison);
+compareB.addEventListener("change", updateComparison);
+document.getElementById("addPerson").addEventListener("click", addPerson);
+
+addPerson();
+</script>
+
+</body>
+</html>
