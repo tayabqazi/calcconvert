@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<title>Free Loan EMI Calculator - Monthly Payments & Interest | CalcConvert</title>
+
+<meta name="description" content="Free international Loan EMI Calculator. Calculate monthly loan payments, total interest and repayment using fixed interest rates or benchmarks such as KIBOR, SOFR, SONIA and EURIBOR.">
+
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://calcconvert.calcconvert.workers.dev/loan-emi-calculator.html">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f1f5f9;
+ color:#1e293b;
+ line-height:1.6;
+}
+
+header{
+ background:#0f172a;
+ color:white;
+ padding:18px 15px;
+ text-align:center;
+}
+
+header h1{
+ margin:0 0 6px;
+ font-size:26px;
+}
+
+header p{
+ margin:0;
+ color:#cbd5e1;
+ font-size:14px;
+}
+
+.page-layout{
+ width:100%;
+ max-width:1300px;
+ margin:25px auto;
+ padding:0 18px;
+ display:grid;
+ grid-template-columns:160px minmax(0,900px) 160px;
+ gap:20px;
+ align-items:start;
+}
+
+.side-ad{
+ margin-top:35px;
+ min-height:600px;
+ background:#e8edf5;
+ border:1px dashed #b8c4d5;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ color:#64748b;
+ font-size:13px;
+ position:sticky;
+ top:20px;
+ padding:10px;
+}
+
+.container{
+ width:100%;
+ max-width:900px;
+ min-width:0;
+ margin:auto;
+}
+
+.top-navigation{
+ display:flex;
+ justify-content:flex-end;
+ margin-bottom:15px;
+}
+
+.back-home{
+ display:inline-block;
+ padding:9px 15px;
+ background:#334155;
+ color:white;
+ text-decoration:none;
+ border-radius:7px;
+ font-size:14px;
+ font-weight:bold;
+}
+
+.back-home:hover{background:#475569}
+
+.card{
+ background:white;
+ padding:23px;
+ border-radius:12px;
+ margin-bottom:20px;
+ box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+h2{
+ font-size:19px;
+ margin:0 0 17px;
+ color:#0f172a;
+}
+
+h3{
+ font-size:16px;
+ margin:20px 0 9px;
+ color:#1e293b;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:16px;
+}
+
+.field{min-width:0}
+
+label{
+ display:block;
+ font-size:13px;
+ font-weight:600;
+ margin-bottom:7px;
+ color:#475569;
+}
+
+input,select{
+ width:100%;
+ padding:12px;
+ border:1px solid #cbd5e1;
+ border-radius:7px;
+ font-size:15px;
+ background:white;
+ color:#1e293b;
+}
+
+input:focus,select:focus{
+ outline:2px solid #bfdbfe;
+ border-color:#2563eb;
+}
+
+.hint{
+ font-size:12px;
+ color:#64748b;
+ margin-top:5px;
+}
+
+.full{grid-column:1/-1}
+
+.rate-panel{
+ background:#f8fafc;
+ border:1px solid #e2e8f0;
+ border-radius:9px;
+ padding:17px;
+ margin-top:18px;
+}
+
+.rate-panel h3{margin:0 0 15px}
+
+.rate-result{
+ margin-top:14px;
+ background:#eff6ff;
+ border:1px solid #bfdbfe;
+ border-radius:7px;
+ padding:12px;
+ font-size:14px;
+}
+
+.rate-result strong{
+ color:#1d4ed8;
+ font-size:18px;
+}
+
+.rate-hidden{display:none!important}
+
+.button-row{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-top:20px;
+}
+
+button{
+ border:0;
+ padding:13px 20px;
+ border-radius:8px;
+ font-size:14px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.primary{
+ background:#2563eb;
+ color:white;
+ flex:1;
+}
+
+.primary:hover{background:#1d4ed8}
+
+.secondary{
+ background:#e2e8f0;
+ color:#334155;
+}
+
+.secondary:hover{background:#cbd5e1}
+
+.results{display:none}
+
+.result-grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+}
+
+.result-box{
+ background:#f8fafc;
+ border:1px solid #e2e8f0;
+ padding:16px;
+ border-radius:9px;
+}
+
+.result-box small{
+ display:block;
+ color:#64748b;
+ font-size:12px;
+ margin-bottom:6px;
+}
+
+.result-box strong{
+ font-size:20px;
+ color:#0f172a;
+ overflow-wrap:anywhere;
+}
+
+.result-box.highlight{
+ background:#eff6ff;
+ border-color:#bfdbfe;
+}
+
+.result-box.highlight strong{color:#1d4ed8}
+
+.result-box.green{
+ background:#f0fdf4;
+ border-color:#bbf7d0;
+}
+
+.result-box.green strong{color:#15803d}
+
+.result-note{
+ font-size:12px;
+ color:#64748b;
+ margin-top:13px;
+ line-height:1.7;
+}
+
+.table-wrap{
+ width:100%;
+ overflow-x:auto;
+ margin-top:15px;
+}
+
+.schedule{
+ width:100%;
+ border-collapse:collapse;
+ min-width:580px;
+}
+
+.schedule th,.schedule td{
+ padding:11px 9px;
+ border-bottom:1px solid #e2e8f0;
+ text-align:right;
+ font-size:13px;
+ white-space:nowrap;
+}
+
+.schedule th{
+ background:#f1f5f9;
+ color:#334155;
+}
+
+.schedule th:first-child,
+.schedule td:first-child{text-align:left}
+
+.info-card p{
+ color:#475569;
+ font-size:14px;
+ line-height:1.8;
+}
+
+.info-card ul{
+ padding-left:22px;
+ color:#475569;
+ font-size:14px;
+ line-height:1.8;
+}
+
+.formula{
+ background:#f8fafc;
+ border-left:4px solid #2563eb;
+ padding:12px 15px;
+ margin:12px 0;
+ font-size:14px;
+ overflow-wrap:anywhere;
+}
+
+.faq-item{
+ padding:14px 0;
+ border-bottom:1px solid #e2e8f0;
+}
+
+.faq-item:last-child{border-bottom:0}
+
+.faq-item h3{
+ margin:0 0 7px;
+ font-size:15px;
+}
+
+.faq-item p{
+ margin:0;
+ font-size:14px;
+ color:#475569;
+}
+
+.error{
+ display:none;
+ background:#fef2f2;
+ border:1px solid #fecaca;
+ color:#b91c1c;
+ padding:12px;
+ border-radius:7px;
+ font-size:13px;
+ margin-top:15px;
+}
+
+footer{
+ background:#0f172a;
+ color:#cbd5e1;
+ text-align:center;
+ padding:25px 15px;
+ font-size:13px;
+ line-height:2;
+}
+
+footer a{
+ color:#dce4f0;
+ text-decoration:none;
+ margin:0 9px;
+}
+
+footer a:hover{text-decoration:underline}
+
+@media(max-width:1319px){
+ .page-layout{
+  display:block;
+  max-width:936px;
+ }
+ .side-ad{display:none}
+}
+
+@media(max-width:600px){
+ .page-layout{padding:0 10px;margin:18px auto}
+ .card{padding:17px}
+ header h1{font-size:22px}
+ .grid,.result-grid{grid-template-columns:1fr}
+ .button-row button{width:100%}
+ .result-box strong{font-size:19px}
+}
+
+@media print{
+ body{background:white}
+ header,footer,.side-ad,.top-navigation,.form-card,
+ .button-row,.info-card{display:none!important}
+ .page-layout{display:block;padding:0;margin:0}
+ .container{max-width:100%}
+ .results{display:block!important}
+ .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <h1>Loan EMI Calculator</h1>
+ <p>Calculate Monthly Installments, Interest and Total Loan Repayment</p>
+</header>
+
+<div class="page-layout">
+
+ <aside class="side-ad">
+  <div>Advertisement Space</div>
+ </aside>
+
+ <main class="container">
+
+  <div class="top-navigation">
+   <a href="index.html" class="back-home">← Back to Home</a>
+  </div>
+
+  <section class="card form-card">
+
+   <h2>Loan Details</h2>
+
+   <div class="grid">
+
+    <div class="field">
+     <label for="currency">Currency</label>
+     <select id="currency">
+      <option value="PKR">PKR - Pakistani Rupee</option>
+      <option value="USD">USD - US Dollar</option>
+      <option value="GBP">GBP - British Pound</option>
+      <option value="EUR">EUR - Euro</option>
+      <option value="AED">AED - UAE Dirham</option>
+      <option value="SAR">SAR - Saudi Riyal</option>
+      <option value="INR">INR - Indian Rupee</option>
+      <option value="CAD">CAD - Canadian Dollar</option>
+      <option value="AUD">AUD - Australian Dollar</option>
+      <option value="JPY">JPY - Japanese Yen</option>
+      <option value="Other">Other Currency</option>
+     </select>
+    </div>
+
+    <div class="field">
+     <label for="loanAmount">Loan Amount</label>
+     <input type="number" id="loanAmount" min="0" step="any" placeholder="e.g. 1000000">
+    </div>
+
+    <div class="field">
+     <label for="rateType">Interest / Profit Rate Type</label>
+     <select id="rateType">
+      <option value="fixed">Fixed Annual Rate</option>
+      <option value="benchmark">Benchmark + Bank Spread</option>
+     </select>
+    </div>
+
+    <div class="field">
+     <label for="tenure">Loan Tenure</label>
+     <input type="number" id="tenure" min="1" max="600" step="1" placeholder="e.g. 5">
+    </div>
+
+    <div class="field">
+     <label for="tenureUnit">Tenure Unit</label>
+     <select id="tenureUnit">
+      <option value="years">Years</option>
+      <option value="months">Months</option>
+     </select>
+    </div>
+
+    <div class="field rate-fixed" id="fixedRateField">
+     <label for="fixedRate">Annual Interest / Profit Rate (%)</label>
+     <input type="number" id="fixedRate" min="0" max="100" step="any" placeholder="e.g. 12.5">
+     <div class="hint">Enter the annual rate offered by your bank.</div>
+    </div>
+
+   </div>
+
+   <div class="rate-panel rate-hidden" id="benchmarkPanel">
+
+    <h3>Benchmark Rate Setup</h3>
+
+    <div class="grid">
+
+     <div class="field">
+      <label for="benchmark">Benchmark Rate</label>
+      <select id="benchmark">
+       <option value="KIBOR">KIBOR - Pakistan</option>
+       <option value="SOFR">SOFR - United States</option>
+       <option value="SONIA">SONIA - United Kingdom</option>
+       <option value="EURIBOR">EURIBOR - Europe</option>
+       <option value="TONA">TONA - Japan</option>
+       <option value="CUSTOM">Other / Custom Benchmark</option>
+      </select>
+     </div>
+
+     <div class="field">
+      <label for="benchmarkRate">Benchmark Rate (%)</label>
+      <input type="number" id="benchmarkRate" step="any" placeholder="Enter current benchmark rate">
+     </div>
+
+     <div class="field">
+      <label for="spread">Bank Spread / Margin (%)</label>
+      <input type="number" id="spread" step="any" placeholder="e.g. 1.00">
+     </div>
+
+     <div class="field">
+      <label for="revision">Rate Revision Frequency</label>
+      <select id="revision">
+       <option value="Monthly">Monthly</option>
+       <option value="Quarterly">Quarterly (3 months)</option>
+       <option value="Semiannual">Semiannual (6 months)</option>
+       <option value="Annual" selected>Annual (12 months)</option>
+      </select>
+     </div>
+
+    </div>
+
+    <div class="rate-result">
+     Calculated Annual Rate:
+     <br>
+     <strong id="calculatedRate">--</strong>
+    </div>
+
+    <div class="hint">
+     Enter the latest benchmark rate published or quoted by your bank. Future rate changes are not predicted by this calculator.
+    </div>
+
+   </div>
+
+   <div class="error" id="error"></div>
+
+   <div class="button-row">
+    <button class="primary" id="calculateBtn">Calculate Loan EMI</button>
+    <button class="secondary" id="resetBtn" type="button">Reset</button>
+   </div>
+
+  </section>
+
+  <section class="card results" id="results">
+
+   <h2>Loan Repayment Summary</h2>
+
+   <div class="result-grid">
+
+    <div class="result-box highlight">
+     <small>Monthly Installment (EMI)</small>
+     <strong id="emiResult">--</strong>
+    </div>
+
+    <div class="result-box green">
+     <small>Total Interest / Profit</small>
+     <strong id="interestResult">--</strong>
+    </div>
+
+    <div class="result-box">
+     <small>Total Repayment</small>
+     <strong id="totalResult">--</strong>
+    </div>
+
+    <div class="result-box">
+     <small>Original Loan Amount</small>
+     <strong id="principalResult">--</strong>
+    </div>
+
+    <div class="result-box">
+     <small>Annual Interest / Profit Rate</small>
+     <strong id="annualRateResult">--</strong>
+    </div>
+
+    <div class="result-box">
+     <small>Loan Duration</small>
+     <strong id="durationResult">--</strong>
+    </div>
+
+   </div>
+
+   <p class="result-note" id="resultNote"></p>
+
+   <div class="button-row">
+    <button class="secondary" id="printBtn" type="button">Print Results</button>
+   </div>
+
+  </section>
+
+  <section class="card results" id="scheduleCard">
+
+   <h2>Monthly Repayment Schedule</h2>
+
+   <p class="result-note">
+    This schedule shows the estimated principal and interest allocation for each monthly installment, assuming the entered rate remains unchanged.
+   </p>
+
+   <div class="table-wrap">
+    <table class="schedule">
+     <thead>
+      <tr>
+       <th>Month</th>
+       <th>Opening Balance</th>
+       <th>EMI</th>
+       <th>Principal</th>
+       <th>Interest</th>
+       <th>Closing Balance</th>
+      </tr>
+     </thead>
+     <tbody id="scheduleBody"></tbody>
+    </table>
+   </div>
+
+  </section>
+
+  <section class="card info-card">
+
+   <h2>About Loan EMI Calculator</h2>
+
+   <p>
+    The CalcConvert Loan EMI Calculator helps you estimate monthly loan installments, total interest or profit and total repayment. It supports fixed annual rates and benchmark-based financing rates.
+   </p>
+
+   <h3>What is EMI?</h3>
+
+   <p>
+    EMI stands for Equated Monthly Installment. It is the regular monthly payment made by a borrower to repay a loan. Each installment normally includes a portion of the original loan amount and the applicable interest or profit.
+   </p>
+
+   <h3>Fixed Interest Rate</h3>
+
+   <p>
+    Under a fixed-rate arrangement, the annual interest or profit rate remains unchanged for the period specified in the loan agreement.
+   </p>
+
+   <h3>Benchmark Rate + Bank Spread</h3>
+
+   <p>
+    Some financing arrangements use a reference benchmark rate plus a bank spread or margin. The total annual rate is calculated by adding the benchmark rate and the agreed bank spread.
+   </p>
+
+   <div class="formula">
+    <strong>Annual Rate = Benchmark Rate + Bank Spread</strong>
+    <br>
+    Example: 11.50% KIBOR + 1.00% spread = 12.50% annual rate.
+   </div>
+
+   <p>
+    Different markets use different benchmarks, such as KIBOR, SOFR, SONIA, EURIBOR and TONA. The applicable benchmark and margin depend on the bank, product and loan agreement.
+   </p>
+
+   <h3>EMI Calculation Formula</h3>
+
+   <div class="formula">
+    EMI = P × r × (1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1]
+    <br><br>
+    P = Loan Principal
+    <br>
+    r = Monthly Interest Rate
+    <br>
+    n = Total Number of Monthly Installments
+   </div>
+
+   <h3>Important Note About Floating Rates</h3>
+
+   <p>
+    For benchmark-based financing, this calculator uses the benchmark rate and spread entered by the user. It assumes that the resulting annual rate remains unchanged throughout the loan tenure. Actual installments may change when the bank revises its benchmark rate. The bank's repayment schedule and financing agreement should be treated as authoritative.
+   </p>
+
+   <h3>Calculator Limitations</h3>
+
+   <ul>
+    <li>Results are estimates and may differ from actual bank schedules.</li>
+    <li>Processing fees, insurance, taxes and other charges are not included.</li>
+    <li>Variable-rate changes are not automatically forecast.</li>
+    <li>Actual bank calculations may use different day-count or compounding conventions.</li>
+   </ul>
+
+  </section>
+
+  <section class="card info-card">
+
+   <h2>Frequently Asked Questions</h2>
+
+   <div class="faq-item">
+    <h3>1. What does EMI mean?</h3>
+    <p>EMI means Equated Monthly Installment. It is the regular monthly payment used to repay a loan.</p>
+   </div>
+
+   <div class="faq-item">
+    <h3>2. What is the difference between fixed and floating rates?</h3>
+    <p>A fixed rate remains unchanged according to the loan agreement. A floating rate can change when its benchmark rate is revised.</p>
+   </div>
+
+   <div class="faq-item">
+    <h3>3. What is KIBOR + Bank Spread?</h3>
+    <p>It means the applicable KIBOR benchmark rate plus the additional percentage margin charged by the bank. For example, 11.50% KIBOR plus 1% spread results in a 12.50% annual rate.</p>
+   </div>
+
+   <div class="faq-item">
+    <h3>4. Does this calculator automatically update benchmark rates?</h3>
+    <p>No. Users must enter the latest benchmark rate and bank spread provided by their financial institution.</p>
+   </div>
+
+   <div class="faq-item">
+    <h3>5. Does the calculator include bank fees and insurance?</h3>
+    <p>No. The calculation covers the loan principal and entered interest or profit rate. Additional charges must be considered separately.</p>
+   </div>
+
+   <div class="faq-item">
+    <h3>6. Can I use this calculator for Islamic financing?</h3>
+    <p>You can enter the applicable annual profit or markup rate to estimate installments. Actual Islamic financing structures and payment schedules may differ.</p>
+   </div>
+
+  </section>
+
+ </main>
+
+ <aside class="side-ad">
+  <div>Advertisement Space</div>
+ </aside>
+
+</div>
+
+<footer>
+ <p><strong>CalcConvert</strong> - Free Online Calculators & Converters</p>
+ <p>
+  <a href="index.html">Home</a>
+  <a href="about-us.html">About Us</a>
+  <a href="contact-us.html">Contact</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="terms-and-conditions.html">Terms</a>
+  <a href="disclaimer.html">Disclaimer</a>
+ </p>
+ <p>© 2026 CalcConvert. All rights reserved.</p>
+</footer>
+
+<script>
+const loanAmount = document.getElementById("loanAmount");
+const tenure = document.getElementById("tenure");
+const tenureUnit = document.getElementById("tenureUnit");
+const rateType = document.getElementById("rateType");
+const fixedRate = document.getElementById("fixedRate");
+const benchmarkRate = document.getElementById("benchmarkRate");
+const spread = document.getElementById("spread");
+const benchmarkPanel = document.getElementById("benchmarkPanel");
+const fixedRateField = document.getElementById("fixedRateField");
+const errorBox = document.getElementById("error");
+const results = document.getElementById("results");
+const scheduleCard = document.getElementById("scheduleCard");
+
+function getAnnualRate(){
+ if(rateType.value === "fixed"){
+  return Number(fixedRate.value);
+ }
+
+ return Number(benchmarkRate.value) + Number(spread.value);
+}
+
+function updateRateDisplay(){
+ if(rateType.value === "benchmark"){
+  const benchmark = benchmarkRate.value;
+  const bankSpread = spread.value;
+
+  if(benchmark !== "" && bankSpread !== ""){
+   document.getElementById("calculatedRate").textContent =
+    (Number(benchmark) + Number(bankSpread)).toFixed(2) + "%";
+  }else{
+   document.getElementById("calculatedRate").textContent = "--";
+  }
+ }
+}
+
+function updateRateFields(){
+ const isBenchmark = rateType.value === "benchmark";
+
+ benchmarkPanel.classList.toggle("rate-hidden",!isBenchmark);
+ fixedRateField.classList.toggle("rate-hidden",isBenchmark);
+
+ updateRateDisplay();
+}
+
+rateType.addEventListener("change",updateRateFields);
+benchmarkRate.addEventListener("input",updateRateDisplay);
+spread.addEventListener("input",updateRateDisplay);
+
+document.getElementById("benchmark").addEventListener("change",function(){
+ const hints = {
+  KIBOR:"Enter current KIBOR rate",
+  SOFR:"Enter applicable SOFR rate",
+  SONIA:"Enter applicable SONIA rate",
+  EURIBOR:"Enter applicable EURIBOR rate",
+  TONA:"Enter applicable TONA rate",
+  CUSTOM:"Enter your custom benchmark rate"
+ };
+
+ benchmarkRate.placeholder = hints[this.value] || "Enter benchmark rate";
+});
+
+function formatMoney(value){
+ const currency = document.getElementById("currency").value;
+
+ try{
+  if(currency === "Other"){
+   return value.toLocaleString("en-US",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+   });
+  }
+
+  return new Intl.NumberFormat("en-US",{
+   style:"currency",
+   currency:currency,
+   maximumFractionDigits:2
+  }).format(value);
+
+ }catch(e){
+  return value.toLocaleString("en-US",{maximumFractionDigits:2});
+ }
+}
+
+function showError(message){
+ errorBox.textContent = message;
+ errorBox.style.display = "block";
+ results.style.display = "none";
+ scheduleCard.style.display = "none";
+}
+
+function calculateEMI(){
+ errorBox.style.display = "none";
+
+ const principal = Number(loanAmount.value);
+ const enteredTenure = Number(tenure.value);
+ const annualRate = getAnnualRate();
+
+ if(!loanAmount.value || !Number.isFinite(principal) || principal <= 0){
+  showError("Please enter a valid loan amount greater than zero.");
+  return;
+ }
+
+ if(!tenure.value || !Number.isFinite(enteredTenure) ||
+    enteredTenure <= 0 || !Number.isInteger(enteredTenure)){
+  showError("Please enter a valid whole number for loan tenure.");
+  return;
+ }
+
+ const months = tenureUnit.value === "years"
+  ? enteredTenure * 12
+  : enteredTenure;
+
+ if(months > 600){
+  showError("Maximum supported loan tenure is 50 years (600 months).");
+  return;
+ }
+
+ if(rateType.value === "fixed"){
+  if(fixedRate.value === "" || !Number.isFinite(annualRate) ||
+     annualRate < 0 || annualRate > 100){
+   showError("Please enter a valid annual rate between 0% and 100%.");
+   return;
+  }
+ }else{
+  if(benchmarkRate.value === "" || spread.value === ""){
+   showError("Please enter both the benchmark rate and bank spread.");
+   return;
+  }
+
+  if(!Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100){
+   showError("The combined annual rate must be between 0% and 100%.");
+   return;
+  }
+ }
+
+ const monthlyRate = annualRate / 100 / 12;
+
+ let emi;
+
+ if(monthlyRate === 0){
+  emi = principal / months;
+ }else{
+  const factor = Math.pow(1 + monthlyRate,months);
+  emi = principal * monthlyRate * factor / (factor - 1);
+ }
+
+ if(!Number.isFinite(emi) || emi <= 0){
+  showError("Unable to calculate the installment. Please check your inputs.");
+  return;
+ }
+
+ const totalPayment = emi * months;
+ const totalInterest = totalPayment - principal;
+
+ document.getElementById("emiResult").textContent = formatMoney(emi);
+ document.getElementById("interestResult").textContent = formatMoney(totalInterest);
+ document.getElementById("totalResult").textContent = formatMoney(totalPayment);
+ document.getElementById("principalResult").textContent = formatMoney(principal);
+ document.getElementById("annualRateResult").textContent = annualRate.toFixed(2) + "%";
+ document.getElementById("durationResult").textContent = months + " Months";
+
+ const rateDescription = rateType.value === "benchmark"
+  ? "Benchmark: " + document.getElementById("benchmark").value +
+    " | Revision frequency: " + document.getElementById("revision").value
+  : "Fixed annual rate";
+
+ document.getElementById("resultNote").textContent =
+  rateDescription +
+  ". Calculation assumes the entered rate remains unchanged for the entire loan tenure. " +
+  "Fees, insurance and other charges are excluded.";
+
+ generateSchedule(principal,monthlyRate,emi,months);
+
+ results.style.display = "block";
+ scheduleCard.style.display = "block";
+
+ results.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function generateSchedule(principal,monthlyRate,emi,months){
+ const body = document.getElementById("scheduleBody");
+ body.innerHTML = "";
+
+ let balance = principal;
+
+ for(let month=1;month<=months;month++){
+
+  const openingBalance = balance;
+  const interest = balance * monthlyRate;
+  let principalPaid = emi - interest;
+
+  if(month === months || principalPaid > balance){
+   principalPaid = balance;
+  }
+
+  let payment = principalPaid + interest;
+
+  balance = Math.max(0,balance-principalPaid);
+
+  const row = document.createElement("tr");
+
+  const values = [
+   month,
+   formatMoney(openingBalance),
+   formatMoney(payment),
+   formatMoney(principalPaid),
+   formatMoney(interest),
+   formatMoney(balance)
+  ];
+
+  values.forEach(value=>{
+   const cell = document.createElement("td");
+   cell.textContent = value;
+   row.appendChild(cell);
+  });
+
+  body.appendChild(row);
+ }
+}
+
+document.getElementById("calculateBtn").addEventListener("click",calculateEMI);
+
+document.getElementById("resetBtn").addEventListener("click",function(){
+ document.getElementById("currency").value = "PKR";
+ loanAmount.value = "";
+ tenure.value = "";
+ tenureUnit.value = "years";
+ rateType.value = "fixed";
+ fixedRate.value = "";
+ benchmarkRate.value = "";
+ spread.value = "";
+ document.getElementById("benchmark").value = "KIBOR";
+ document.getElementById("revision").value = "Annual";
+
+ updateRateFields();
+
+ errorBox.style.display = "none";
+ results.style.display = "none";
+ scheduleCard.style.display = "none";
+ document.getElementById("scheduleBody").innerHTML = "";
+});
+
+document.getElementById("printBtn").addEventListener("click",function(){
+ window.print();
+});
+
+updateRateFields();
+</script>
+
+</body>
+</html>
