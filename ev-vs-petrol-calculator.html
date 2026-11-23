@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare petrol and electric vehicle running costs. Calculate cost per kilometre, daily, monthly and yearly expenses, and estimate your savings with an EV.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://calcconvert.calcconvert.workers.dev/ev-vs-petrol-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EV vs Petrol Running Cost Calculator | CalcConvert">
+  <meta property="og:description" content="Compare petrol and electric vehicle running costs and estimate daily, monthly and yearly savings with an EV.">
+  <meta property="og:url" content="https://calcconvert.calcconvert.workers.dev/ev-vs-petrol-calculator.html">
+  <meta property="og:site_name" content="CalcConvert">
+  <title>EV vs Petrol Running Cost Calculator | CalcConvert</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"CalcConvert EV vs Petrol Running Cost Calculator",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "url":"https://calcconvert.calcconvert.workers.dev/ev-vs-petrol-calculator.html",
+    "description":"A free calculator to compare petrol and electric vehicle energy costs per kilometre, daily, monthly and yearly, and estimate EV running-cost savings.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"How does the EV vs petrol calculator work?","acceptedAnswer":{"@type":"Answer","text":"Enter the petrol price per litre and vehicle mileage in kilometres per litre. Then enter the electricity price per kWh and EV energy consumption in kWh per 100 km. The calculator compares running costs for the distance you drive."}},
+      {"@type":"Question","name":"What is the difference between kW and kWh?","acceptedAnswer":{"@type":"Answer","text":"kW measures power, while kWh measures energy consumed. Electricity tariffs and EV energy consumption for this calculator are entered in kWh."}},
+      {"@type":"Question","name":"Does this calculator include vehicle maintenance costs?","acceptedAnswer":{"@type":"Answer","text":"No. It compares petrol and electricity energy costs only. Maintenance, insurance, purchase price and battery replacement are not included."}},
+      {"@type":"Question","name":"How are monthly and yearly costs estimated?","acceptedAnswer":{"@type":"Answer","text":"Daily running cost is multiplied by the number of driving days per month. Monthly cost is then multiplied by 12 for the yearly estimate."}}
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f5f7fb; color: #202b3c; line-height: 1.6; }
+    header { background: #202b3c; padding: 17px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .logo { color: white; font-size: 25px; font-weight: bold; text-decoration: none; }
+    .logo span { color: #4d9aff; }
+    .home-link { color: white; text-decoration: none; font-size: 14px; }
+    .container { max-width: 900px; margin: 35px auto; padding: 0 18px; }
+    .intro { margin-bottom: 25px; }
+    h1 { font-size: 30px; margin: 0 0 10px; line-height: 1.25; }
+    .calculator, .info { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.05); }
+    .calculator h2, .info h2 { font-size: 20px; margin: 0 0 18px; color: #1769e0; }
+    .section-note { margin: -9px 0 17px; color: #64748b; font-size: 13px; }
+    .inputs { display: flex; gap: 14px; flex-wrap: wrap; }
+    .field { flex: 1; min-width: 190px; }
+    label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 7px; }
+    input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 16px; color: #202b3c; background: white; }
+    input:focus, select:focus { outline: none; border-color: #1769e0; box-shadow: 0 0 0 2px rgba(23,105,224,0.12); }
+    .hint { display: block; color: #64748b; font-size: 12px; margin-top: 5px; }
+    .buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+    button { border: none; padding: 11px 20px; border-radius: 7px; cursor: pointer; font-size: 15px; font-weight: bold; }
+    .calculate { background: #1769e0; color: white; }
+    .calculate:hover { background: #1055bd; }
+    .reset { background: #e8edf5; color: #202b3c; }
+    .print-button { background: #15803d; color: white; margin-top: 16px; }
+    .print-button:hover { background: #166534; }
+    .error { display: none; margin-top: 14px; padding: 11px 13px; border-radius: 7px; background: #fef2f2; color: #b91c1c; font-size: 14px; }
+    .results { display: none; margin-top: 24px; }
+    .results h2 { color: #1769e0; font-size: 21px; margin: 0 0 14px; }
+    .result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .result-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 9px; min-width: 0; }
+    .result-box small { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+    .result-box strong { font-size: 21px; color: #0f172a; overflow-wrap: anywhere; }
+    .result-box.highlight { background: #eff6ff; border-color: #bfdbfe; }
+    .result-box.highlight strong { color: #1d4ed8; }
+    .result-box.green { background: #f0fdf4; border-color: #bbf7d0; }
+    .result-box.green strong { color: #15803d; }
+    .table-wrap { width: 100%; overflow-x: auto; margin-top: 18px; }
+    table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid #e2e8f0; text-align: right; font-size: 14px; white-space: nowrap; }
+    th { background: #f1f5f9; color: #334155; }
+    th:first-child, td:first-child { text-align: left; }
+    .result-note { font-size: 12px; color: #64748b; margin-top: 13px; line-height: 1.7; }
+    .info h3 { font-size: 17px; margin: 18px 0 5px; }
+    .info p { color: #475569; font-size: 14px; margin: 6px 0 12px; }
+    .formula { background: #f8fafc; border-left: 4px solid #1769e0; padding: 12px 15px; margin: 12px 0; font-size: 14px; overflow-wrap: anywhere; }
+    .faq-item { padding: 13px 0; border-bottom: 1px solid #e2e8f0; }
+    .faq-item:last-child { border-bottom: 0; }
+    .faq-item h3 { margin: 0 0 5px; font-size: 15px; }
+    .faq-item p { margin: 0; }
+    footer { background: #202b3c; color: white; text-align: center; padding: 28px 15px; margin-top: 45px; }
+    footer p { color: #d1d8e2; font-size: 14px; }
+    footer a { color: #dce4f0; text-decoration: none; margin: 0 8px; font-size: 14px; }
+    @media(max-width: 600px) { h1 { font-size: 26px; } .calculator, .info { padding: 20px; } .field { min-width: 100%; } .result-grid { grid-template-columns: 1fr; } }
+    @media print {
+      @page { margin: 15mm; }
+      body * { visibility: hidden !important; }
+      #results, #results * { visibility: visible !important; }
+      #results { display: block !important; position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; background: white; box-shadow: none; }
+      .print-button { display: none !important; }
+      .table-wrap { overflow: visible; }
+      table { min-width: 0; width: 100%; }
+      th, td { font-size: 10px; padding: 7px 5px; white-space: normal; }
+      .result-box { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Calc<span>Convert</span></a>
+  <a href="index.html" class="home-link">Back to Home</a>
+</header>
+<main class="container">
+  <section class="intro">
+    <h1>EV vs Petrol Running Cost Calculator</h1>
+    <p>Compare the energy cost of driving a petrol vehicle and an electric vehicle. Calculate running cost per kilometre, daily, monthly and yearly expenses, and estimate how much you could save by switching to an EV.</p>
+  </section>
+
+  <section class="calculator">
+    <h2>1. Your Driving Details</h2>
+    <div class="inputs">
+      <div class="field">
+        <label for="currency">Currency</label>
+        <select id="currency">
+          <option value="PKR" selected>PKR - Pakistani Rupee</option>
+          <option value="USD">USD - US Dollar</option>
+          <option value="GBP">GBP - British Pound</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="AED">AED - UAE Dirham</option>
+          <option value="SAR">SAR - Saudi Riyal</option>
+          <option value="INR">INR - Indian Rupee</option>
+          <option value="CAD">CAD - Canadian Dollar</option>
+          <option value="AUD">AUD - Australian Dollar</option>
+          <option value="BDT">BDT - Bangladeshi Taka</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="distance">Daily Driving Distance (km)</label>
+        <input type="number" id="distance" min="0.01" step="any" value="50" placeholder="e.g. 50">
+      </div>
+      <div class="field">
+        <label for="days">Driving Days per Month</label>
+        <input type="number" id="days" min="1" max="31" step="1" value="30" placeholder="e.g. 30">
+      </div>
+    </div>
+  </section>
+
+  <section class="calculator">
+    <h2>2. Petrol Vehicle Details</h2>
+    <p class="section-note">Enter your local petrol price and your vehicle's average fuel mileage.</p>
+    <div class="inputs">
+      <div class="field">
+        <label for="petrolPrice">Petrol Price per Litre</label>
+        <input type="number" id="petrolPrice" min="0" step="any" value="265" placeholder="e.g. 265">
+      </div>
+      <div class="field">
+        <label for="petrolMileage">Petrol Average (km per litre)</label>
+        <input type="number" id="petrolMileage" min="0.01" step="any" value="15" placeholder="e.g. 15">
+        <span class="hint">Example: 15 means the vehicle travels 15 km on one litre.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="calculator">
+    <h2>3. Electric Vehicle (EV) Details</h2>
+    <p class="section-note">Enter your electricity tariff and the EV's energy consumption.</p>
+    <div class="inputs">
+      <div class="field">
+        <label for="electricityRate">Electricity Rate per kWh (Unit)</label>
+        <input type="number" id="electricityRate" min="0" step="any" value="60" placeholder="e.g. 60">
+      </div>
+      <div class="field">
+        <label for="evConsumption">EV Consumption (kWh per 100 km)</label>
+        <input type="number" id="evConsumption" min="0.01" step="any" value="15" placeholder="e.g. 15">
+        <span class="hint">Use the vehicle's stated or observed energy consumption.</span>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="calculate" type="button" onclick="calculateCosts()">Calculate Running Cost</button>
+      <button class="reset" type="button" onclick="resetCalculator()">Reset</button>
+    </div>
+    <div class="error" id="error" role="alert"></div>
+
+    <div class="results" id="results" aria-live="polite">
+      <h2>Running Cost Comparison</h2>
+      <div class="result-grid">
+        <div class="result-box">
+          <small>Petrol Vehicle - Cost per KM</small>
+          <strong id="petrolPerKm">—</strong>
+        </div>
+        <div class="result-box highlight">
+          <small>Electric Vehicle - Cost per KM</small>
+          <strong id="evPerKm">—</strong>
+        </div>
+        <div class="result-box">
+          <small>Petrol Vehicle - Monthly Cost</small>
+          <strong id="petrolMonthly">—</strong>
+        </div>
+        <div class="result-box highlight">
+          <small>Electric Vehicle - Monthly Cost</small>
+          <strong id="evMonthly">—</strong>
+        </div>
+        <div class="result-box">
+          <small>Petrol Vehicle - Yearly Cost</small>
+          <strong id="petrolYearly">—</strong>
+        </div>
+        <div class="result-box highlight">
+          <small>Electric Vehicle - Yearly Cost</small>
+          <strong id="evYearly">—</strong>
+        </div>
+        <div class="result-box green">
+          <small>Estimated Monthly Saving with EV</small>
+          <strong id="monthlySaving">—</strong>
+        </div>
+        <div class="result-box green">
+          <small>Estimated Yearly Saving with EV</small>
+          <strong id="yearlySaving">—</strong>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cost Comparison</th><th>Petrol Fuel Cost</th><th>EV Electricity Cost</th><th>Difference / Savings</th></tr></thead>
+          <tbody>
+            <tr><td>Cost per KM</td><td id="petrolPerKmTable">—</td><td id="evPerKmTable">—</td><td id="perKmDifferenceTable">—</td></tr>
+            <tr><td>Daily Running Cost</td><td id="petrolDailyTable">—</td><td id="evDailyTable">—</td><td id="dailyDifferenceTable">—</td></tr>
+            <tr><td>Monthly Running Cost</td><td id="petrolMonthlyTable">—</td><td id="evMonthlyTable">—</td><td id="monthlyDifferenceTable">—</td></tr>
+            <tr><td>Yearly Running Cost</td><td id="petrolYearlyTable">—</td><td id="evYearlyTable">—</td><td id="yearlyDifferenceTable">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="result-note" id="savingNote"></p>
+      <button class="print-button" type="button" onclick="printResults()">Print Results</button>
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>How Does the EV vs Petrol Running Cost Calculator Work?</h2>
+    <p>This calculator compares the cost of petrol and electricity required to travel the same distance. Enter the prices and consumption figures that apply to your vehicle and location.</p>
+    <h3>Petrol Vehicle Running Cost</h3>
+    <div class="formula">Petrol Cost per KM = Petrol Price per Litre ÷ Petrol Mileage (km per litre)</div>
+    <h3>Electric Vehicle Running Cost</h3>
+    <div class="formula">EV Cost per KM = Electricity Rate per kWh × EV Consumption (kWh per 100 km) ÷ 100</div>
+    <h3>Monthly and Yearly Cost</h3>
+    <div class="formula">Daily Cost = Cost per KM × Daily Driving Distance<br>Monthly Cost = Daily Cost × Driving Days per Month<br>Yearly Cost = Monthly Cost × 12</div>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>What information do I need?</h3><p>You need the petrol price per litre, petrol vehicle mileage in km per litre, electricity price per kWh, EV consumption in kWh per 100 km and your daily driving distance.</p></div>
+    <div class="faq-item"><h3>Is electricity measured in kW or kWh?</h3><p>Electricity consumption and electricity tariffs are entered in kWh (kilowatt-hour), commonly called a unit. kW measures power, not the amount of energy consumed.</p></div>
+    <div class="faq-item"><h3>Does the result include maintenance or vehicle purchase cost?</h3><p>No. This calculator compares petrol and electricity running costs only. It does not include maintenance, insurance, vehicle purchase price, financing, charging equipment or battery replacement.</p></div>
+    <div class="faq-item"><h3>Are the savings guaranteed?</h3><p>No. Results are estimates based on the prices, vehicle efficiency and driving distance you enter. Actual costs may vary due to driving conditions, charging losses, traffic, fuel prices and electricity tariffs.</p></div>
+  </section>
+</main>
+<footer>
+  <div class="logo" style="color:white;">CalcConvert</div>
+  <p>Free Online Calculators &amp; Converters for Everyone</p>
+  <div style="margin:20px 0; line-height:2.5;">
+    <a href="about-us.html">About Us</a>
+    <a href="contact-us.html">Contact Us</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+  </div>
+  <p>&copy; 2026 CalcConvert. All rights reserved.</p>
+</footer>
+<script>
+  function numberFrom(id) {
+    const raw = document.getElementById(id).value.trim();
+    return raw === '' ? NaN : Number(raw);
+  }
+
+  function formatMoney(amount, currency) {
+    try {
+      return new Intl.NumberFormat('en', {
+        style: 'currency', currency: currency,
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+      }).format(amount);
+    } catch (error) {
+      return currency + ' ' + amount.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+  }
+
+  function calculateCosts() {
+    const currency = document.getElementById('currency').value;
+    const distance = numberFrom('distance');
+    const days = numberFrom('days');
+    const petrolPrice = numberFrom('petrolPrice');
+    const petrolMileage = numberFrom('petrolMileage');
+    const electricityRate = numberFrom('electricityRate');
+    const evConsumption = numberFrom('evConsumption');
+    const errorBox = document.getElementById('error');
+    const results = document.getElementById('results');
+
+    const values = [distance, days, petrolPrice, petrolMileage, electricityRate, evConsumption];
+    if (values.some(value => !Number.isFinite(value) || value < 0) || distance === 0 || days === 0 || days > 31 || petrolMileage === 0 || evConsumption === 0) {
+      errorBox.textContent = 'Please enter valid positive values. Driving days must be between 1 and 31, and mileage and EV consumption must be greater than zero.';
+      errorBox.style.display = 'block';
+      results.style.display = 'none';
+      return;
+    }
+
+    const petrolPerKm = petrolPrice / petrolMileage;
+    const evPerKm = (electricityRate * evConsumption) / 100;
+    const petrolDaily = petrolPerKm * distance;
+    const evDaily = evPerKm * distance;
+    const petrolMonthly = petrolDaily * days;
+    const evMonthly = evDaily * days;
+    const petrolYearly = petrolMonthly * 12;
+    const evYearly = evMonthly * 12;
+    const monthlySaving = petrolMonthly - evMonthly;
+    const yearlySaving = petrolYearly - evYearly;
+    const dailyDifference = petrolDaily - evDaily;
+    const perKmDifference = petrolPerKm - evPerKm;
+
+    const put = (id, value) => { document.getElementById(id).textContent = formatMoney(value, currency); };
+    const putDifference = (id, value) => {
+      const label = value >= 0 ? 'EV saves ' : 'EV extra cost ';
+      document.getElementById(id).textContent = label + formatMoney(Math.abs(value), currency);
+    };
+    put('petrolPerKm', petrolPerKm);
+    put('evPerKm', evPerKm);
+    put('petrolMonthly', petrolMonthly);
+    put('evMonthly', evMonthly);
+    put('petrolYearly', petrolYearly);
+    put('evYearly', evYearly);
+    put('monthlySaving', monthlySaving);
+    put('yearlySaving', yearlySaving);
+    put('petrolPerKmTable', petrolPerKm);
+    put('evPerKmTable', evPerKm);
+    putDifference('perKmDifferenceTable', perKmDifference);
+    put('petrolDailyTable', petrolDaily);
+    put('evDailyTable', evDaily);
+    putDifference('dailyDifferenceTable', dailyDifference);
+    put('petrolMonthlyTable', petrolMonthly);
+    put('evMonthlyTable', evMonthly);
+    putDifference('monthlyDifferenceTable', monthlySaving);
+    put('petrolYearlyTable', petrolYearly);
+    put('evYearlyTable', evYearly);
+    putDifference('yearlyDifferenceTable', yearlySaving);
+
+    const note = monthlySaving >= 0
+      ? `Based on ${distance.toLocaleString('en')} km per day and ${days} driving days per month, the EV is estimated to save ${formatMoney(monthlySaving, currency)} per month. These figures compare energy costs only.`
+      : `Based on the figures entered, the EV energy cost is estimated to be ${formatMoney(Math.abs(monthlySaving), currency)} higher per month. These figures compare energy costs only.`;
+    document.getElementById('savingNote').textContent = note;
+    errorBox.style.display = 'none';
+    results.style.display = 'block';
+  }
+
+  function printResults() {
+    if (document.getElementById('results').style.display !== 'block') return;
+    window.print();
+  }
+
+  function resetCalculator() {
+    document.getElementById('currency').value = 'PKR';
+    document.getElementById('distance').value = '50';
+    document.getElementById('days').value = '30';
+    document.getElementById('petrolPrice').value = '265';
+    document.getElementById('petrolMileage').value = '15';
+    document.getElementById('electricityRate').value = '60';
+    document.getElementById('evConsumption').value = '15';
+    document.getElementById('error').style.display = 'none';
+    document.getElementById('results').style.display = 'none';
+  }
+</script>
+</body>
+</html>
