@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%232563eb%22/%3E%3Crect x=%2215%22 y=%228%22 width=%2234%22 height=%2248%22 rx=%224%22 fill=%22white%22/%3E%3Crect x=%2220%22 y=%2214%22 width=%2224%22 height=%228%22 rx=%222%22 fill=%22%23bfdbfe%22/%3E%3Cpath d=%22M21 29h5v5h-5zm9 0h5v5h-5zm9 0h5v5h-5zM21 38h5v5h-5zm9 0h5v5h-5zm9 0h5v5h-5zM21 47h14v4H21z%22 fill=%22%232563eb%22/%3E%3C/svg%3E">
 
 <title>Free Loan EMI Calculator - Car, Home & Personal Loans | CalcConvert</title>
 <meta name="description" content="Calculate monthly loan EMI for personal loans, car financing and home mortgages. Estimate down payments, upfront fees, monthly costs and total interest with fixed or benchmark-based rates.">
@@ -75,7 +75,7 @@
       "name": "Does this calculator automatically update benchmark rates?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. The calculator selects a suggested benchmark based on the chosen currency, but users must enter the current applicable benchmark rate and bank spread."
+        "text": "The calculator does not fetch live rates. Enter the current benchmark and bank spread. Future benchmark rates are optional; a blank revision keeps the previous benchmark rate."
       }
     },
     {
@@ -146,14 +146,14 @@ button{border:0;padding:13px 20px;border-radius:8px;font-size:14px;font-weight:b
 .faq-item:last-child{border-bottom:0}
 .faq-item h3{margin:0 0 7px;font-size:15px}
 .faq-item p{margin:0;font-size:14px;color:#475569}
-.error{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px;border-radius:7px;font-size:13px;margin-top:15px}
+.revision-panel{margin-top:16px;padding:14px;background:#fff;border:1px solid #cbd5e1;border-radius:8px}.revision-list{display:grid;gap:10px;margin-top:12px}.revision-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px;background:#f8fafc;border-radius:7px}.revision-row label{font-size:12px}.revision-row input{padding:9px}.revision-title{font-size:13px;font-weight:bold;color:#334155}.error{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px;border-radius:7px;font-size:13px;margin-top:15px}
 footer{background:#0f172a;color:#cbd5e1;text-align:center;padding:25px 15px;font-size:13px;line-height:2}
 footer a{color:#dce4f0;text-decoration:none;margin:0 9px}
 footer a:hover{text-decoration:underline}
 .text-link{color:#1d4ed8;text-decoration:none}
 .text-link:hover{text-decoration:underline}
 @media(max-width:1319px){.page-layout{display:block;max-width:936px}.side-ad{display:none}}
-@media(max-width:600px){.page-layout{padding:0 10px;margin:18px auto}.card{padding:17px}header h1{font-size:22px}.grid,.result-grid{grid-template-columns:1fr}.button-row button{width:100%}.result-box strong{font-size:19px}}
+@media(max-width:600px){.revision-row{grid-template-columns:1fr}.page-layout{padding:0 10px;margin:18px auto}.card{padding:17px}header h1{font-size:22px}.grid,.result-grid{grid-template-columns:1fr}.button-row button{width:100%}.result-box strong{font-size:19px}}
 @media print{body{background:white}header,footer,.side-ad,.top-navigation,.form-card,.button-row,.info-card{display:none!important}.page-layout{display:block;padding:0;margin:0}.container{max-width:100%}.results{display:block!important}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}}
 </style>
 </head>
@@ -222,7 +222,7 @@ footer a:hover{text-decoration:underline}
     <div class="field">
      <label for="otherMonthly">Other Monthly Payments</label>
      <input type="number" id="otherMonthly" min="0" step="any" placeholder="e.g. monthly insurance or service charges" value="0">
-     <div class="hint">Additional monthly cost, shown separately from the EMI.</div>
+     <div class="hint">Additional monthly charges, such as vehicle insurance and maintenance. Included in the monthly amount payable and repayment schedule, but not added to the loan principal.</div>
     </div>
     <div class="field">
      <label for="rateType">Interest / Profit Rate Type</label>
@@ -275,12 +275,23 @@ footer a:hover{text-decoration:underline}
      </div>
     </div>
     <div class="rate-result">Calculated Annual Rate:<br><strong id="calculatedRate">--</strong></div>
-    <div class="hint">The benchmark is suggested from the selected currency. Enter the latest applicable rate and spread quoted by your bank. Future rate changes are not predicted.</div>
+    <div class="hint">Enter the current benchmark rate and bank spread quoted by your lender. You can also enter expected future benchmark rates below; the bank spread remains unchanged.</div>
+     <div class="revision-panel">
+      <h3 style="margin:0 0 10px">Benchmark Rate Revision</h3>
+      <div class="grid">
+       <div class="field"><label for="revisionFrequency">Rate Revision Frequency</label>
+        <select id="revisionFrequency"><option value="1">Every 1 Month</option><option value="3" selected>Every 3 Months</option><option value="6">Every 6 Months</option><option value="12">Every 12 Months</option></select>
+       </div>
+       <div class="field"><label>Revision Method</label><input type="text" value="Enter expected benchmark rates manually" readonly></div>
+      </div>
+      <div class="hint">Future benchmark rates are optional. If you leave a revision field blank, the previous benchmark rate will continue until you enter a new rate. Any new rate applies from the month after the stated installment. The bank spread remains unchanged.</div>
+      <div id="revisionInputs" class="revision-list"></div>
+     </div>
    </div>
 
    <div class="error" id="error"></div>
    <div class="button-row">
-    <button class="primary" id="calculateBtn">Calculate Loan EMI</button>
+    <button class="primary" id="calculateBtn" type="button">Calculate Loan EMI</button>
     <button class="secondary" id="resetBtn" type="button">Reset</button>
    </div>
   </section>
@@ -301,15 +312,15 @@ footer a:hover{text-decoration:underline}
     <div class="result-box"><small>Loan Duration</small><strong id="durationResult">--</strong></div>
    </div>
    <p class="result-note" id="resultNote"></p>
-   <div class="button-row"><button class="secondary" id="printBtn" type="button">Print Results</button></div>
+   <div class="button-row"><button class="secondary" id="printBtn" type="button">Print Results</button><button class="secondary" id="excelBtn" type="button">Download Excel</button></div>
   </section>
 
   <section class="card results" id="scheduleCard">
    <h2>Monthly Repayment Schedule</h2>
-   <p class="result-note">This schedule shows the estimated principal and interest allocation for each EMI, assuming the entered rate remains unchanged. Other monthly payments are excluded from this loan amortization schedule.</p>
+   <p class="result-note">This schedule shows the monthly EMI, additional monthly payments (such as vehicle insurance and maintenance), and the total amount payable each month. For benchmark-based financing, entered future benchmark rates are applied at the selected revision intervals and the EMI is recalculated on the remaining balance. Other monthly payments are added to the monthly amount payable but do not reduce the loan balance.</p>
    <div class="table-wrap">
     <table class="schedule">
-     <thead><tr><th>Month</th><th>Opening Balance</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Closing Balance</th></tr></thead>
+     <thead><tr><th>Month</th><th>Opening Balance</th><th>Loan EMI</th><th>Other Monthly Payments</th><th>Total Monthly Payment</th><th>Annual Rate</th><th>Principal</th><th>Interest</th><th>Closing Balance</th></tr></thead>
      <tbody id="scheduleBody"></tbody>
     </table>
    </div>
@@ -321,7 +332,7 @@ footer a:hover{text-decoration:underline}
    <h3>Vehicle Financing and Home Mortgage</h3>
    <p>For vehicle or property financing, enter the purchase price and down payment. The estimated financed amount is calculated by subtracting the down payment from the purchase price. Other upfront payments, such as processing fees, registration and insurance, remain separate and are not automatically added to the loan.</p>
    <h3>Other Monthly Payments</h3>
-   <p>You can enter additional monthly costs, such as monthly insurance or service charges. These are added to the monthly outflow estimate but remain separate from the loan EMI and amortization schedule.</p>
+   <p>You can enter additional monthly charges, such as vehicle insurance and maintenance for a leased vehicle. These are added to each month’s total amount payable and shown separately from the loan EMI. They do not reduce the outstanding loan balance.</p>
    <h3>Fixed Interest Rate</h3>
    <p>Under a fixed-rate arrangement, the annual interest or profit rate remains unchanged according to the loan agreement.</p>
    <h3>Benchmark Rate + Bank Spread</h3>
@@ -333,7 +344,7 @@ footer a:hover{text-decoration:underline}
    <ul>
     <li>Results are estimates and may differ from actual bank repayment schedules.</li>
     <li>Other upfront payments and additional monthly payments are displayed separately; they are not added to the loan principal.</li>
-    <li>The calculator assumes the entered annual rate remains unchanged for the full tenure.</li>
+    <li>For fixed-rate loans, the entered rate remains unchanged. For benchmark-based loans, future revision rates are optional. If a revision field is left blank, the previous benchmark rate continues until a new rate is entered.</li>
     <li>Benchmark rates are not fetched live. Confirm the applicable benchmark and bank margin with your lender.</li>
     <li>Actual bank calculations may use different day-count, compounding, fees or repayment conventions.</li>
     <li>Islamic financing structures, balloon payments and special repayment arrangements may require a separate calculation.</li>
@@ -347,7 +358,7 @@ footer a:hover{text-decoration:underline}
    <div class="faq-item"><h3>2. Can I calculate car financing and home mortgage payments?</h3><p>Yes. Select Vehicle / Car Financing, Home Loan / Mortgage or Property Financing, then enter the purchase price and down payment. The calculator estimates the financed amount automatically.</p></div>
    <div class="faq-item"><h3>3. How is the loan amount calculated for vehicle or property financing?</h3><p>The estimated loan amount is the purchase price minus the down payment. Other upfront payments are shown separately and are not automatically added to the loan.</p></div>
    <div class="faq-item"><h3>4. What is the difference between fixed and floating rates?</h3><p>A fixed rate remains unchanged according to the loan agreement. A floating rate can change when its benchmark rate is revised.</p></div>
-   <div class="faq-item"><h3>5. Does this calculator automatically update benchmark rates?</h3><p>No. The calculator selects a suggested benchmark based on the chosen currency, but users must enter the current applicable benchmark rate and bank spread.</p></div>
+   <div class="faq-item"><h3>5. Does this calculator automatically update benchmark rates?</h3><p>The calculator does not fetch live rates. Enter the current benchmark and bank spread. Future benchmark rates are optional: if a revision field is left blank, the previous benchmark rate continues until a new rate is entered.</p></div>
    <div class="faq-item"><h3>6. Are bank fees, insurance and other payments included?</h3><p>You can enter other upfront payments and additional monthly payments separately. They are included in the estimated overall cost but are not added to the loan principal or EMI.</p></div>
   </section>
  </main>
@@ -511,21 +522,19 @@ function calculateEMI(){
   if(!Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100){
    showError("The combined annual rate must be between 0% and 100%.");return;
   }
+  const futureRates=getFutureBenchmarkRates().filter(r=>r.entered);
+  if(futureRates.some(r=>!Number.isFinite(r.benchmarkRate) || r.benchmarkRate<0 || r.benchmarkRate>100 || r.benchmarkRate+Number(spread.value)>100)){
+   showError("Each future benchmark rate must be between 0% and 100%, and the combined rate with bank spread cannot exceed 100%.");return;
+  }
  }
 
- const monthlyRate = annualRate/100/12;
- let emi;
- if(monthlyRate === 0) emi = principal/months;
- else{
-  const factor = Math.pow(1+monthlyRate,months);
-  emi = principal*monthlyRate*factor/(factor-1);
- }
+ const emi = calculateInstallment(principal,annualRate,months);
  if(!Number.isFinite(emi) || emi <= 0){
   showError("Unable to calculate the installment. Please check your inputs.");return;
  }
-
- const totalPayment = emi*months;
- const totalInterest = totalPayment-principal;
+ const scheduleTotals=generateSchedule(principal,annualRate,months,extraMonthly);
+ const totalPayment=scheduleTotals.totalPayment;
+ const totalInterest=scheduleTotals.totalInterest;
  const otherMonthlyTotal = extraMonthly*months;
  const monthlyOutflow = emi+extraMonthly;
  const overallCost = totalPayment+otherMonthlyTotal+upfront+down;
@@ -548,40 +557,96 @@ function calculateEMI(){
  const typeName = loanType.options[loanType.selectedIndex].text;
  document.getElementById("resultNote").textContent =
   "Financing type: "+typeName+". "+rateDescription+
-  ". The entered rate is assumed unchanged throughout the loan tenure. Other monthly payments are added to monthly outflow; upfront payments and down payment are included in overall estimated cost but are not financed. Actual lender charges and schedules may differ.";
+  (rateType.value === "benchmark" ? ". Future benchmark rates are applied as entered at the selected revision frequency; bank spread remains unchanged." : ". The fixed rate is assumed unchanged throughout the loan tenure.")+
+  " Other monthly payments are added to every month’s total amount payable and shown separately in the repayment schedule; upfront payments and down payment are included in overall estimated cost but are not financed. Actual lender charges and schedules may differ.";
 
- generateSchedule(principal,monthlyRate,emi,months);
  results.style.display = "block";
  scheduleCard.style.display = "block";
  results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-function generateSchedule(principal,monthlyRate,emi,months){
- const body = document.getElementById("scheduleBody");
- body.innerHTML = "";
- let balance = principal;
+function calculateInstallment(balance,annualRate,remainingMonths){
+ const monthlyRate=annualRate/100/12;
+ if(remainingMonths<=0) return 0;
+ if(monthlyRate===0) return balance/remainingMonths;
+ const factor=Math.pow(1+monthlyRate,remainingMonths);
+ return balance*monthlyRate*factor/(factor-1);
+}
+
+function renderRevisionInputs(){
+ const container=document.getElementById("revisionInputs");
+ if(!container) return;
+ container.innerHTML="";
+ const entered=Number(tenure.value);
+ const months=tenure.value && Number.isInteger(entered) && entered>0
+  ? (tenureUnit.value==="years"?entered*12:entered) : 0;
+ const frequency=Number(document.getElementById("revisionFrequency").value);
+ if(!months || months>600 || !frequency) return;
+ const count=Math.floor((months-1)/frequency);
+ if(count===0){
+  container.innerHTML='<div class="hint">No rate revision falls within this loan tenure at the selected frequency.</div>';
+  return;
+ }
+ for(let i=1;i<=count;i++){
+  const afterMonth=i*frequency;
+  const row=document.createElement("div"); row.className="revision-row";
+  const title=document.createElement("div"); title.className="revision-title";
+  title.textContent="After installment "+afterMonth+" (Month "+(afterMonth+1)+" onward)";
+  const field=document.createElement("div");
+  const label=document.createElement("label"); label.textContent="Expected Benchmark Rate (%)"; label.htmlFor="futureBenchmark"+afterMonth;
+  const input=document.createElement("input"); input.type="number"; input.min="0"; input.max="100"; input.step="any";
+  input.id="futureBenchmark"+afterMonth; input.className="future-benchmark"; input.dataset.afterMonth=String(afterMonth); input.placeholder="Optional - leave blank to keep previous rate";
+  field.append(label,input); row.append(title,field); container.appendChild(row);
+ }
+}
+
+function getFutureBenchmarkRates(){
+ return Array.from(document.querySelectorAll(".future-benchmark")).map(input=>({
+  afterMonth:Number(input.dataset.afterMonth), benchmarkRate:Number(input.value), entered:input.value.trim()!==""
+ }));
+}
+
+function generateSchedule(principal,initialAnnualRate,months,extraMonthly){
+ const body=document.getElementById("scheduleBody"); body.innerHTML="";
+ let balance=principal, annualRate=initialAnnualRate;
+ let emi=calculateInstallment(balance,annualRate,months);
+ let totalPayment=0,totalInterest=0;
+ const revisionMap=new Map(getFutureBenchmarkRates().filter(r=>r.entered).map(r=>[r.afterMonth,r.benchmarkRate]));
  for(let month=1;month<=months;month++){
-  const openingBalance = balance;
-  const interest = balance*monthlyRate;
-  let principalPaid = emi-interest;
+  if(rateType.value==="benchmark" && month>1 && revisionMap.has(month-1)){
+   annualRate=revisionMap.get(month-1)+Number(spread.value);
+   emi=calculateInstallment(balance,annualRate,months-month+1);
+  }
+  const openingBalance=balance, monthlyRate=annualRate/100/12;
+  const interest=balance*monthlyRate;
+  let principalPaid=emi-interest;
   if(month===months || principalPaid>balance) principalPaid=balance;
-  const payment = principalPaid+interest;
-  balance = Math.max(0,balance-principalPaid);
-  const row = document.createElement("tr");
-  [month,formatMoney(openingBalance),formatMoney(payment),formatMoney(principalPaid),formatMoney(interest),formatMoney(balance)].forEach(value=>{
-   const cell=document.createElement("td");cell.textContent=value;row.appendChild(cell);
+  if(principalPaid<0) principalPaid=0;
+  const payment=principalPaid+interest;
+  const monthlyExtras=extraMonthly;
+  const totalMonthlyPayment=payment+monthlyExtras;
+  balance=Math.max(0,balance-principalPaid);
+  totalPayment+=payment; totalInterest+=interest;
+  const row=document.createElement("tr");
+  [month,formatMoney(openingBalance),formatMoney(payment),formatMoney(monthlyExtras),formatMoney(totalMonthlyPayment),annualRate.toFixed(2)+"%",formatMoney(principalPaid),formatMoney(interest),formatMoney(balance)].forEach(value=>{
+   const cell=document.createElement("td"); cell.textContent=value; row.appendChild(cell);
   });
   body.appendChild(row);
  }
+ return {totalPayment,totalInterest};
 }
 
 currency.addEventListener("change",updateBenchmarkFromCurrency);
 loanType.addEventListener("change",updateLoanTypeFields);
 purchasePrice.addEventListener("input",updateFinancedAmount);
 downPayment.addEventListener("input",updateFinancedAmount);
-rateType.addEventListener("change",updateRateFields);
+
 benchmarkRate.addEventListener("input",updateRateDisplay);
 spread.addEventListener("input",updateRateDisplay);
+document.getElementById("revisionFrequency").addEventListener("change",renderRevisionInputs);
+tenure.addEventListener("input",renderRevisionInputs);
+tenureUnit.addEventListener("change",renderRevisionInputs);
+rateType.addEventListener("change",function(){updateRateFields();renderRevisionInputs();});
 
 document.getElementById("benchmark").addEventListener("change",function(){
  const names = {
@@ -620,9 +685,96 @@ document.getElementById("resetBtn").addEventListener("click",function(){
 
 document.getElementById("printBtn").addEventListener("click",()=>window.print());
 
+function loadExcelLibrary(){
+ if(window.XLSX) return Promise.resolve();
+ if(window.__xlsxLoadPromise) return window.__xlsxLoadPromise;
+ window.__xlsxLoadPromise=new Promise((resolve,reject)=>{
+  const sources=[
+   "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js",
+   "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+  ];
+  let index=0;
+  function tryNext(){
+   if(window.XLSX){resolve();return;}
+   if(index>=sources.length){window.__xlsxLoadPromise=null;reject(new Error("Excel library could not be loaded from the available sources."));return;}
+   const script=document.createElement("script");
+   script.src=sources[index++];
+   script.onload=()=>window.XLSX?resolve():tryNext();
+   script.onerror=tryNext;
+   document.head.appendChild(script);
+  }
+  tryNext();
+ });
+ return window.__xlsxLoadPromise;
+}
+
+document.getElementById("excelBtn").addEventListener("click",async function(){
+ const button=this;
+ const originalText=button.textContent;
+ button.disabled=true;
+ button.textContent="Preparing Excel...";
+ try{
+  await loadExcelLibrary();
+ }catch(error){
+  alert("Excel export library could not be reached. Please try again later or check whether your browser/network is blocking the file-hosting sites.");
+  button.disabled=false;
+  button.textContent=originalText;
+  return;
+ }
+ try{
+ const currencyCode=currency.value;
+ const summaryRows=[
+  ["Loan EMI Calculator - Loan Summary"],
+  ["Generated On",new Date().toLocaleString()],
+  ["Financing Type",loanType.options[loanType.selectedIndex].text],
+  ["Currency",currencyCode],
+  ["Interest Rate Type",rateType.value==="benchmark"?"Benchmark + Bank Spread":"Fixed Rate"],
+  ["Fixed Annual Rate (%)",rateType.value==="fixed"?(fixedRate.value||"N/A"):"N/A"],
+  ["Benchmark",rateType.value==="benchmark"?document.getElementById("benchmark").value:"N/A"],
+  ["Current Benchmark Rate (%)",rateType.value==="benchmark"?(benchmarkRate.value||"N/A"):"N/A"],
+  ["Bank Spread (%)",rateType.value==="benchmark"?(spread.value||"N/A"):"N/A"],
+  ["Benchmark Revision Frequency",rateType.value==="benchmark"?document.getElementById("revisionFrequency").value+" months":"N/A"],
+  ["Loan Amount / Financed Amount",loanAmount.value],
+  ["Loan Tenure",tenure.value+" "+tenureUnit.value],
+  ["Monthly Loan Installment (Initial EMI)",document.getElementById("emiResult").textContent],
+  ["Initial Total Monthly Outflow",document.getElementById("monthlyOutflowResult").textContent],
+  ["Total Interest / Profit",document.getElementById("interestResult").textContent],
+  ["Total Loan Repayment",document.getElementById("totalResult").textContent],
+  ["Down Payment",document.getElementById("downPaymentResult").textContent],
+  ["Other Upfront Payments",document.getElementById("upfrontResult").textContent],
+  ["Other Monthly Payments (per month)",otherMonthly.value||"0"],
+  ["Total Other Monthly Payments",document.getElementById("otherMonthlyTotalResult").textContent],
+  ["Overall Estimated Cost",document.getElementById("overallCostResult").textContent],
+  ["Initial Annual Interest / Profit Rate",document.getElementById("annualRateResult").textContent],
+  ["Future Benchmark Rate Entries",rateType.value==="benchmark"?getFutureBenchmarkRates().map(r=>"After month "+r.afterMonth+": "+(r.entered?r.benchmarkRate+"%":"Blank (previous rate continues)")).join("; "):"N/A"],
+  ["Calculation Notes",document.getElementById("resultNote").textContent]
+ ];
+ const summarySheet=XLSX.utils.aoa_to_sheet(summaryRows);
+ summarySheet["!cols"]=[{wch:38},{wch:85}];
+ const scheduleRows=[];
+ document.querySelectorAll("#scheduleCard table tr").forEach(row=>{
+  scheduleRows.push(Array.from(row.children).map(cell=>cell.textContent.trim()));
+ });
+ const scheduleSheet=XLSX.utils.aoa_to_sheet(scheduleRows);
+ scheduleSheet["!cols"]=[{wch:10},{wch:20},{wch:18},{wch:25},{wch:25},{wch:15},{wch:18},{wch:18},{wch:20}];
+ const workbook=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(workbook,summarySheet,"Loan Summary");
+ XLSX.utils.book_append_sheet(workbook,scheduleSheet,"Repayment Schedule");
+ const safeType=loanType.value.replace(/[^a-z0-9-]/gi,"-");
+ XLSX.writeFile(workbook,"Loan-EMI-Schedule-"+safeType+".xlsx");
+ }catch(error){
+  console.error("Excel export failed:",error);
+  alert("Excel file could not be created. Please calculate the loan again and retry.");
+ }finally{
+  button.disabled=false;
+  button.textContent=originalText;
+ }
+});
+
 updateLoanTypeFields();
 updateBenchmarkFromCurrency();
 updateRateFields();
+renderRevisionInputs();
 </script>
 </body>
 </html>
