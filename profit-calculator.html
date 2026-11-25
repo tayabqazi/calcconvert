@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate gross profit, operating profit, profit before tax and net profit for trading, freelance, service, manufacturing and other businesses with this free Profit Calculator.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://calcconvert.calcconvert.workers.dev/profit-calculator.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Business Profit Calculator - Gross & Net Profit | CalcConvert</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f5f7fb; color: #202b3c; line-height: 1.6; }
+    header { background: #202b3c; padding: 17px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .logo { color: white; font-size: 25px; font-weight: bold; text-decoration: none; }
+    .logo span { color: #4d9aff; }
+    .home-link { color: white; text-decoration: none; font-size: 14px; }
+    .page-layout { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 18px; display: grid; grid-template-columns: 160px minmax(0, 900px) 160px; gap: 20px; align-items: start; }
+    .side-ad { margin-top: 35px; min-height: 600px; background: #e8edf5; border: 1px dashed #b8c4d5; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-align: center; color: #64748b; font-size: 13px; position: sticky; top: 20px; }
+    .ad-label { padding: 10px; }
+    .ad-label strong { display: block; font-size: 15px; margin-bottom: 5px; color: #475569; }
+    .container { width: 100%; max-width: 900px; margin: 35px auto; padding: 0; min-width: 0; }
+    .intro { margin-bottom: 25px; }
+    h1 { font-size: 30px; margin: 0 0 10px; line-height: 1.3; }
+    .calculator, .info { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.05); }
+    .calculator h2, .info h2 { font-size: 19px; margin: 0 0 18px; color: #1769e0; }
+    .info h2 { font-size: 21px; }
+    .info h3 { font-size: 17px; margin-bottom: 5px; }
+    .section-title { font-size: 16px; font-weight: bold; margin: 20px 0 12px; padding-bottom: 7px; border-bottom: 1px solid #e2e8f0; }
+    .inputs { display: flex; gap: 12px; flex-wrap: wrap; }
+    .field { flex: 1; min-width: 180px; }
+    label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 7px; }
+    input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 15px; color: #202b3c; background: white; }
+    input:focus, select:focus { outline: none; border-color: #1769e0; box-shadow: 0 0 0 2px rgba(23,105,224,0.12); }
+    .hint { display: block; color: #64748b; font-size: 12px; margin-top: 5px; }
+    .buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+    button { border: none; padding: 11px 20px; border-radius: 7px; cursor: pointer; font-size: 15px; font-weight: bold; }
+    .calculate { background: #1769e0; color: white; }
+    .calculate:hover { background: #1055bd; }
+    .reset { background: #e8edf5; color: #202b3c; }
+    .secondary { background: #e8edf5; color: #202b3c; }
+    .error { display: none; margin-top: 12px; color: #b91c1c; font-size: 14px; }
+    .result { display: none; margin-top: 20px; }
+    .result-banner { background: #eff6ff; border-left: 4px solid #1769e0; border-radius: 7px; padding: 17px; margin-bottom: 15px; }
+    .result-banner small { color: #475569; font-weight: bold; }
+    .result-banner strong { display: block; color: #1769e0; font-size: 27px; overflow-wrap: anywhere; }
+    .summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .summary-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; min-width: 0; }
+    .summary-item span { display: block; color: #64748b; font-size: 12px; }
+    .summary-item strong { display: block; font-size: 17px; overflow-wrap: anywhere; }
+    .positive { color: #15803d; }
+    .negative { color: #b91c1c; }
+    .table-wrap { overflow-x: auto; margin-top: 15px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 10px; text-align: right; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; }
+    th { background: #f1f5f9; color: #334155; }
+    .projection-note { color: #64748b; font-size: 12px; margin-top: 8px; }
+    footer { background: #202b3c; color: white; text-align: center; padding: 28px 15px; margin-top: 45px; }
+    footer p { color: #d1d8e2; font-size: 14px; }
+    footer a { color: #dce4f0; text-decoration: none; margin: 0 8px; font-size: 14px; }
+    @media(max-width: 1319px) { .page-layout { display: block; max-width: 936px; } .side-ad { display: none; } .container { max-width: 900px; margin: 35px auto; } }
+    @media(max-width: 600px) { h1 { font-size: 26px; } .calculator, .info { padding: 20px; } .field { min-width: 100%; } .summary-grid { grid-template-columns: 1fr; } }
+    @media print {
+      header, footer, .side-ad, .intro, .input-card, .buttons, .info, .print-hide { display: none !important; }
+      body { background: white; }
+      .page-layout { display: block; max-width: none; padding: 0; }
+      .container { max-width: none; margin: 0; }
+      .calculator { box-shadow: none; border: 0; padding: 0; }
+      .result { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">Calc<span>Convert</span></a>
+  <a href="index.html" class="home-link">Back to Home</a>
+</header>
+
+<main class="page-layout">
+  <aside class="side-ad"><div class="ad-label"><strong>Advertisement</strong>Left Side Ad Space</div></aside>
+
+  <div class="container">
+    <section class="intro">
+      <h1>Business Profit Calculator</h1>
+      <p>Calculate gross profit, operating profit, profit before tax and net profit for your business. Suitable for trading, freelancers, service providers, manufacturers, online sellers and more.</p>
+    </section>
+
+    <section class="calculator input-card">
+      <h2>Business Details</h2>
+      <div class="inputs">
+        <div class="field">
+          <label for="businessName">Business / Shop Name (Optional)</label>
+          <input id="businessName" type="text" maxlength="80" placeholder="e.g. ABC Traders">
+        </div>
+        <div class="field">
+          <label for="businessType">Business Type</label>
+          <select id="businessType">
+            <option value="trading">Trading / Sale &amp; Purchase</option>
+            <option value="freelancer">Freelancer</option>
+            <option value="service">Service Provider</option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="ecommerce">E-commerce / Online Seller</option>
+            <option value="retail">Retail / Shop</option>
+            <option value="construction">Construction / Contractor</option>
+            <option value="other">Other Business</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="currency">Currency</label>
+          <select id="currency">
+            <option value="PKR">PKR - Pakistani Rupee</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="GBP">GBP - British Pound</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="AED">AED - UAE Dirham</option>
+            <option value="SAR">SAR - Saudi Riyal</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="Other">Other Currency (symbol shown as code)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="period">Reporting Period</label>
+          <select id="period">
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="halfyear">Half-Yearly</option>
+            <option value="annual">Annually</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-title">Revenue</div>
+      <div class="inputs">
+        <div class="field">
+          <label for="revenue">Total Revenue / Sales / Fees</label>
+          <input id="revenue" type="number" min="0" step="any" placeholder="e.g. 500000">
+          <span class="hint">Total income earned from sales, projects or services before returns and discounts.</span>
+        </div>
+        <div class="field">
+          <label for="returns">Sales Returns &amp; Discounts</label>
+          <input id="returns" type="number" min="0" step="any" placeholder="e.g. 10000" value="0">
+        </div>
+      </div>
+
+      <div class="section-title">Direct Costs</div>
+      <p class="hint" id="directCostHint">Enter costs directly related to the goods or services sold during this reporting period.</p>
+      <div class="inputs">
+        <div class="field">
+          <label id="directLabel1" for="direct1">Cost of Goods Sold (COGS)</label>
+          <input id="direct1" type="number" min="0" step="any" placeholder="0" value="0">
+        </div>
+        <div class="field">
+          <label id="directLabel2" for="direct2">Freight / Direct Delivery / Import Costs</label>
+          <input id="direct2" type="number" min="0" step="any" placeholder="0" value="0">
+        </div>
+        <div class="field">
+          <label id="directLabel3" for="direct3">Other Direct Costs</label>
+          <input id="direct3" type="number" min="0" step="any" placeholder="0" value="0">
+        </div>
+      </div>
+      <span class="hint">For inventory-based businesses, enter the cost of goods actually sold, not total purchases or closing inventory. Do not enter unsold inventory as an expense.</span>
+
+      <div class="section-title">Operating Expenses</div>
+      <div class="inputs">
+        <div class="field"><label for="salary">Salaries &amp; Wages</label><input id="salary" type="number" min="0" step="any" value="0"></div>
+        <div class="field"><label for="rent">Rent / Office / Shop Expense</label><input id="rent" type="number" min="0" step="any" value="0"></div>
+        <div class="field"><label for="utilities">Utilities (Electricity, Internet, etc.)</label><input id="utilities" type="number" min="0" step="any" value="0"></div>
+        <div class="field"><label for="marketing">Marketing &amp; Advertising</label><input id="marketing" type="number" min="0" step="any" value="0"></div>
+        <div class="field"><label for="admin">Administrative / General Expenses</label><input id="admin" type="number" min="0" step="any" value="0"></div>
+        <div class="field"><label for="otherOperating">Other Operating Expenses</label><input id="otherOperating" type="number" min="0" step="any" value="0"></div>
+      </div>
+
+      <div class="section-title">Other Income &amp; Expenses</div>
+      <div class="inputs">
+        <div class="field"><label for="otherIncome">Other Income</label><input id="otherIncome" type="number" min="0" step="any" value="0"><span class="hint">Income other than normal sales or service revenue.</span></div>
+        <div class="field"><label for="financeCost">Finance Cost / Interest</label><input id="financeCost" type="number" min="0" step="any" value="0"></div>
+        <div class="field"><label for="otherExpense">Other Non-Operating Expenses</label><input id="otherExpense" type="number" min="0" step="any" value="0"></div>
+      </div>
+
+      <div class="section-title">Tax (Optional)</div>
+      <div class="inputs">
+        <div class="field">
+          <label for="taxMode">Tax Calculation</label>
+          <select id="taxMode"><option value="none">No tax deduction</option><option value="percent">Tax as % of Profit Before Tax</option><option value="fixed">Fixed Tax Amount</option></select>
+        </div>
+        <div class="field" id="taxPercentWrap" style="display:none">
+          <label for="taxPercent">Tax Rate (%)</label>
+          <input id="taxPercent" type="number" min="0" max="100" step="any" value="0">
+        </div>
+        <div class="field" id="taxFixedWrap" style="display:none">
+          <label for="taxFixed">Tax Amount</label>
+          <input id="taxFixed" type="number" min="0" step="any" value="0">
+        </div>
+      </div>
+      <span class="hint">This is a user-entered estimate, not an automatic tax assessment. Percentage tax is applied to positive Profit Before Tax only.</span>
+
+      <div class="buttons">
+        <button class="calculate" id="calculateBtn" type="button">Calculate Profit</button>
+        <button class="reset" id="resetBtn" type="button">Reset</button>
+      </div>
+      <div class="error" id="error"></div>
+    </section>
+
+    <section class="calculator" id="resultsCard" style="display:none">
+      <h2>Profit &amp; Loss Summary</h2>
+      <div id="resultHeading" class="result-banner"></div>
+      <div class="summary-grid" id="summaryGrid"></div>
+      <div class="section-title">Profit &amp; Loss Statement</div>
+      <div class="table-wrap">
+        <table>
+          <tbody id="statementRows"></tbody>
+        </table>
+      </div>
+      <div class="section-title">Profitability Ratios</div>
+      <div class="summary-grid" id="ratioGrid"></div>
+      <div class="section-title">Profit Projection</div>
+      <div class="inputs print-hide">
+        <div class="field">
+          <label for="projectionPeriod">Project Results For</label>
+          <select id="projectionPeriod">
+            <option value="quarterly">Next 3 Months (Quarterly)</option>
+            <option value="halfyear">Next 6 Months (Half-Yearly)</option>
+            <option value="annual">Next 12 Months (Annually)</option>
+          </select>
+        </div>
+      </div>
+      <p class="projection-note">Projection uses the average monthly result of the selected reporting period and assumes the same performance continues. It is an estimate, not a forecast.</p>
+      <div class="summary-grid" id="projectionGrid"></div>
+      <div class="buttons print-hide">
+        <button class="calculate" type="button" onclick="window.print()">Print / Save as PDF</button>
+      </div>
+    </section>
+
+    <section class="info">
+      <h2>How to Use the Business Profit Calculator</h2>
+      <p>Select your business type, currency and reporting period. Enter revenue, returns or discounts, direct costs, operating expenses, other income and other expenses. Add an optional tax rate or fixed tax amount to estimate net profit after tax.</p>
+      <h3>Profit Calculation Formula</h3>
+      <p><strong>Net Revenue</strong> = Total Revenue − Sales Returns &amp; Discounts</p>
+      <p><strong>Gross Profit</strong> = Net Revenue − Direct Costs</p>
+      <p><strong>Operating Profit</strong> = Gross Profit − Operating Expenses</p>
+      <p><strong>Profit Before Tax</strong> = Operating Profit + Other Income − Finance Cost − Other Expenses</p>
+      <p><strong>Net Profit / Loss</strong> = Profit Before Tax − Tax</p>
+      <h3>What Are Direct Costs?</h3>
+      <p>Direct costs are expenses directly related to the goods or services sold. Examples include the cost of goods sold, project materials, production labour, subcontractors, packaging and direct delivery. The relevant costs depend on the type of business.</p>
+      <h3>Inventory and Purchases</h3>
+      <p>For trading, retail and manufacturing businesses, only the cost attributable to goods sold is deducted in this profit calculation. Unsold inventory is not treated as an expense in the period.</p>
+      <h3>Profit Margin vs. Markup</h3>
+      <p>Profit margin measures profit as a percentage of net revenue. Markup measures gross profit as a percentage of direct costs. They are different measures and should not be confused.</p>
+      <h2>Frequently Asked Questions</h2>
+      <h3>Can I use this calculator for different types of businesses?</h3>
+      <p>Yes. It is designed for trading, freelance, service, manufacturing, e-commerce, retail, construction and other businesses.</p>
+      <h3>Does the calculator automatically calculate income tax?</h3>
+      <p>No. You can enter a tax percentage or fixed amount to estimate tax. Actual tax depends on local laws, business structure and applicable rules.</p>
+      <h3>Does inventory purchase reduce profit immediately?</h3>
+      <p>No. For this calculation, enter the cost of goods sold during the selected period. Unsold inventory is excluded from direct costs.</p>
+      <h3>Can I save or print my results?</h3>
+      <p>Yes. Use Print / Save as PDF after calculating your results.</p>
+    </section>
+  </div>
+
+  <aside class="side-ad"><div class="ad-label"><strong>Advertisement</strong>Right Side Ad Space</div></aside>
+</main>
+
+<footer>
+  <div class="logo" style="color:white;">CalcConvert</div>
+  <p>Free Online Calculators &amp; Converters for Everyone</p>
+  <div style="margin:20px 0; line-height:2.5;">
+    <a href="about-us.html">About Us</a>
+    <a href="contact-us.html">Contact Us</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+  </div>
+  <p>&copy; 2026 CalcConvert. All rights reserved.</p>
+</footer>
+
+<script>
+  const businessPresets = {
+    trading: {
+      hint: "Trading: Enter cost of goods sold, freight or import costs attributable to goods sold, and any other direct costs.",
+      labels: ["Cost of Goods Sold (COGS)", "Freight / Import Duties on Goods Sold", "Other Direct Costs"]
+    },
+    freelancer: {
+      hint: "Freelancer: Enter project-related outsourcing, software or tools used directly for client work, and other project costs.",
+      labels: ["Project / Outsourcing Costs", "Direct Software / Tools Costs", "Other Project Costs"]
+    },
+    service: {
+      hint: "Service provider: Enter direct labour, materials used to deliver services, subcontractors and other service delivery costs.",
+      labels: ["Direct Labour / Service Delivery", "Materials / Consumables", "Subcontractors / Other Direct Costs"]
+    },
+    manufacturing: {
+      hint: "Manufacturing: Enter raw materials consumed, direct production labour and factory overhead attributable to production.",
+      labels: ["Raw Materials Consumed", "Direct Production Labour", "Factory Overheads"]
+    },
+    ecommerce: {
+      hint: "E-commerce: Enter cost of products sold, packaging and fulfilment or delivery costs directly related to orders.",
+      labels: ["Cost of Products Sold", "Packaging Costs", "Fulfilment / Delivery Costs"]
+    },
+    retail: {
+      hint: "Retail / shop: Enter cost of goods sold, inward freight attributable to goods sold and other direct selling costs.",
+      labels: ["Cost of Goods Sold (COGS)", "Inward Freight / Transport", "Other Direct Costs"]
+    },
+    construction: {
+      hint: "Construction: Enter project materials consumed, site labour and machinery or subcontractor costs attributable to completed work.",
+      labels: ["Construction Materials Used", "Site Labour", "Machinery / Subcontractors"]
+    },
+    other: {
+      hint: "Other business: Enter your own direct costs that are directly attributable to the revenue earned.",
+      labels: ["Direct Cost 1", "Direct Cost 2", "Other Direct Costs"]
+    }
+  };
+
+  const numberIds = [
+    "revenue","returns","direct1","direct2","direct3","salary","rent","utilities",
+    "marketing","admin","otherOperating","otherIncome","financeCost","otherExpense",
+    "taxPercent","taxFixed"
+  ];
+
+  const periodMonths = { monthly: 1, quarterly: 3, halfyear: 6, annual: 12 };
+  let lastCalculation = null;
+
+  function numberValue(id) {
+    const el = document.getElementById(id);
+    if (!el || el.value.trim() === "") return 0;
+    const n = Number(el.value);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function currencyFormat(value, currency) {
+    const digits = Math.abs(value) < 1 ? 2 : 2;
+    try {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency", currency: currency === "Other" ? "USD" : currency,
+        minimumFractionDigits: digits, maximumFractionDigits: 2
+      }).format(value).replace(/^US\$/, currency === "Other" ? "Other " : "US$");
+    } catch (e) {
+      return currency + " " + Number(value).toLocaleString("en-US", {maximumFractionDigits:2});
+    }
+  }
+
+  function money(value) {
+    const currency = document.getElementById("currency").value;
+    if (currency === "Other") {
+      return "Other " + Number(value).toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+    return currencyFormat(value, currency);
+  }
+
+  function fmt(value) {
+    return Number(value).toLocaleString("en-US", {maximumFractionDigits:2});
+  }
+
+  function showError(message) {
+    const el = document.getElementById("error");
+    el.textContent = message;
+    el.style.display = "block";
+  }
+
+  function clearError() {
+    document.getElementById("error").style.display = "none";
+  }
+
+  function updateBusinessLabels() {
+    const type = document.getElementById("businessType").value;
+    const preset = businessPresets[type];
+    document.getElementById("directCostHint").textContent = preset.hint;
+    ["directLabel1","directLabel2","directLabel3"].forEach((id, i) => {
+      document.getElementById(id).textContent = preset.labels[i];
+    });
+  }
+
+  function updateTaxFields() {
+    const mode = document.getElementById("taxMode").value;
+    document.getElementById("taxPercentWrap").style.display = mode === "percent" ? "block" : "none";
+    document.getElementById("taxFixedWrap").style.display = mode === "fixed" ? "block" : "none";
+  }
+
+  function makeItem(label, value, emphasize = false) {
+    return `<div class="summary-item"><span>${label}</span><strong class="${value < 0 ? "negative" : (emphasize ? "positive" : "")}">${money(value)}</strong></div>`;
+  }
+
+  function calculateProfit() {
+    clearError();
+    const revenue = numberValue("revenue");
+    if (!Number.isFinite(revenue) || revenue < 0) return showError("Please enter a valid total revenue (zero or greater).");
+
+    const values = {};
+    numberIds.forEach(id => values[id] = numberValue(id));
+    for (const [id, value] of Object.entries(values)) {
+      if (!Number.isFinite(value) || value < 0) return showError("Please enter valid non-negative amounts in all financial fields.");
+    }
+    if (document.getElementById("taxMode").value === "percent" && values.taxPercent > 100) {
+      return showError("Tax rate cannot be greater than 100%.");
+    }
+
+    const returns = values.returns;
+    if (returns > revenue) return showError("Sales returns and discounts cannot be greater than total revenue.");
+
+    const mode = document.getElementById("taxMode").value;
+    const netRevenue = revenue - returns;
+    const directCosts = values.direct1 + values.direct2 + values.direct3;
+    const grossProfit = netRevenue - directCosts;
+    const operatingExpenses = values.salary + values.rent + values.utilities + values.marketing + values.admin + values.otherOperating;
+    const operatingProfit = grossProfit - operatingExpenses;
+    const pbt = operatingProfit + values.otherIncome - values.financeCost - values.otherExpense;
+
+    let tax = 0;
+    if (mode === "percent") tax = Math.max(0, pbt) * Math.min(100, values.taxPercent) / 100;
+    if (mode === "fixed") tax = values.taxFixed;
+    const netProfit = pbt - tax;
+
+    const grossMargin = netRevenue !== 0 ? grossProfit / netRevenue * 100 : null;
+    const operatingMargin = netRevenue !== 0 ? operatingProfit / netRevenue * 100 : null;
+    const netMargin = netRevenue !== 0 ? netProfit / netRevenue * 100 : null;
+    const markup = directCosts !== 0 ? grossProfit / directCosts * 100 : null;
+
+    const period = document.getElementById("period").value;
+    const periodLabel = {monthly:"Monthly",quarterly:"Quarterly",halfyear:"Half-Yearly",annual:"Annual"}[period];
+    const projectionMonths = {quarterly:3,halfyear:6,annual:12}[document.getElementById("projectionPeriod").value];
+    const baseMonths = periodMonths[period];
+    const projected = {
+      revenue: revenue / baseMonths * projectionMonths,
+      grossProfit: grossProfit / baseMonths * projectionMonths,
+      operatingProfit: operatingProfit / baseMonths * projectionMonths,
+      netProfit: netProfit / baseMonths * projectionMonths
+    };
+
+    lastCalculation = {revenue, returns, netRevenue, directCosts, grossProfit, operatingExpenses, operatingProfit,
+      otherIncome:values.otherIncome, financeCost:values.financeCost, otherExpense:values.otherExpense,
+      pbt, tax, netProfit, grossMargin, operatingMargin, netMargin, markup, periodLabel, projected};
+
+    const name = document.getElementById("businessName").value.trim();
+    const typeLabel = document.getElementById("businessType").selectedOptions[0].textContent;
+    document.getElementById("resultHeading").innerHTML =
+      `<small>${name ? escapeHtml(name) + " · " : ""}${escapeHtml(typeLabel)} · ${periodLabel} Results</small><strong>${netProfit < 0 ? "Net Loss: " : "Net Profit: "}${money(netProfit)}</strong>`;
+
+    document.getElementById("summaryGrid").innerHTML =
+      makeItem("Gross Profit", grossProfit, true) +
+      makeItem("Operating Profit", operatingProfit, true) +
+      makeItem("Profit Before Tax", pbt, true) +
+      makeItem("Tax Deduction", tax) +
+      makeItem("Net Profit / Loss", netProfit, true);
+
+    const rows = [
+      ["Total Revenue", revenue], ["Less: Sales Returns & Discounts", -returns],
+      ["Net Revenue", netRevenue], ["Less: Direct Costs", -directCosts],
+      ["Gross Profit", grossProfit], ["Less: Operating Expenses", -operatingExpenses],
+      ["Operating Profit", operatingProfit], ["Add: Other Income", values.otherIncome],
+      ["Less: Finance Cost / Interest", -values.financeCost],
+      ["Less: Other Non-Operating Expenses", -values.otherExpense],
+      ["Profit Before Tax", pbt], ["Less: Tax", -tax], ["Net Profit / Loss", netProfit]
+    ];
+    document.getElementById("statementRows").innerHTML = rows.map((row, i) =>
+      `<tr${[2,4,6,10,12].includes(i) ? ' style="font-weight:bold;background:#f8fafc"' : ""}><td>${row[0]}</td><td>${money(row[1])}</td></tr>`
+    ).join("");
+
+    const ratio = (label, value) => `<div class="summary-item"><span>${label}</span><strong>${value === null ? "N/A" : fmt(value) + "%"}</strong></div>`;
+    document.getElementById("ratioGrid").innerHTML =
+      ratio("Gross Profit Margin", grossMargin) +
+      ratio("Operating Profit Margin", operatingMargin) +
+      ratio("Net Profit Margin", netMargin) +
+      ratio("Gross Markup on Direct Costs", markup);
+
+    const projectionLabels = document.getElementById("projectionPeriod").selectedOptions[0].textContent;
+    document.getElementById("projectionGrid").innerHTML =
+      makeItem(projectionLabels + " Revenue", projected.revenue) +
+      makeItem(projectionLabels + " Gross Profit", projected.grossProfit, true) +
+      makeItem(projectionLabels + " Operating Profit", projected.operatingProfit, true) +
+      makeItem(projectionLabels + " Net Profit / Loss", projected.netProfit, true);
+
+    document.getElementById("resultsCard").style.display = "block";
+    document.getElementById("resultsCard").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function escapeHtml(text) {
+    return String(text).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  }
+
+  function resetCalculator() {
+    document.querySelectorAll(".input-card input").forEach(el => {
+      if (el.id === "returns" || ["direct1","direct2","direct3","salary","rent","utilities","marketing","admin","otherOperating","otherIncome","financeCost","otherExpense","taxPercent","taxFixed"].includes(el.id)) el.value = "0";
+      else el.value = "";
+    });
+    document.getElementById("businessType").value = "trading";
+    document.getElementById("currency").value = "PKR";
+    document.getElementById("period").value = "monthly";
+    document.getElementById("taxMode").value = "none";
+    document.getElementById("projectionPeriod").value = "quarterly";
+    updateBusinessLabels();
+    updateTaxFields();
+    clearError();
+    document.getElementById("resultsCard").style.display = "none";
+    lastCalculation = null;
+  }
+
+  document.getElementById("businessType").addEventListener("change", updateBusinessLabels);
+  document.getElementById("taxMode").addEventListener("change", updateTaxFields);
+  document.getElementById("calculateBtn").addEventListener("click", calculateProfit);
+  document.getElementById("resetBtn").addEventListener("click", resetCalculator);
+  document.getElementById("projectionPeriod").addEventListener("change", () => {
+    if (lastCalculation) calculateProfit();
+  });
+  updateBusinessLabels();
+  updateTaxFields();
+</script>
+</body>
+</html>
