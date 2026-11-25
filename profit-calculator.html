@@ -27,10 +27,11 @@
     .info h2 { font-size: 21px; }
     .info h3 { font-size: 17px; margin-bottom: 5px; }
     .section-title { font-size: 16px; font-weight: bold; margin: 20px 0 12px; padding-bottom: 7px; border-bottom: 1px solid #e2e8f0; }
-    .inputs { display: flex; gap: 12px; flex-wrap: wrap; }
-    .field { flex: 1; min-width: 180px; }
-    label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 7px; }
-    input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 15px; color: #202b3c; background: white; }
+    .inputs { display: flex; flex-direction: column; gap: 10px; }
+    .field { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 0.8fr); align-items: center; gap: 12px; width: 100%; }
+    label { display: block; font-weight: bold; font-size: 14px; margin: 0; }
+    input, select { width: 100%; min-width: 0; padding: 12px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 15px; color: #202b3c; background: white; }
+    .field .hint { grid-column: 1 / -1; margin-top: -5px; }
     input:focus, select:focus { outline: none; border-color: #1769e0; box-shadow: 0 0 0 2px rgba(23,105,224,0.12); }
     .hint { display: block; color: #64748b; font-size: 12px; margin-top: 5px; }
     .buttons { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
@@ -60,7 +61,7 @@
     footer p { color: #d1d8e2; font-size: 14px; }
     footer a { color: #dce4f0; text-decoration: none; margin: 0 8px; font-size: 14px; }
     @media(max-width: 1319px) { .page-layout { display: block; max-width: 936px; } .side-ad { display: none; } .container { max-width: 900px; margin: 35px auto; } }
-    @media(max-width: 600px) { h1 { font-size: 26px; } .calculator, .info { padding: 20px; } .field { min-width: 100%; } .summary-grid { grid-template-columns: 1fr; } }
+    @media(max-width: 600px) { h1 { font-size: 26px; } .calculator, .info { padding: 20px; } .field { grid-template-columns: minmax(0, 1fr) minmax(125px, 0.9fr); gap: 8px; } label { font-size: 13px; } input, select { padding: 10px; font-size: 14px; } .summary-grid { grid-template-columns: 1fr; } }
     @media print {
       header, footer, .side-ad, .intro, .input-card, .buttons, .info, .print-hide { display: none !important; }
       body { background: white; }
